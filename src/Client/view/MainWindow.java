@@ -1,7 +1,7 @@
 package Client.view;
 
-import com.monopoly.Client.controller.ServerCommunication;
-import com.monopoly.common.Comunication.IDMessage;
+import Client.controller.ServerCommunication;
+import common.Comunication.IDMessage;
 
 import javax.swing.*;
 import java.io.IOException;

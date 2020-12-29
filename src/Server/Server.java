@@ -1,6 +1,7 @@
 package Server;
 
-import com.monopoly.common.RunnableThread;
+
+import common.RunnableThread;
 
 import java.util.ArrayList;
 

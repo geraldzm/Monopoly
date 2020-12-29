@@ -1,8 +1,7 @@
 package Client.controller;
 
-
-import com.monopoly.common.Comunication.Connection;
-import com.monopoly.common.Comunication.Listener;
+import common.Comunication.Connection;
+import common.Comunication.Listener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

@@ -1,14 +1,11 @@
 package Server;
 
-import com.monopoly.common.Comunication.Connection;
-import com.monopoly.common.Comunication.Listener;
+
+import common.Comunication.Connection;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <h1>ClientServer</h1>

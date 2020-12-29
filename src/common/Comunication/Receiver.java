@@ -1,6 +1,6 @@
 package common.Comunication;
 
-import com.monopoly.common.RunnableThread;
+import common.RunnableThread;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

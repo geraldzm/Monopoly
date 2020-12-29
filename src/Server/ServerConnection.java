@@ -1,11 +1,12 @@
 package Server;
 
-import com.monopoly.common.Comunication.Connection;
-import com.monopoly.common.Comunication.IDMessage;
-import com.monopoly.common.Comunication.Message;
-import com.monopoly.common.RunnableThread;
 
-import javax.swing.*;
+import common.Comunication.Connection;
+import common.Comunication.IDMessage;
+import common.Comunication.Message;
+import common.RunnableThread;
+
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
