@@ -39,65 +39,59 @@ public class MainWindow extends JFrame {
     public static void main(String args[]) {
 
         //---------- Example
-        try {
 
-            ServerCommunication serverCommunication = new ServerCommunication("LocalHost", null);
-            serverCommunication.removeReceiverFilter();
+        ServerCommunication serverCommunication = ServerCommunication.getServerCommunication();
+        serverCommunication.removeReceiverFilter();
 
-            Listener playing = m -> { // listener durante el juego
-                switch (m.getIdMessage()){
-                    case DICE -> {
-                        System.out.println("Tirando dados....." );
+        Listener playing = m -> { // listener durante el juego
+            switch (m.getIdMessage()){
+                case DICE -> {
+                    System.out.println("Tirando dados....." );
 
-                        int seconds = (int)(Math.random() * 3000); // simulando un delate
-                        new Timer().schedule(new TimerTask() {// simulando un delate
-                            @Override
-                            public void run() {
-                                System.out.println("Resultado: " + m.getNumber());
-                                serverCommunication.sendMessage(DONE);
-                            }
-                        }, seconds);
-                    }
-                    case MOVE -> {
-                        System.out.println("Moviéndose....." );
-
-                        int seconds = (int)(Math.random() * 3000); // simulando un delate
-                        new Timer().schedule(new TimerTask() {// simulando un delate
-                            @Override
-                            public void run() {
-                                System.out.println("Me movi a la casilla: " + m.getNumber());
-                                serverCommunication.sendMessage(DONE);
-                            }
-                        }, seconds);
-                    }
-
-                    case END -> {
-                        System.out.println("Juego finalizado... ");
-                        System.out.println("El server se esta desconectando..");
-                        serverCommunication.closeConnection();
-                    }
+                    int seconds = (int)(Math.random() * 3000); // simulando un delate
+                    new Timer().schedule(new TimerTask() {// simulando un delate
+                        @Override
+                        public void run() {
+                            System.out.println("Resultado: " + m.getNumber());
+                            serverCommunication.sendMessage(DONE);
+                        }
+                    }, seconds);
                 }
-            };
+                case MOVE -> {
+                    System.out.println("Moviéndose....." );
 
-
-            serverCommunication.setListener(message -> { //listener mientras se conecta
-                switch (message.getIdMessage()){
-                    case ADMIN -> serverCommunication.sendInt(admin(), RESPONSE);
-                    case REJECTED -> System.out.println("Another looser rejected!");
-                    case ACCEPTED -> System.out.println("Accepted!\nwaiting for game to start");
-                    case STARTED -> {
-                        System.out.println("El juego ha comenzado!!");
-                        serverCommunication.setListener(playing);
-                        serverCommunication.sendMessage(DONE);
-                    }
+                    int seconds = (int)(Math.random() * 3000); // simulando un delate
+                    new Timer().schedule(new TimerTask() {// simulando un delate
+                        @Override
+                        public void run() {
+                            System.out.println("Me movi a la casilla: " + m.getNumber());
+                            serverCommunication.sendMessage(DONE);
+                        }
+                    }, seconds);
                 }
-            });
+
+                case END -> {
+                    System.out.println("Juego finalizado... ");
+                    System.out.println("El server se esta desconectando..");
+                    serverCommunication.closeConnection();
+                }
+            }
+        };
 
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("It was not possible to create the connection with the server");
-        }
+        serverCommunication.setListener(message -> { //listener mientras se conecta
+            switch (message.getIdMessage()){
+                case ADMIN -> serverCommunication.sendInt(admin(), RESPONSE);
+                case REJECTED -> System.out.println("Another looser rejected!");
+                case ACCEPTED -> System.out.println("Accepted!\nwaiting for game to start");
+                case STARTED -> {
+                    System.out.println("El juego ha comenzado!!");
+                    serverCommunication.setListener(playing);
+                    serverCommunication.sendMessage(DONE);
+                }
+            }
+        });
+
         //---------- END Example
 
       /*

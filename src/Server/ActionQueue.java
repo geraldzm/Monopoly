@@ -1,7 +1,6 @@
 package Server;
 
 import common.Comunication.Connection;
-import common.Comunication.IDMessage;
 import common.Comunication.Listener;
 import common.Comunication.Message;
 
@@ -12,8 +11,9 @@ import java.util.Queue;
 
 import static common.Comunication.IDMessage.DONE;
 
-
-//NOTA: solo ejecuta acciones que tenga una respuesta DONE
+/**
+ * <h3>This class executes a message queue, and each message waits for a DONE response</h3>
+ * */
 public class ActionQueue {
 
     private final Queue<Message> queue;

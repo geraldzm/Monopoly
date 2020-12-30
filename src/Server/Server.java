@@ -57,4 +57,10 @@ public class Server extends RunnableThread {
         players.forEach(p -> p.sendMessageAndWait(END));
         players.forEach(Connection::closeConnection);
     }
+
+
+    public static void main(String[] args) {
+        new Server().startThread();
+    }
+
 }
