@@ -1,17 +1,20 @@
 package Server;
 
-
 import common.Comunication.Connection;
-import common.Comunication.IDMessage;
 import common.Comunication.Message;
 import common.RunnableThread;
-
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
+import static common.Comunication.IDMessage.*;
+
+/**
+ * <h1>Connects the with the players</h1>
+ * */
 public class ServerConnection extends RunnableThread {
 
     private ServerSocket serverSocket;
@@ -28,30 +31,35 @@ public class ServerConnection extends RunnableThread {
             e.printStackTrace();
         }
 
-        this.maxPlayers = 6;
+        this.maxPlayers = -1;
         this.players = players;
     }
 
     @Override
     public void execute() {
-        if(players.size() >= maxPlayers)
-            initGame();
-
-        System.out.println("::waiting connection...\tcurrent number of connections: " + players.size());
-
         try {
+
+            if(players.size() == 0) System.out.println("waiting for admin to connect...");
+            else System.out.println("waiting connection...\tcurrent number of connections: " + players.size());
+
             Socket newClient  = serverSocket.accept();
-
-            System.out.println("Connecting with: " + newClient.getInetAddress());
-
             Player player = new Player(newClient);
-            players.add(player);
 
-            if(players.size() == 1) { // the first client is the admin
+            if (players.size() == 0) { // the first client is the admin
+                players.add(player);
+
+                // ask the amount of players
                 admin = player;
-                admin.setListener(message -> System.out.println(message.getIdMessage()+ " " + message.getString()));
-                admin.startReceiving();
-                admin.sendMessage(new Message("Congrats, you're the admin", IDMessage.ADMIN));
+                admin.setListener(message -> maxPlayers = message.getNumber());
+                admin.setReceiverFilter(m -> m.getIdMessage() == RESPONSE);
+                admin.sendMessage(ADMIN);
+
+            } else if(players.size() < maxPlayers) {
+                addPlayer(player);
+            } else {
+                // lo rechazamos
+               player.sendMessageAndWait(REJECTED);
+               player.closeConnection();
             }
 
         } catch (IOException e) {
@@ -61,10 +69,28 @@ public class ServerConnection extends RunnableThread {
 
     }
 
+    private void addPlayer(Player player){
+        players.add(player);
+        player.sendMessage(ACCEPTED);
+        if(players.size() == maxPlayers) initGame(); // if all players really then start
+    }
+
+
     /**
-     * <h1>All players are connected and ready</h1>
+     * <p>Notify all players that every one is really to start</p>
      * */
     private void initGame() {
-        this.stopThread();
+        System.out.println("Iniciando!");
+
+        ActionQueue queue = new ActionQueue(new ArrayList<>(players));
+        queue.addAction(new Message(STARTED));
+        queue.executeQueue();
+
+        System.out.println("Todos listos!");
+        stopThread();
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
     }
 }

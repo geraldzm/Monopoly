@@ -12,12 +12,13 @@ import java.net.Socket;
  * */
 public class Player extends Connection {
 
-    private int cash;
+    private int cash, id;
     private boolean go; //if he has gone through GO
+    private static int count;
 
     public Player(@NotNull Socket socket) throws IOException {
         super(socket, null);
-
+        id = count++;
     }
 
 

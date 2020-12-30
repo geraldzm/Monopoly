@@ -28,6 +28,12 @@ public class Message implements Serializable {
         this.string = null;
     }
 
+    public Message( @NotNull IDMessage idMessage) {
+        this.number = null;
+        this.idMessage = idMessage;
+        this.string = null;
+    }
+
 
 
     // ------- GETTERS ---------
