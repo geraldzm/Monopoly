@@ -22,7 +22,7 @@ public class ServerCommunication extends ChatConnection {
     private ServerCommunication(Socket socket) throws IOException {
         super(socket, null);
 
-        super.setChat(m -> {
+        super.setChatListener(m -> {
             switch (m.getIdMessage()) {
                 case LOGBOOK -> {
                     if(logbookListener != null) logbookListener.action(m);
@@ -49,11 +49,11 @@ public class ServerCommunication extends ChatConnection {
 
     public void sendMessageChat(String message) {
         System.out.println("Enviando al chat: " + message);
-        sendMessageChat(new Message(message, MESSAGE));
+        super.sendMessage(new Message(message, MESSAGE));
     }
 
     @Override
-    public void setChat(@Nullable Listener chat) {
+    public void setChatListener(@Nullable Listener chat) {
         this.chatListener = chat;
     }
 

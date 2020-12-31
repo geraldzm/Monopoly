@@ -41,19 +41,10 @@ public class ChatConnection extends Connection {
         super.setReceiverFilter(filter.or(m -> m.getIdMessage() == MESSAGE).or(m -> m.getIdMessage() == LOGBOOK));
     }
 
-    public void sendMessageChat(Message message) {
-        try {
-            getSender().getThread().join();
-            sendMessage(message);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * <h3>This listener will receive all the chat's messages</h3>
      * */
-    public void setChat(@Nullable Listener chat) {
+    public void setChatListener(@Nullable Listener chat) {
         this.chat = chat;
     }
 }

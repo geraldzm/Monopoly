@@ -48,8 +48,8 @@ public class Server extends RunnableThread {
 
         // 2. init chat
             //chat
-        players.forEach(p -> p.setChat(m -> {
-            players.forEach(p2 -> p2.sendMessageChat(m));
+        players.forEach(p -> p.setChatListener(m -> {
+            players.forEach(p2 -> p2.sendMessage(m));
         }));
 
 

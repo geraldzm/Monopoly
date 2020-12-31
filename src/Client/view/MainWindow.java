@@ -1,12 +1,9 @@
 package Client.view;
 
 import Client.controller.ServerCommunication;
-import common.Comunication.IDMessage;
 import common.Comunication.Listener;
 
 import javax.swing.*;
-import java.io.IOException;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -44,7 +41,7 @@ public class MainWindow extends JFrame {
         serverCommunication.removeReceiverFilter();
 
         Listener chat = m -> System.out.println(m.getString());
-        serverCommunication.setChat(chat);
+        serverCommunication.setChatListener(chat);
 
         Listener playing = m -> { // listener durante el juego
             switch (m.getIdMessage()){

@@ -21,7 +21,12 @@ public class Connection {
     }
 
     public void sendMessage(Message message){
-        sender.send(message);
+        try {
+            if(sender.getThread() != null)sender.getThread().join();
+            sender.send(message);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void sendMessage(IDMessage message){
