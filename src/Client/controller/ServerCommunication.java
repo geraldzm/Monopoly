@@ -1,39 +1,37 @@
 package Client.controller;
 
-import common.Comunication.Connection;
-import common.Comunication.IDMessage;
+import common.Comunication.ChatConnection;
 import common.Comunication.Listener;
+import common.Comunication.Message;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.net.Socket;
 
+import static common.Comunication.IDMessage.*;
+
 /**
  * <p>This is the server for the client, and the only way to communicate with it.</p>
  * */
-public class ServerCommunication extends Connection {
+public class ServerCommunication extends ChatConnection {
 
     private static ServerCommunication serverCommunication;
-    private final Connection chat;
-    private Listener chatListener, logbookListener;
 
-    private  ServerCommunication(Socket socket) throws IOException {
+    private Listener logbookListener, chatListener;
+
+    private ServerCommunication(Socket socket) throws IOException {
         super(socket, null);
 
-        // CHAT listenner
-        Listener listener = m -> {
+        super.setChat(m -> {
             switch (m.getIdMessage()) {
-                case MESSAGE -> {
-                    if (chatListener != null) chatListener.action(m);
-                }
                 case LOGBOOK -> {
-                    if (logbookListener != null) logbookListener.action(m);
+                    if(logbookListener != null) logbookListener.action(m);
+                }
+                case MESSAGE -> {
+                    if(chatListener != null) chatListener.action(m);
                 }
             }
-        };
-
-        chat = new Connection(socket, listener);
-        chat.removeReceiverFilter();
+        });
     }
 
     public static ServerCommunication getServerCommunication() {
@@ -49,21 +47,14 @@ public class ServerCommunication extends Connection {
     }
 
 
-    @Override
-    public void closeConnection() {
-        super.closeConnection();
-        chat.closeConnection();
-    }
-
     public void sendMessageChat(String message) {
-        chat.sendText(message, IDMessage.MESSAGE);
+        System.out.println("Enviando al chat: " + message);
+        sendMessageChat(new Message(message, MESSAGE));
     }
 
-    /**
-     * <h3>This listener will receive all the chat's messages</h3>
-     * */
-    public void setChatListener(@Nullable Listener chatListener) {
-        this.chatListener = chatListener;
+    @Override
+    public void setChat(@Nullable Listener chat) {
+        this.chatListener = chat;
     }
 
     /**

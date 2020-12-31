@@ -13,7 +13,6 @@ public class Server extends RunnableThread {
 
 
     private ArrayList<Player> players;
-    private Chat chat;
     private int turn;
 
     public Server() {
@@ -40,14 +39,19 @@ public class Server extends RunnableThread {
      * */
     private void gameInit() {
         // 1. request each player a name
-        players.forEach(p -> {
+     /*   players.forEach(p -> { // hay que construir una cola de acciones para response
             p.setReceiverFilter(m -> m.getIdMessage() == RESPONSE);
             p.setListener(m -> p.setName(p.getName()));
             p.sendMessage(NAME);
         });
+        */
 
         // 2. init chat
-        chat = new Chat(players);
+            //chat
+        players.forEach(p -> p.setChat(m -> {
+            players.forEach(p2 -> p2.sendMessageChat(m));
+        }));
+
 
         // 3. tiramos dados y ordenamos turno
 

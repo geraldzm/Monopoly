@@ -43,6 +43,9 @@ public class MainWindow extends JFrame {
         ServerCommunication serverCommunication = ServerCommunication.getServerCommunication();
         serverCommunication.removeReceiverFilter();
 
+        Listener chat = m -> System.out.println(m.getString());
+        serverCommunication.setChat(chat);
+
         Listener playing = m -> { // listener durante el juego
             switch (m.getIdMessage()){
                 case DICE -> {
@@ -54,6 +57,7 @@ public class MainWindow extends JFrame {
                         public void run() {
                             System.out.println("Resultado: " + m.getNumber());
                             serverCommunication.sendMessage(DONE);
+                            serverCommunication.sendMessageChat("Hola a todos " + seconds);
                         }
                     }, seconds);
                 }
@@ -77,7 +81,6 @@ public class MainWindow extends JFrame {
                 }
             }
         };
-
 
         serverCommunication.setListener(message -> { //listener mientras se conecta
             switch (message.getIdMessage()){

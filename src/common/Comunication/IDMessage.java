@@ -16,7 +16,6 @@ public enum IDMessage implements Serializable {
     END,
     MESSAGE,
     LOGBOOK,
-    CHAT(true),
     NAME,
     NAMES,
     //######Client -> Server######
@@ -65,7 +64,6 @@ public enum IDMessage implements Serializable {
 *
 * LOGBOOK: Mensaje a ser cargado en la bitácora
 *
-* CHAT: indica que el chat ya esta habilitado para recibir y enviar mensajes.
 *
 * NAME: El S le esta solicitando un nombre
 * solo se permiten letras normales [Aa-Zz]
