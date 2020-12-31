@@ -105,4 +105,8 @@ public class Connection {
     public Sender getSender() {
         return sender;
     }
+
+    public Socket getSocket() {
+        return socket;
+    }
 }

@@ -5,16 +5,21 @@ import java.io.Serializable;
 
 public enum IDMessage implements Serializable {
     //Server->client
-    DICE,
-    MOVE,
-    GIVEMONEY,
-    TAKEMONEY,
+    DICE(true),
+    MOVE(true),
+    GIVEMONEY(true),
+    TAKEMONEY(true),
     ADMIN,
     REJECTED,
     ACCEPTED,
-    STARTED,
+    STARTED(true),
     END,
-    //Client -> Server
+    MESSAGE,
+    LOGBOOK,
+    CHAT(true),
+    NAME,
+    NAMES,
+    //######Client -> Server######
     RESPONSE,
     DONE
     ;
@@ -29,6 +34,10 @@ public enum IDMessage implements Serializable {
         this.done = done;
     }
 
+    /**
+     * <h3>When the communication is S->C</h3>
+     * <p>True if the ID has to return done, false if not</p>
+     * */
     public boolean returnDone(){
         return done;
     }
@@ -52,6 +61,17 @@ public enum IDMessage implements Serializable {
 *
 * END: Indica que el server se va a desconectar
 *
+* MESSAGE: Un mensaje del chat con la forma en el String="Nombre: mensaje"
+*
+* LOGBOOK: Mensaje a ser cargado en la bitácora
+*
+* CHAT: indica que el chat ya esta habilitado para recibir y enviar mensajes.
+*
+* NAME: El S le esta solicitando un nombre
+* solo se permiten letras normales [Aa-Zz]
+*
+* NAMES: El S esta enviando los nombres de TODOS los jugadores incluyendo el de el mismo cliente
+* e.g. "Carlos,Maria,Mario,valeria"   para el cliente llamado Mario
 *
 * #######################################################################
 * --------------------client->Server------------------------
@@ -62,4 +82,6 @@ public enum IDMessage implements Serializable {
 * DONE: el cliente responde esto cuando se le solicito hacer algo para lo que hay que "esperar al C"
 * e.g. el S envia DICE; el cliente muestra la animación de los dados y tiene que responder con DONE
 * cuando termina. El S va a esperar el DONE eternamente si es necesario.
+*
+* MESSAGE: Un mensaje para el chat
 * */

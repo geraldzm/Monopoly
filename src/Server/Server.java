@@ -11,16 +11,20 @@ import static common.Comunication.IDMessage.*;
 
 public class Server extends RunnableThread {
 
+
     private ArrayList<Player> players;
+    private Chat chat;
     private int turn;
 
     public Server() {
         players = new ArrayList<>();
         connectPlayers();// conectamos a todos
+        gameInit(); // settiamos el juego
     }
 
     @Override
     public void execute() {
+        // Game starts
 
         ActionQueue actionQueue = new ActionQueue(new ArrayList<>(players));
         actionQueue.addAction(new Message((int)(Math.random()*100), DICE));
@@ -29,6 +33,24 @@ public class Server extends RunnableThread {
         actionQueue.executeQueue();
 
         stopThread();
+    }
+
+    /**
+     * <h3>Game configs</h3>
+     * */
+    private void gameInit() {
+        // 1. request each player a name
+        players.forEach(p -> {
+            p.setReceiverFilter(m -> m.getIdMessage() == RESPONSE);
+            p.setListener(m -> p.setName(p.getName()));
+            p.sendMessage(NAME);
+        });
+
+        // 2. init chat
+        chat = new Chat(players);
+
+        // 3. tiramos dados y ordenamos turno
+
     }
 
     /**
