@@ -3,8 +3,6 @@ package Client.controller;
 import common.Comunication.ChatConnection;
 import common.Comunication.Listener;
 import common.Comunication.Message;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.IOException;
 import java.net.Socket;
 
@@ -53,14 +51,14 @@ public class ServerCommunication extends ChatConnection {
     }
 
     @Override
-    public void setChatListener(@Nullable Listener chat) {
+    public void setChatListener(Listener chat) {
         this.chatListener = chat;
     }
 
     /**
      * <h3>This listener will receive all the logbook's updates</h3>
      * */
-    public void setLogbookListener(@Nullable Listener logbookListener) {
+    public void setLogbookListener() {
         this.logbookListener = logbookListener;
     }
 }

@@ -1,8 +1,5 @@
 package common.Comunication;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.IOException;
 import java.net.Socket;
 import java.util.function.Predicate;
@@ -13,7 +10,7 @@ public class Connection {
     private final Sender sender;
     private final Receiver receiver;
 
-    public Connection(@NotNull Socket socket, @Nullable Listener listener) throws IOException {
+    public Connection(Socket socket, Listener listener) throws IOException {
         this.socket = socket;
         this.sender = new Sender(socket);
         this.receiver = new Receiver(socket, listener);
@@ -84,7 +81,7 @@ public class Connection {
         receiver.removeFilter();
     }
 
-    public void setReceiverFilter(@NotNull Predicate<Message> filter){
+    public void setReceiverFilter(Predicate<Message> filter){
         receiver.setFilter(filter);
     }
 

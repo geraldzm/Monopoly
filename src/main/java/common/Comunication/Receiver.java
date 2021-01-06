@@ -1,7 +1,6 @@
 package common.Comunication;
 
 import common.RunnableThread;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -22,7 +21,7 @@ public class Receiver extends RunnableThread {
     /**
      * @param socketRef This will be taken as a reference, when the receiver is closed the socket will be as well
      * */
-    public Receiver(Socket socketRef, @Nullable Listener listener) throws IOException {
+    public Receiver(Socket socketRef, Listener listener) throws IOException {
         this.listener = listener;
         filter = message -> false;
         reader = new ObjectInputStream(socketRef.getInputStream());

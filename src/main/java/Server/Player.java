@@ -5,7 +5,6 @@ import common.Comunication.ChatConnection;
 import common.Comunication.Connection;
 import common.Comunication.Listener;
 import common.Comunication.Message;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -24,7 +23,7 @@ public class Player extends ChatConnection {
     private boolean go; //if he has gone through GO
     private static int count;
 
-    public Player(@NotNull Socket socket) throws IOException {
+    public Player(Socket socket) throws IOException {
         super(socket, null);
         id = count++;
     }

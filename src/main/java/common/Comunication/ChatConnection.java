@@ -1,8 +1,5 @@
 package common.Comunication;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.IOException;
 import java.net.Socket;
 import java.util.function.Predicate;
@@ -12,16 +9,18 @@ import static common.Comunication.IDMessage.MESSAGE;
 
 public class ChatConnection extends Connection {
 
-
     private Listener chat, subListener;
 
-    public ChatConnection(@NotNull Socket socket, @Nullable Listener listener) throws IOException {
+    public ChatConnection(Socket socket, Listener listener) throws IOException {
         super(socket, listener);
 
         // CHAT listenner
         super.setListener( m -> {
             switch (m.getIdMessage()) {
-                case LOGBOOK, MESSAGE -> {
+                case LOGBOOK -> {
+                    if(chat != null) chat.action(m);
+                }
+                case MESSAGE ->{
                     if(chat != null) chat.action(m);
                 }
                 default -> {
@@ -37,14 +36,14 @@ public class ChatConnection extends Connection {
     }
 
     @Override
-    public void setReceiverFilter(@NotNull Predicate<Message> filter) {
+    public void setReceiverFilter(Predicate<Message> filter) {
         super.setReceiverFilter(filter.or(m -> m.getIdMessage() == MESSAGE).or(m -> m.getIdMessage() == LOGBOOK));
     }
 
     /**
      * <h3>This listener will receive all the chat's messages</h3>
      * */
-    public void setChatListener(@Nullable Listener chat) {
+    public void setChatListener(Listener chat) {
         this.chat = chat;
     }
 }
