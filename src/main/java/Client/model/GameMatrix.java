@@ -29,6 +29,17 @@ public class GameMatrix {
         return pos;
     }
     
+    public Point getPosition(Point point){
+        ArrayList<Point> points = getPoints(point.x, point.y);
+
+        Point pos = points.get(0);
+        Point size = points.get(1);
+        
+        pos = matrixRect(2, 1, pos.x, pos.y, size.x, size.y);
+        
+        return pos;
+    }
+    
     // Dado un plano determina el punto donde deberia ir colocado un objeto
     public Point matrixRect(int i, int j, int x, int y, int width, int height){
         Point pos = new Point();
@@ -106,6 +117,29 @@ public class GameMatrix {
         if (i == cols-1 && j == rows-1) return new Point(maxX, maxY);
         
         return null;
+    }
+    
+    public static Point indexToPos(int i){
+        Point point = new Point();
+        
+        if (0 <= i && i < 11){
+            point.x = 0;
+            point.y = 10 - i;
+        
+        } else if (i < 21){
+            point.y = 0;
+            point.x = i - 10;
+        
+        } else if (i < 31){
+            point.x = 10;
+            point.y = i - 20;
+        
+        } else {
+            point.x = 40 - i;
+            point.y = 10;
+        }
+        
+        return point;
     }
     
     // Funcion de test

@@ -4,6 +4,7 @@ import static Client.model.Constant.*;
 import Client.model.Handler.HandlerGameObjects;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.Date;
 import javax.swing.ImageIcon;
 
 public class Game extends Canvas implements Runnable {
@@ -18,19 +19,24 @@ public class Game extends Canvas implements Runnable {
     private ImageIcon background = new ImageIcon(
             Utils.getIcon.apply(GAME_BACKGROUND).getScaledInstance(WIDTH, HEIGHT, WIDTH)
     );
+    
+    int counter = 0;
+    long since;
 
     public Game(){
         matrix = new GameMatrix(11, 11, WIDTH, HEIGHT);
         
         handlerGameObjects = new HandlerGameObjects();
         
-        Point pos = matrix.getPosition(10, 0);
+        Point pos = matrix.getPosition(matrix.indexToPos(0));
         
         System.out.println(pos.x + " " + pos.y);
         
-        handlerGameObjects.addObject(new GameObject(
+        handlerGameObjects.addObject(new Token(
                 new ImageIcon(Utils.getIcon.apply(PLAYERS[0]).getScaledInstance(25, 25, 25)
-                ), pos));
+                )));
+        
+        since = new Date().getTime() + 1000;
     }
 
     public synchronized void start(){
@@ -94,7 +100,20 @@ public class Game extends Canvas implements Runnable {
         g.drawImage(background.getImage(), 0, 0, this);
         
         matrix.drawSquares(g);
+        
         handlerGameObjects.render(g);
+        handlerGameObjects.tick();
+        
+        if (since - new Date().getTime() < 0){
+            counter++;
+            ((Token) handlerGameObjects.getList().get(0)).move(counter);
+            
+            Point pos = ((Token) handlerGameObjects.getList().get(0)).pos;
+            
+            System.out.println(pos.x + ", " + pos.y);
+            
+            since = new Date().getTime() + 1000;
+        }
 
         g.dispose();
         bs.show();

@@ -45,11 +45,11 @@ public class GameObject implements IRenderable, ITick{
     
     // Aplica el vector velocidad
     private void velocity(){
-        pos.x *= vel.x;
-        pos.y *= vel.y;
+        pos.x += vel.x;
+        pos.y += vel.y;
         
-        vel.x = 1;
-        vel.y = 1;
+        vel.x = 0;
+        vel.y = 0;
     }
     
     // Determina si el objeto se puede renderizar o hacer algo
