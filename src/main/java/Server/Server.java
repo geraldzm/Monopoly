@@ -1,13 +1,13 @@
-package Server;
+package main.java.Server;
 
 
-import common.Comunication.Connection;
-import common.Comunication.Message;
-import common.RunnableThread;
+import main.java.common.Comunication.Connection;
+import main.java.common.Comunication.Message;
+import main.java.common.RunnableThread;
 
 import java.util.ArrayList;
 
-import static common.Comunication.IDMessage.*;
+import static main.java.common.Comunication.IDMessage.*;
 
 public class Server extends RunnableThread {
 
@@ -74,7 +74,7 @@ public class Server extends RunnableThread {
     }
 
     /**
-     * <h1>Server shutdown</h1>
+     * <h1>main.java.Server shutdown</h1>
      * */
     @Override
     public synchronized void stopThread() {

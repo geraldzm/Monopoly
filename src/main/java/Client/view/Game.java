@@ -1,4 +1,4 @@
-package Client.view;
+package main.java.Client.view;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;

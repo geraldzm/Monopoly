@@ -1,14 +1,14 @@
-package Client.view;
+package main.java.Client.view;
 
-import Client.controller.ServerCommunication;
-import common.Comunication.Listener;
+import main.java.Client.controller.ServerCommunication;
+import main.java.common.Comunication.Listener;
 
 import javax.swing.*;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static common.Comunication.IDMessage.*;
+import static main.java.common.Comunication.IDMessage.*;
 
 public class MainWindow extends JFrame {
 

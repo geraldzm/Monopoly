@@ -1,6 +1,6 @@
-package common.Comunication;
+package main.java.common.Comunication;
 
-import common.RunnableThread;
+import main.java.common.RunnableThread;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;

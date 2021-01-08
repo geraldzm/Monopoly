@@ -1,14 +1,14 @@
-package Client.controller;
+package main.java.Client.controller;
 
-import common.Comunication.ChatConnection;
-import common.Comunication.Listener;
-import common.Comunication.Message;
+import main.java.common.Comunication.ChatConnection;
+import main.java.common.Comunication.Listener;
+import main.java.common.Comunication.Message;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.net.Socket;
 
-import static common.Comunication.IDMessage.*;
+import static main.java.common.Comunication.IDMessage.*;
 
 /**
  * <p>This is the server for the client, and the only way to communicate with it.</p>

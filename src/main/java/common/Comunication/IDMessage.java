@@ -1,10 +1,10 @@
-package common.Comunication;
+package main.java.common.Comunication;
 
 
 import java.io.Serializable;
 
 public enum IDMessage implements Serializable {
-    //Server->client
+    //main.java.Server->client
     DICE(true),
     MOVE(true),
     GIVEMONEY(true),
@@ -18,12 +18,12 @@ public enum IDMessage implements Serializable {
     LOGBOOK,
     NAME,
     NAMES,
-    //######Client -> Server######
+    //######main.java.Client -> main.java.Server######
     RESPONSE,
     DONE
     ;
 
-    private boolean done; // if Server->Client ID has to return DONE
+    private boolean done; // if main.java.Server->main.java.Client ID has to return DONE
 
     IDMessage() {
         done = false;
@@ -45,9 +45,9 @@ public enum IDMessage implements Serializable {
 /*
 * NOTAS de qué debe hacer cada ID
 *
-* abreviaciones de estas notas: Server=S, cliente=C
+* abreviaciones de estas notas: main.java.Server=S, cliente=C
 *
-* -------------------Server->client------------------------
+* -------------------main.java.Server->client------------------------
 *
 * ADMIN: le indica al C que fue le primero en conectarse, el C debe responder con un número, el número indica la cantidad de jugadores
 * que va a permitir en la partida, el número debe estar en [2,7[
@@ -72,7 +72,7 @@ public enum IDMessage implements Serializable {
 * e.g. "Carlos,Maria,Mario,valeria"   para el cliente llamado Mario
 *
 * #######################################################################
-* --------------------client->Server------------------------
+* --------------------client->main.java.Server------------------------
 *
 * RESPONSE: cada vez que el S le solicite algo al C el id de la respuesta debe ser este.
 * e.g. el S envia ADMIN, el C debe responder con un número, el ID del message es RESPONSE
