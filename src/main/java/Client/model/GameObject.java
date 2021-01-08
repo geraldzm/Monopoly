@@ -9,6 +9,10 @@ import javax.swing.ImageIcon;
 public class GameObject implements IRenderable, ITick{
     protected Point pos, vel;
     protected ImageIcon img;
+    
+    // TODO: Agregarlos
+    protected int width;
+    protected int height;
 
     public GameObject(ImageIcon img){
         this.pos = new Point(0, 0);

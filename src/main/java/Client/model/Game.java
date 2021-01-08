@@ -104,13 +104,13 @@ public class Game extends Canvas implements Runnable {
         handlerGameObjects.render(g);
         handlerGameObjects.tick();
         
-        if (since - new Date().getTime() < 0){
+        Token token = ((Token) handlerGameObjects.getList().get(0));
+        
+        if (since - new Date().getTime() < 0 && token.isAnimationOver()){
             counter++;
-            ((Token) handlerGameObjects.getList().get(0)).move(counter);
+            token.move(counter);
             
-            Point pos = ((Token) handlerGameObjects.getList().get(0)).pos;
-            
-            System.out.println(pos.x + ", " + pos.y);
+            //Point pos = token.pos;
             
             since = new Date().getTime() + 1000;
         }
