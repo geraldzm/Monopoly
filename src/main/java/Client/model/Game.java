@@ -1,17 +1,36 @@
-package Client.view;
+package Client.model;
 
+import static Client.model.Constant.*;
+import Client.model.Handler.HandlerGameObjects;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import javax.swing.ImageIcon;
 
 public class Game extends Canvas implements Runnable {
-
-    public static final int WIDTH = 840, HEIGHT = WIDTH / 12* 9;
+    
+    public static final int WIDTH = 700, HEIGHT = 700;
     private Thread thread;
     private boolean running = false;
-
+    
+    private GameMatrix matrix;
+    private HandlerGameObjects handlerGameObjects;
+    
+    private ImageIcon background = new ImageIcon(
+            Utils.getIcon.apply(GAME_BACKGROUND).getScaledInstance(WIDTH, HEIGHT, WIDTH)
+    );
 
     public Game(){
-
+        matrix = new GameMatrix(11, 11, WIDTH, HEIGHT);
+        
+        handlerGameObjects = new HandlerGameObjects();
+        
+        Point pos = matrix.getPosition(10, 0);
+        
+        System.out.println(pos.x + " " + pos.y);
+        
+        handlerGameObjects.addObject(new GameObject(
+                new ImageIcon(Utils.getIcon.apply(PLAYERS[0]).getScaledInstance(25, 25, 25)
+                ), pos));
     }
 
     public synchronized void start(){
@@ -37,6 +56,7 @@ public class Game extends Canvas implements Runnable {
         double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
+        
         while(running) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
@@ -64,12 +84,17 @@ public class Game extends Canvas implements Runnable {
 
     private void render() {
         BufferStrategy bs = getBufferStrategy();
+        
         if(bs == null){
             createBufferStrategy(3);
             return;
         }
         Graphics g = bs.getDrawGraphics();
-
+        
+        g.drawImage(background.getImage(), 0, 0, this);
+        
+        matrix.drawSquares(g);
+        handlerGameObjects.render(g);
 
         g.dispose();
         bs.show();
@@ -78,6 +103,4 @@ public class Game extends Canvas implements Runnable {
     private void tick() {
         // it must be contained by the controller.
     }
-
-
 }
