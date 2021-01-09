@@ -18,6 +18,7 @@ public class ActionQueue {
     private int done;
 
     private Listener action;
+
     private final Listener listener = m -> {
         if(action != null) action.action(m);
         synchronized (lock){
@@ -93,6 +94,7 @@ public class ActionQueue {
         // clean
         recipients.forEach(c -> c.setListener(null));
         action = null;
+        System.out.println("Fin cola");
     }
 
     public void executeQueue() {

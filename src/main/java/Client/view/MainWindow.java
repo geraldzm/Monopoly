@@ -5,7 +5,6 @@ import main.java.common.Comunication.Listener;
 import main.java.common.Comunication.Message;
 
 import javax.swing.*;
-import java.nio.charset.Charset;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Timer;
@@ -53,16 +52,7 @@ public class MainWindow extends JFrame {
                 case DICE -> {
                     System.out.println("Tirando dados.....");
                     System.out.println("resultado: " + mens.getNumbers()[0] + " " +mens.getNumbers()[1] + " "+ mens.getNumbers()[2]);
-
-                    new Timer().schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            serverCommunication.sendMessage(DONE);
-                        }
-                    }, 2000);
-                }
-                case MOVE -> {
-                    System.out.println("Moviéndose....." );
+                    serverCommunication.sendMessage(DONE);
                 }
 
                 case END -> {
@@ -108,34 +98,6 @@ public class MainWindow extends JFrame {
                 }
             }
         });
-
-        //---------- END Example
-
-      /*
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainWindow().setVisible(true);
-            }
-        });
-        */
 
     }
 }

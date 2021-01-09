@@ -71,13 +71,8 @@ public class Server extends RunnableThread {
      * Adds all the players to hasTable, id=turn value=player
      * */
     private void sortByTurn(ArrayList<Player> players, AtomicInteger turn) {
-        System.out.println("Entran: " + players.size() + " turno: " + turn+ "{ ");
-        players.forEach(p -> System.out.println("\tName: " + p.getName()));
-        System.out.println("}");
-
         if(players.size() == 0) return;
         if(players.size() == 1){
-            System.out.println("Se coloca: " + turn + " " +"\t ["+players.get(0).getName()+ " " + players.get(0).getDices()[0]+" " + players.get(0).getDices()[1]+" " + players.get(0).getDices()[2] + "]");
             this.players.put(turn.getAndIncrement(), players.get(0));
             return;
         }
@@ -105,8 +100,6 @@ public class Server extends RunnableThread {
                 .collect(Collectors.toList());
 
         for (int i: keys) { // se recorre del mas alto al mas bajo
-            System.out.println("Nivel: " + i);
-            list.get(i).forEach(p -> System.out.println("\t ["+p.getName()+ " " + p.getDices()[0]+" " + p.getDices()[1]+" " + p.getDices()[2] + "]"));
             sortByTurn(list.get(i), turn);
         }
     }
@@ -115,12 +108,11 @@ public class Server extends RunnableThread {
     /**
      * tira los dados de todos los jugadores
      * */
-    private ArrayList<Message> rollAllDices(ArrayList<Player> players){
+    private ArrayList<Message> rollAllDices(ArrayList<Player> players) {
         ArrayList<Message> messages = new ArrayList<>();
 
         players.forEach(p -> {
             p.rollDices();
-            System.out.println("\t\tDEntrop " + p.getDices()[0] + " "+p.getDices()[1] + " "+ p.getDices()[2]);
             messages.add(new Message(p.getDices(), DICE));
         });
 

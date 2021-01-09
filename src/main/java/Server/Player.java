@@ -23,7 +23,6 @@ public class Player extends ChatConnection {
     public Player(@NotNull Socket socket) throws IOException {
         super(socket, null);
         id = count++;
-        dices = new int[3];
     }
 
 
@@ -33,6 +32,7 @@ public class Player extends ChatConnection {
 
     public int[] rollDices() {
         Random random = new Random();
+        dices = new int[3];
         dices[0] = random.nextInt(6)+1;
         dices[1] = random.nextInt(6)+1;
         dices[2] = dices[1] + dices[0];
