@@ -1,7 +1,8 @@
-package Client.controller;
+package main.java.Client.controller;
 
-import Client.model.Game;
-import Client.view.GameWindow;
+
+import main.java.Client.model.Game;
+import main.java.Client.view.GameWindow;
 
 public class GameController {
     private GameWindow window;

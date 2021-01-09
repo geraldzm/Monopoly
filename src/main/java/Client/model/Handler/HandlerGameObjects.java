@@ -1,8 +1,9 @@
-package Client.model.Handler;
+package main.java.Client.model.Handler;
 
-import Client.model.GameObject;
-import Client.model.Interfaces.IRenderable;
-import Client.model.Interfaces.ITick;
+import main.java.Client.model.GameObject;
+import main.java.Client.model.Interfaces.IRenderable;
+import main.java.Client.model.Interfaces.ITick;
+
 import java.awt.Graphics;
 
 public class HandlerGameObjects extends Handler<GameObject> implements IRenderable, ITick {

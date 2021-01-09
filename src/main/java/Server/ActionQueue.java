@@ -1,15 +1,16 @@
-package Server;
+package main.java.Server;
 
-import common.Comunication.Connection;
-import common.Comunication.Listener;
-import common.Comunication.Message;
+import main.java.common.Comunication.Connection;
+import main.java.common.Comunication.Listener;
+import main.java.common.Comunication.Message;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
-import static common.Comunication.IDMessage.DONE;
+import static main.java.common.Comunication.IDMessage.DONE;
+
 
 /**
  * <h3>This class executes a message queue, and each message waits for a DONE response</h3>

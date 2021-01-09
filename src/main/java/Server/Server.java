@@ -1,13 +1,13 @@
-package Server;
+package main.java.Server;
 
-
-import common.Comunication.Connection;
-import common.Comunication.Message;
 import common.RunnableThread;
+import main.java.common.Comunication.Connection;
+import main.java.common.Comunication.Message;
 
 import java.util.ArrayList;
 
-import static common.Comunication.IDMessage.*;
+import static main.java.common.Comunication.IDMessage.*;
+
 
 public class Server extends RunnableThread {
 

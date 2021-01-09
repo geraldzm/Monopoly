@@ -1,8 +1,9 @@
-package Client.model;
+package main.java.Client.model;
 
-import static Client.model.Constant.*;
 import java.awt.Point;
 import javax.swing.ImageIcon;
+
+import static main.java.Client.model.Constant.*;
 
 public class Token extends GameObject{
     private Point moveTo;

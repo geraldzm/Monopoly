@@ -1,4 +1,4 @@
-package Client.model.Interfaces;
+package main.java.Client.model.Interfaces;
 
 import java.awt.Graphics;
 

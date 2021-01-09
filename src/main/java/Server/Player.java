@@ -1,17 +1,12 @@
-package Server;
+package main.java.Server;
 
 
-import common.Comunication.ChatConnection;
-import common.Comunication.Connection;
-import common.Comunication.Listener;
-import common.Comunication.Message;
+import main.java.common.Comunication.ChatConnection;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.function.Predicate;
 
-import static common.Comunication.IDMessage.LOGBOOK;
-import static common.Comunication.IDMessage.MESSAGE;
 
 /**
  * <h1>ClientServer</h1>

@@ -1,12 +1,13 @@
-package Client.model;
+package main.java.Client.model;
 
-import Client.model.Interfaces.IRenderable;
-import Client.model.Interfaces.ITick;
+import main.java.Client.model.Interfaces.IRenderable;
+import main.java.Client.model.Interfaces.ITick;
+
 import java.awt.Graphics;
 import java.awt.Point;
 import javax.swing.ImageIcon;
 
-public class GameObject implements IRenderable, ITick{
+public class GameObject implements IRenderable, ITick {
     protected Point pos, vel;
     protected ImageIcon img;
     

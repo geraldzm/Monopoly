@@ -1,5 +1,4 @@
-package common.Comunication;
-
+package main.java.common.Comunication;
 
 /**
  * <h1></h1>

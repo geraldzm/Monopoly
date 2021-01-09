@@ -1,4 +1,4 @@
-package Client.model.Handler;
+package main.java.Client.model.Handler;
 
 import java.util.ArrayList;
 

@@ -1,11 +1,11 @@
-package common.Comunication;
+package main.java.common.Comunication;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.function.Predicate;
 
-import static common.Comunication.IDMessage.LOGBOOK;
-import static common.Comunication.IDMessage.MESSAGE;
+import static main.java.common.Comunication.IDMessage.*;
+
 
 public class ChatConnection extends Connection {
 

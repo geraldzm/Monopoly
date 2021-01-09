@@ -1,11 +1,13 @@
-package Client.model;
+package main.java.Client.model;
 
-import static Client.model.Constant.*;
-import Client.model.Handler.HandlerGameObjects;
+import main.java.Client.model.Handler.HandlerGameObjects;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.util.Date;
 import javax.swing.ImageIcon;
+
+import static main.java.Client.model.Constant.*;
 
 public class Game extends Canvas implements Runnable {
     private Thread thread;

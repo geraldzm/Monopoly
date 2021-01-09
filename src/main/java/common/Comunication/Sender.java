@@ -1,4 +1,4 @@
-package common.Comunication;
+package main.java.common.Comunication;
 
 import common.RunnableThread;
 

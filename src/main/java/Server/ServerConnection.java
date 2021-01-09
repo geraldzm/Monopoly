@@ -1,8 +1,8 @@
-package Server;
+package main.java.Server;
 
-import common.Comunication.Connection;
-import common.Comunication.Message;
 import common.RunnableThread;
+import main.java.common.Comunication.Connection;
+import main.java.common.Comunication.Message;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import static common.Comunication.IDMessage.*;
+import static main.java.common.Comunication.IDMessage.*;
 
 /**
  * <h1>Connects the with the players</h1>

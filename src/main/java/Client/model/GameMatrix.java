@@ -1,4 +1,4 @@
-package Client.model;
+package main.java.Client.model;
 
 import java.awt.Color;
 import java.awt.Graphics;

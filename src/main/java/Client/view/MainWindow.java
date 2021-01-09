@@ -1,6 +1,7 @@
-package Client.view;
+package main.java.Client.view;
 
-import Client.controller.GameController;
+
+import main.java.Client.controller.GameController;
 
 import javax.swing.*;
 

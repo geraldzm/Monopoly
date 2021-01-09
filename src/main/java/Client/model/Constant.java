@@ -1,4 +1,4 @@
-package Client.model;
+package main.java.Client.model;
 
 public class Constant {
     public static final String GAME_BACKGROUND = "GameBackground.jpg";

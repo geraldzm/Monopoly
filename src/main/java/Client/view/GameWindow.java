@@ -1,11 +1,12 @@
-package Client.view;
+package main.java.Client.view;
 
-import Client.model.Game;
 
 public class GameWindow extends javax.swing.JFrame {
 
     public GameWindow() {
         initComponents();
+        setSize(new java.awt.Dimension(1500, 1000));
+        setResizable(false);
     }
 
     @SuppressWarnings("unchecked")
