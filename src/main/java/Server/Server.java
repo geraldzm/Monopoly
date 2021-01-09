@@ -38,22 +38,34 @@ public class Server extends RunnableThread {
      * <h3>Game configs</h3>
      * */
     private void gameInit() {
-        // 1. request each player a name
-     /*   players.forEach(p -> { // hay que construir una cola de acciones para response
-            p.setReceiverFilter(m -> m.getIdMessage() == RESPONSE);
-            p.setListener(m -> p.setName(p.getName()));
-            p.sendMessage(NAME);
-        });
-        */
 
-        // 2. init chat
-            //chat
+        // 1. assign ids
+        ArrayList<Message> messages = new ArrayList<>();
+        players.forEach(player ->{ // each player has a different message
+            player.setId(messages.size());
+            messages.add(new Message(player.getId(), ID));
+        });
+
+        ActionQueue actionQueue = new ActionQueue(new ArrayList<>(players));
+        actionQueue.addAction(messages, null, DONE);
+        actionQueue.executeQueue();
+
+        System.out.println("IDs asignados");
+
+        // 2. request each player a name
+        actionQueue.addAction(new Message(NAME), message -> players.get(message.getNumber()).setName(message.getString()));
+        actionQueue.executeQueue();
+
+        System.out.println("Nombres recibidos: ");
+        players.forEach(p -> System.out.println(p.getId() +"  "+ p.getName())); // print ID Name
+
+        // 3. init chat
         players.forEach(p -> p.setChatListener(m -> {
-            players.forEach(p2 -> p2.sendMessage(m));
+            players.forEach(p2 -> p2.sendChatMessage(m));
         }));
 
 
-        // 3. tiramos dados y ordenamos turno
+        // 4. tiramos dados y ordenamos turno
 
     }
 

@@ -2,6 +2,7 @@ package main.java.Server;
 
 
 import main.java.common.Comunication.ChatConnection;
+import main.java.common.Comunication.Message;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -23,6 +24,10 @@ public class Player extends ChatConnection {
     }
 
 
+    public void sendChatMessage(Message message){
+        sendMessage(new Message(name + ": " +message.getString(), message.getIdMessage()));
+    }
+
     //-----------Setters/Getters-----------
 
     public String getName() {
@@ -39,6 +44,10 @@ public class Player extends ChatConnection {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isGo() {

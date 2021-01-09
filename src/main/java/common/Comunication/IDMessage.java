@@ -16,6 +16,7 @@ public enum IDMessage implements Serializable {
     END,
     MESSAGE,
     LOGBOOK,
+    ID(true),
     NAME,
     NAMES,
     //######main.java.Client -> main.java.Server######
@@ -64,12 +65,16 @@ public enum IDMessage implements Serializable {
 *
 * LOGBOOK: Mensaje a ser cargado en la bitácora
 *
+* ID: El S le esta asignando al C un id
 *
-* NAME: El S le esta solicitando un nombre
+* NAME: El S le esta solicitando un nombre  debe responder con: el nombre en el string, el ID que se le asignó en el numero
 * solo se permiten letras normales [Aa-Zz]
 *
-* NAMES: El S esta enviando los nombres de TODOS los jugadores incluyendo el de el mismo cliente
-* e.g. "Carlos,Maria,Mario,valeria"   para el cliente llamado Mario
+* NAMES: El S esta enviando los nombres de TODOS los jugadores incluyendo el de el mismo cliente, el orden de los nombres va en orden
+* de ID, desde cero para arriba
+*
+* e.g. "Carlos,Maria,Mario,valeria"   para el cliente llamado Mario con ID 2
+*
 *
 * #######################################################################
 * --------------------client->main.java.Server------------------------

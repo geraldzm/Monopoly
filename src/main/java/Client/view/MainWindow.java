@@ -2,6 +2,7 @@ package main.java.Client.view;
 
 import main.java.Client.controller.ServerCommunication;
 import main.java.common.Comunication.Listener;
+import main.java.common.Comunication.Message;
 
 import javax.swing.*;
 import java.util.Scanner;
@@ -12,20 +13,22 @@ import static main.java.common.Comunication.IDMessage.*;
 
 public class MainWindow extends JFrame {
 
+    static int id;
+    static String name;
+    static Scanner sc = new Scanner(System.in);
+    static boolean admin = false;
+
+
     private static int admin(){
-        Scanner sc = new Scanner(System.in);
         System.out.println("Digite la cantidad de jugadores que quiere: ");
         int n = sc.nextInt();
-        sc.close();
+        admin = true;
         return n;
     }
 
     private static int doneAction(){
-        Scanner sc = new Scanner(System.in);
         System.out.println("Digite un numero porque sí: ");
-        int n = sc.nextInt();
-        sc.close();
-        return n;
+        return sc.nextInt();
     }
 
     public static void dice(){
@@ -75,6 +78,18 @@ public class MainWindow extends JFrame {
                     System.out.println("Juego finalizado... ");
                     System.out.println("El server se esta desconectando..");
                     serverCommunication.closeConnection();
+                }
+
+                case ID -> {
+                    System.out.println("Asignado: "+ m.getNumber());
+                    id = m.getNumber();
+                    serverCommunication.sendMessage(DONE);
+                }
+
+                case NAME -> {
+                    System.out.println("El server solicita un nombre, digitelo: ");
+                    String name = sc.next();
+                    serverCommunication.sendMessage(new Message(id, name, RESPONSE));
                 }
             }
         };
