@@ -1,5 +1,6 @@
 package Client.model;
 
+import static Client.model.Constant.*;
 import java.awt.Point;
 import javax.swing.ImageIcon;
 
@@ -42,6 +43,6 @@ public class Token extends GameObject{
     }
     
     public void move(int position){
-        moveTo = new GameMatrix(11, 11, 700, 700).getPosition(GameMatrix.indexToPos(position));
+        moveTo = new GameMatrix(11, 11, CANVAS_WIDTH, CANVAS_HEIGHT).getPosition(GameMatrix.indexToPos(position));
     }
 }

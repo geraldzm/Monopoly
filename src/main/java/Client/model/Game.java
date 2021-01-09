@@ -8,8 +8,6 @@ import java.util.Date;
 import javax.swing.ImageIcon;
 
 public class Game extends Canvas implements Runnable {
-    
-    public static final int WIDTH = 700, HEIGHT = 700;
     private Thread thread;
     private boolean running = false;
     
@@ -17,26 +15,28 @@ public class Game extends Canvas implements Runnable {
     private HandlerGameObjects handlerGameObjects;
     
     private ImageIcon background = new ImageIcon(
-            Utils.getIcon.apply(GAME_BACKGROUND).getScaledInstance(WIDTH, HEIGHT, WIDTH)
+            Utils.getIcon.apply(GAME_BACKGROUND).getScaledInstance(CANVAS_WIDTH, CANVAS_HEIGHT, CANVAS_WIDTH)
     );
     
-    int counter = 0;
+    int counter = 5;
     long since;
 
     public Game(){
-        matrix = new GameMatrix(11, 11, WIDTH, HEIGHT);
+        matrix = new GameMatrix(11, 11, CANVAS_WIDTH, CANVAS_HEIGHT);
         
         handlerGameObjects = new HandlerGameObjects();
         
-        Point pos = matrix.getPosition(matrix.indexToPos(0));
+        Point pos = matrix.getPosition(matrix.indexToPos(counter));
         
         System.out.println(pos.x + " " + pos.y);
         
         handlerGameObjects.addObject(new Token(
-                new ImageIcon(Utils.getIcon.apply(PLAYERS[0]).getScaledInstance(25, 25, 25)
+                new ImageIcon(Utils.getIcon.apply(PLAYERS[0]).getScaledInstance(TOKEN_WIDTH, TOKEN_HEIGHT, 0)
                 )));
         
-        since = new Date().getTime() + 1000;
+        handlerGameObjects.getList().get(0).pos = pos;
+        
+        since = new Date().getTime() + 2000;
     }
 
     public synchronized void start(){
@@ -110,9 +110,11 @@ public class Game extends Canvas implements Runnable {
             counter++;
             token.move(counter);
             
-            //Point pos = token.pos;
+            Point pos = token.pos;
             
-            since = new Date().getTime() + 1000;
+            System.out.println(pos);
+            
+            since = new Date().getTime() + 2000;
         }
 
         g.dispose();

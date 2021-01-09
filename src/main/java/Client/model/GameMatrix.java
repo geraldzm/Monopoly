@@ -24,7 +24,7 @@ public class GameMatrix {
         Point pos = points.get(0);
         Point size = points.get(1);
         
-        pos = matrixRect(2, 1, pos.x, pos.y, size.x, size.y);
+        pos = matrixRect(1, 1, pos.x, pos.y, size.x, size.y);
         
         return pos;
     }
@@ -44,29 +44,37 @@ public class GameMatrix {
     public Point matrixRect(int i, int j, int x, int y, int width, int height){
         Point pos = new Point();
         
+        System.out.println("Pos bef: " + new Point(x, y));
+        
         int hSize = height / 2;
         int wSize = (width * 2) / objectsPerCard;
         
-        if (shouldInvert(x, y, height)){
+        if (shouldInvert(x, y, height) || (x == 0 && y == 0)){
             hSize = (height * 2) / objectsPerCard;
             wSize = width / 2;
         }
         
+        if (isCorner(new Point(x, y), height)){
+            System.out.println("hSize: " + hSize + ", wSize: " + wSize);
+        }
+        
         pos.x = x + j * wSize;
         pos.y = y + i * hSize;
+        
+        System.out.println("Pos after: " + pos);
         
         return pos;
     }
     
     // Sirve para obtener "la hitbox" de cada una de las propiedades
     private ArrayList<Point> getPoints(int x, int y){
-        int cornerWidth = 100;
-        int cornerHeight = 100;
+        int cornerWidth = 128;
+        int cornerHeight = 128;
         
-        int sidesWidth = 56;
-        int sidesHeight = 100;
+        int sidesWidth = 72;
+        int sidesHeight = 128;
         
-        int sideOffset = 45;
+        int sideOffset = 57;
         
         Point pos = new Point(0, 0);
         Point size = new Point(0, 0);
@@ -101,7 +109,23 @@ public class GameMatrix {
     }
     
     private boolean shouldInvert(int j, int i, int height){
-        return isCorner(i, j, 0) == null &&  (i == screenHeight - height || i == 0);
+        return !isCorner(new Point(j, i), 0) && (i == screenHeight - height || i == 0);
+    }
+    
+    private boolean isCorner(Point pos, int width){
+        int maxX = screenWidth - width;
+        int maxY = screenHeight - width;
+        
+        int i = pos.y;
+        int j = pos.x;
+        
+        if (i == 0 && j == 0) return true;
+        
+        if (i == 0 && j == maxX) return true;
+        
+        if (i == maxY && j == 0) return true;
+        
+        return i == maxY && j == maxX;
     }
     
     private Point isCorner(int i, int j, int width){
@@ -122,7 +146,7 @@ public class GameMatrix {
     public static Point indexToPos(int i){
         Point point = new Point();
         
-        if (0 <= i && i < 11){
+        if (i < 11){
             point.x = 0;
             point.y = 10 - i;
         
