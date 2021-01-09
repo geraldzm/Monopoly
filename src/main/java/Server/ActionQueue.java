@@ -20,8 +20,8 @@ public class ActionQueue {
     private Listener action;
     private final Listener listener = m -> {
         if(action != null) action.action(m);
-        done++;
         synchronized (lock){
+            done++;
             lock.notify();
         }
     };
@@ -35,6 +35,9 @@ public class ActionQueue {
         this.recipients = recipients;
     }
 
+    public ActionQueue(Hashtable<Integer, Player> recipients) {
+        this.recipients = new ArrayList<>(recipients.values());
+    }
 
     public void addAction(Message message){
         addAction(message, null, DONE);

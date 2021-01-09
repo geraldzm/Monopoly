@@ -5,6 +5,8 @@ import main.java.common.Comunication.Listener;
 import main.java.common.Comunication.Message;
 
 import javax.swing.*;
+import java.nio.charset.Charset;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,32 +48,21 @@ public class MainWindow extends JFrame {
         Listener chat = m -> System.out.println(m.getString());
         serverCommunication.setChatListener(chat);
 
-        Listener playing = m -> { // listener durante el juego
-            switch (m.getIdMessage()){
+        Listener playing = mens -> { // listener durante el juego
+            switch (mens.getIdMessage()) {
                 case DICE -> {
-                    System.out.println("Tirando dados....." );
+                    System.out.println("Tirando dados.....");
+                    System.out.println("resultado: " + mens.getNumbers()[0] + " " +mens.getNumbers()[1] + " "+ mens.getNumbers()[2]);
 
-                    int seconds = (int)(Math.random() * 3000); // simulando un delate
-                    new Timer().schedule(new TimerTask() {// simulando un delate
+                    new Timer().schedule(new TimerTask() {
                         @Override
                         public void run() {
-                            System.out.println("Resultado: " + m.getNumber());
                             serverCommunication.sendMessage(DONE);
-                            serverCommunication.sendMessageChat("Hola a todos " + seconds);
                         }
-                    }, seconds);
+                    }, 2000);
                 }
                 case MOVE -> {
                     System.out.println("Moviéndose....." );
-
-                    int seconds = (int)(Math.random() * 3000); // simulando un delate
-                    new Timer().schedule(new TimerTask() {// simulando un delate
-                        @Override
-                        public void run() {
-                            System.out.println("Me movi a la casilla: " + m.getNumber());
-                            serverCommunication.sendMessage(DONE);
-                        }
-                    }, seconds);
                 }
 
                 case END -> {
@@ -81,15 +72,26 @@ public class MainWindow extends JFrame {
                 }
 
                 case ID -> {
-                    System.out.println("Asignado: "+ m.getNumber());
-                    id = m.getNumber();
+                    System.out.println("Asignado: "+ mens.getNumber());
+                    id = mens.getNumber();
                     serverCommunication.sendMessage(DONE);
                 }
 
                 case NAME -> {
                     System.out.println("El server solicita un nombre, digitelo: ");
-                    String name = sc.next();
-                    serverCommunication.sendMessage(new Message(id, name, RESPONSE));
+
+                    int leftLimit = 97; // letter 'a'
+                    int rightLimit = 122; // letter 'z'
+                    int targetStringLength = 10;
+                    Random random = new Random();
+
+                    String generatedString = random.ints(leftLimit, rightLimit + 1)
+                            .limit(targetStringLength)
+                            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                            .toString();
+                    System.out.println(generatedString);
+
+                    serverCommunication.sendMessage(new Message(id, generatedString, RESPONSE));
                 }
             }
         };

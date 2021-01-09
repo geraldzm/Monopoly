@@ -21,7 +21,7 @@ public class ServerConnection extends RunnableThread {
     private ArrayList<Player> players;
     private int maxPlayers;
 
-    public ServerConnection(ArrayList<Player> players) {
+    public ServerConnection() {
 
         try {
             this.serverSocket = new ServerSocket(42069);
@@ -31,7 +31,7 @@ public class ServerConnection extends RunnableThread {
         }
 
         this.maxPlayers = -1;
-        this.players = players;
+        this.players = new ArrayList<>();;
     }
 
     @Override
