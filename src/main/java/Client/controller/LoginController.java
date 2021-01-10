@@ -1,12 +1,10 @@
 package main.java.Client.controller;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import main.java.Client.model.Utils;
 import main.java.Client.view.LoginWindow;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import static main.java.Client.controller.ServerCommunication.getServerCommunication;
@@ -14,23 +12,19 @@ import main.java.common.Comunication.IDMessage;
 import main.java.common.Comunication.Listener;
 
 
-public class LoginController implements IController, MouseListener {
-    WindowController controller;
+public class LoginController implements MouseListener {
     LoginWindow window;
     
-    public LoginController(LoginWindow window, WindowController controller){
+    public LoginController(LoginWindow window){
         this.window = window;
-        this.controller = controller;
         
         init();
     }
     
-    @Override
     public void start(){
         window.setVisible(true);
     }
 
-    @Override
     public void init() {
         System.out.println("Esta");
         try {
@@ -116,7 +110,6 @@ public class LoginController implements IController, MouseListener {
         
     }
 
-    @Override
     public void close() {
         window.dispose();
     }

@@ -7,23 +7,19 @@ import main.java.Client.model.Game;
 import main.java.Client.model.Utils;
 import main.java.Client.view.GameWindow;
 
-public class GameController implements IController{
+public class GameController{
     private GameWindow window;
-    private WindowController controller;
     private Game game;
     
-    public GameController(GameWindow window, WindowController controller){
+    public GameController(GameWindow window){
         this.window = window;
-        this.controller = controller;
     }
     
-    @Override
     public void start(){
         window.setVisible(true);
         game.start();
     }
 
-    @Override
     public void init() {
         game = new Game();
         
@@ -37,7 +33,6 @@ public class GameController implements IController{
         }
     }
 
-    @Override
     public void close() {
         window.dispose();
     }
