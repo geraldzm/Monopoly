@@ -3,7 +3,7 @@ package main.java.common.Comunication;
 import java.io.Serializable;
 
 public enum IDMessage implements Serializable {
-    //Server->client
+    //main.java.Server->client
     DICE(true),
     MOVE(true),
     GIVEMONEY(true),
@@ -15,14 +15,17 @@ public enum IDMessage implements Serializable {
     END,
     MESSAGE,
     LOGBOOK,
+    ID(true),
     NAME,
     NAMES,
-    //######Client -> Server######
+    TURNRS,
+    TURN,
+    //######main.java.Client -> main.java.Server######
     RESPONSE,
     DONE
     ;
 
-    private boolean done; // if Server->Client ID has to return DONE
+    private boolean done; // if main.java.Server->main.java.Client ID has to return DONE
 
     IDMessage() {
         done = false;
@@ -44,9 +47,9 @@ public enum IDMessage implements Serializable {
 /*
 * NOTAS de qué debe hacer cada ID
 *
-* abreviaciones de estas notas: Server=S, cliente=C
+* abreviaciones de estas notas: main.java.Server=S, cliente=C
 *
-* -------------------Server->client------------------------
+* -------------------main.java.Server->client------------------------
 *
 * ADMIN: le indica al C que fue le primero en conectarse, el C debe responder con un número, el número indica la cantidad de jugadores
 * que va a permitir en la partida, el número debe estar en [2,7[
@@ -63,15 +66,20 @@ public enum IDMessage implements Serializable {
 *
 * LOGBOOK: Mensaje a ser cargado en la bitácora
 *
+* ID: El S le esta asignando al C un id
 *
-* NAME: El S le esta solicitando un nombre
+* NAME: El S le esta solicitando un nombre  debe responder con: el nombre en el string, el ID que se le asignó en el numero
 * solo se permiten letras normales [Aa-Zz]
 *
-* NAMES: El S esta enviando los nombres de TODOS los jugadores incluyendo el de el mismo cliente
-* e.g. "Carlos,Maria,Mario,valeria"   para el cliente llamado Mario
+* NAMES: El S esta enviando los nombres de TODOS los jugadores incluyendo el de el mismo cliente, el orden de los nombres va en orden
+* de ID, desde cero para arriba
+* e.g. "Carlos,Maria,Mario,valeria"   para el cliente llamado Mario con ID 2
+*
+* TURNRS: se esta enviando los resultados de los dados para elegir el orden de turno
+* String "Carlos,Maria,valeria"   int [1, 2, 3, 4, 5, 9, 6, 4, 10]
 *
 * #######################################################################
-* --------------------client->Server------------------------
+* --------------------client->main.java.Server------------------------
 *
 * RESPONSE: cada vez que el S le solicite algo al C el id de la respuesta debe ser este.
 * e.g. el S envia ADMIN, el C debe responder con un número, el ID del message es RESPONSE

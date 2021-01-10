@@ -1,6 +1,5 @@
 package main.java.Client.controller;
 
-import Client.controller.IController;
 import java.util.HashMap;
 import main.java.Client.view.GameWindow;
 import main.java.Client.view.LoginWindow;

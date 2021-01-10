@@ -4,8 +4,12 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 import main.java.Client.model.Utils;
 import main.java.Client.view.LoginWindow;
-import Client.controller.IController;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
+import static main.java.Client.controller.ServerCommunication.getServerCommunication;
+import main.java.common.Comunication.IDMessage;
+import main.java.common.Comunication.Listener;
+
 
 public class LoginController implements IController, ActionListener{
     WindowController controller;
@@ -48,6 +52,40 @@ public class LoginController implements IController, ActionListener{
     
     // Evento del boton jugar
     private void playButton(){
+        try{
+            ServerCommunication server = getServerCommunication();
+            
+            Listener connecting = msg -> {
+              switch(msg.getIdMessage()){
+                  case ADMIN -> {
+                      int amount = Integer.parseInt(JOptionPane.showInputDialog(window, "Soy admin"));
+                      
+                      server.sendInt(amount, IDMessage.RESPONSE);
+                      
+                      System.out.println("Soy admin");
+                  }
+                  case REJECTED -> { 
+                      System.out.println("Lo siento mijo hoy no :c");
+                  }
+                  case ACCEPTED -> {
+                      System.out.println("Que empiecen los juegos del hambre");
+                  }
+                  case STARTED ->{
+                      // Redireccionar al juego
+                      server.sendMessage(IDMessage.DONE);
+                  }
+              }  
+            };
+            
+            Listener chat = msg -> {
+                System.out.println(msg.getString());
+            };
+            
+            server.setListener(connecting);
+        }catch(IOException ex){
+            System.out.println("F: " + ex.getMessage());
+        }
+        
     }
 
     @Override

@@ -1,4 +1,4 @@
-package common;
+package main.java.common;
 
 /**
  * <h3>abstraction of all the while(running) classes</h3>

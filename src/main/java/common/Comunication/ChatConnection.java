@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.function.Predicate;
 
-import static main.java.common.Comunication.IDMessage.*;
+import static main.java.common.Comunication.IDMessage.LOGBOOK;
+import static main.java.common.Comunication.IDMessage.MESSAGE;
 
 
 public class ChatConnection extends Connection {

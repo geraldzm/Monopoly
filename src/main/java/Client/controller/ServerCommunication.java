@@ -33,13 +33,14 @@ public class ServerCommunication extends ChatConnection {
         });
     }
 
-    public static ServerCommunication getServerCommunication() {
+    public static ServerCommunication getServerCommunication() throws IOException{
         if(serverCommunication == null) {
             try {
                 serverCommunication = new ServerCommunication(new Socket("LocalHost", 42069));
             } catch (IOException e) {
                 e.printStackTrace();
                 System.err.println("No fue posible conectarse con el servidor");
+                throw e;
             }
         }
         return serverCommunication;

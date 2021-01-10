@@ -3,7 +3,6 @@ package main.java.Client.controller;
 
 import main.java.Client.model.Game;
 import main.java.Client.view.GameWindow;
-import Client.controller.IController;
 import java.io.IOException;
 import main.java.Client.model.Utils;
 

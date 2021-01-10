@@ -1,6 +1,6 @@
 package main.java.Server;
 
-import common.RunnableThread;
+import main.java.common.RunnableThread;
 import main.java.common.Comunication.Connection;
 import main.java.common.Comunication.Message;
 

@@ -1,6 +1,6 @@
 package main.java.common.Comunication;
 
-import common.RunnableThread;
+import main.java.common.RunnableThread;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
