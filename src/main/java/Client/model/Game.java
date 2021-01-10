@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 
 public class Game extends Canvas implements Runnable {
     
-    public static final int WIDTH = 700, HEIGHT = 700;
+    public static final int WIDTH = 900, HEIGHT = 900;
     private Thread thread;
     private boolean running = false;
     
