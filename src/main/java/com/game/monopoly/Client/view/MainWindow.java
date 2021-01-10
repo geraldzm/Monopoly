@@ -1,6 +1,5 @@
 package com.game.monopoly.Client.view;
 
-import com.game.monopoly.Client.view.LoginWindow;
 import java.io.IOException;
 
 import javax.swing.*;

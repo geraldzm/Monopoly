@@ -1,13 +1,5 @@
 package com.game.monopoly.Client.controller;
 
-import com.game.monopoly.Client.controller.IController;
-import com.game.monopoly.Client.controller.LoginController;
-import com.game.monopoly.Client.controller.EWindows;
-import com.game.monopoly.Client.controller.EWindows;
-import com.game.monopoly.Client.controller.GameController;
-import com.game.monopoly.Client.controller.GameController;
-import com.game.monopoly.Client.controller.IController;
-import com.game.monopoly.Client.controller.LoginController;
 import java.util.HashMap;
 import com.game.monopoly.Client.view.GameWindow;
 import com.game.monopoly.Client.view.LoginWindow;

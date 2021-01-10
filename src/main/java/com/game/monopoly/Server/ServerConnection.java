@@ -1,8 +1,9 @@
 package com.game.monopoly.Server;
 
-import com.game.monopoly.Server.ActionQueue;
+
 import com.game.monopoly.common.Comunication.Connection;
 import com.game.monopoly.common.Comunication.Message;
+import com.game.monopoly.common.RunnableThread;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -10,7 +11,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import static com.game.monopoly.common.Comunication.IDMessage.*;
-import com.game.monopoly.common.RunnableThread;
+
 
 /**
  * <h1>Connects the with the players</h1>
@@ -22,7 +23,7 @@ public class ServerConnection extends RunnableThread {
     private ArrayList<Player> players;
     private int maxPlayers;
 
-    public ServerConnection(ArrayList<Player> players) {
+    public ServerConnection() {
 
         try {
             this.serverSocket = new ServerSocket(42069);
@@ -32,7 +33,7 @@ public class ServerConnection extends RunnableThread {
         }
 
         this.maxPlayers = -1;
-        this.players = players;
+        this.players = new ArrayList<>();;
     }
 
     @Override

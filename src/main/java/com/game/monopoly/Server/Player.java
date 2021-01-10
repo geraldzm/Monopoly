@@ -1,8 +1,10 @@
 package com.game.monopoly.Server;
 
 
+
 import com.game.monopoly.common.Comunication.ChatConnection;
 import com.game.monopoly.common.Comunication.Message;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -19,7 +21,7 @@ public class Player extends ChatConnection {
     private static int count;
     private int[] dices;
 
-    public Player(Socket socket) throws IOException {
+    public Player(@NotNull Socket socket) throws IOException {
         super(socket, null);
         id = count++;
     }
