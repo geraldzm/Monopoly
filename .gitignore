@@ -3,6 +3,10 @@
 out/
 Monopoly.iml
 
+# Netbeans
+pom.xml
+target/
+nbactions.xml
 
 # Compiled class file
 *.class
