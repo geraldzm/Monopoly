@@ -4,7 +4,6 @@ out/
 Monopoly.iml
 
 # Netbeans
-pom.xml
 target/
 nbactions.xml
 
