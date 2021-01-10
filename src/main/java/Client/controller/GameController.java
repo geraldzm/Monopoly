@@ -1,10 +1,11 @@
 package main.java.Client.controller;
 
 
-import main.java.Client.model.Game;
-import main.java.Client.view.GameWindow;
 import java.io.IOException;
+
+import main.java.Client.model.Game;
 import main.java.Client.model.Utils;
+import main.java.Client.view.GameWindow;
 
 public class GameController implements IController{
     private GameWindow window;
