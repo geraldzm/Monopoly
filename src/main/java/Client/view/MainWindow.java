@@ -1,16 +1,20 @@
 package main.java.Client.view;
 
-
-import main.java.Client.controller.GameController;
+import java.io.IOException;
 
 import javax.swing.*;
+import main.java.Client.controller.EWindows;
+import main.java.Client.controller.LoginController;
+import main.java.Client.controller.WindowController;
 
 public class MainWindow extends JFrame {
-    public static void main(String args[]) {
-        var window = new GameWindow();
+    public static void main(String args[]) throws IOException {
+        /*var controller = new WindowController();
         
-        var controller = new GameController(window);
+        controller.open(EWindows.LOGIN);*/
         
+        var controller = new LoginController(new LoginWindow(), null);
+        controller.init();
         controller.start();
     }
 }

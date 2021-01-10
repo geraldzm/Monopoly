@@ -1,9 +1,11 @@
 package main.java.Client.model;
 
+import java.awt.Image;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.function.Function;
+import javax.swing.ImageIcon;
 
 public class Utils {
     public static Function<String, BufferedImage> getIcon = s -> {
@@ -15,4 +17,12 @@ public class Utils {
         }
         return null;
     };
+    
+    // obtiene imagenes pero listas para componentes de Swing
+    public static ImageIcon getComponentIcon(String path, int width, int height) throws FileNotFoundException, IOException{
+        BufferedImage bg = ImageIO.read(new FileInputStream("src/main/java/Client/res/Image/" + path));
+
+        Image dimg = bg.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(dimg);
+    }
 }
