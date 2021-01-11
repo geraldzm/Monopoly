@@ -63,7 +63,7 @@ public class Server extends RunnableThread {
         // 3. init chat
         players.forEach(p -> p.setChatListener(m -> players.forEach(p2 -> p2.sendChatMessage(m))));
 
-        sortByTurn(players, new AtomicInteger(1));
+      //  sortByTurn(players, new AtomicInteger(1));
     }
 
 

@@ -3,13 +3,17 @@ package com.game.monopoly.Client.controller;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+
 import com.game.monopoly.Client.model.Utils;
 import com.game.monopoly.Client.view.LoginWindow;
 import javax.swing.*;
 
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
+import static com.game.monopoly.common.Comunication.IDMessage.*;
+
 import com.game.monopoly.common.Comunication.IDMessage;
 import com.game.monopoly.common.Comunication.Listener;
+import com.game.monopoly.common.Comunication.Message;
 
 
 public class LoginController implements IController, MouseListener {
@@ -51,19 +55,28 @@ public class LoginController implements IController, MouseListener {
 
         }
     }
+
+    class MomentPlayer{
+        public int id;
+        public String name;
+    }
     
     // Evento del boton jugar
-    private void playButton(){
+    private void playButton() {
         try{
             ServerCommunication server = getServerCommunication();
             server.removeReceiverFilter();
-            
+
+            MomentPlayer thisPlayer = new MomentPlayer();
+            thisPlayer.name = window.tfUserName.getText();
+
+
             Listener connecting = msg -> {
               switch(msg.getIdMessage()){
                   case ADMIN -> {
                       int amount = Integer.parseInt(JOptionPane.showInputDialog(window, "Soy admin"));
                       
-                      server.sendInt(amount, IDMessage.RESPONSE);
+                      server.sendInt(amount, RESPONSE);
                       
                       System.out.println("Soy admin");
                   }
@@ -73,10 +86,22 @@ public class LoginController implements IController, MouseListener {
                   case ACCEPTED -> {
                       System.out.println("Que empiecen los juegos del hambre");
                   }
-                  case STARTED ->{
+                  case ID -> {
+                      thisPlayer.id = msg.getNumber();
+                      server.sendMessage(DONE);
+                  }
+
+                  case NAME -> server.sendMessage(new Message(thisPlayer.id, thisPlayer.name, RESPONSE));
+
+                  case NAMES -> {
+
+                  }
+
+                  case STARTED -> {
                       // Redireccionar al juego
                       System.out.println("EL juego comienza");
-                      server.sendMessage(IDMessage.DONE);
+
+                      server.sendMessage(DONE);
                   }
               }  
             };

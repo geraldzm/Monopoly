@@ -5,10 +5,7 @@
  */
 package com.game.monopoly.Client.view;
 
-/**
- *
- * @author andro
- */
+
 public class CardsWindow extends javax.swing.JFrame {
 
     /**

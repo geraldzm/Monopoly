@@ -85,6 +85,6 @@ public class LoginWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     public javax.swing.JLabel lbMonopoly;
-    private javax.swing.JTextField tfUserName;
+    public javax.swing.JTextField tfUserName;
     // End of variables declaration//GEN-END:variables
 }

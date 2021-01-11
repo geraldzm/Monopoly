@@ -2,6 +2,7 @@
 .idea/
 out/
 Monopoly.iml
+src/main/java/META-INF/
 
 # Netbeans
 target/
