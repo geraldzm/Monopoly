@@ -22,15 +22,12 @@ import javax.swing.JScrollPane;
 public class CardWindow extends javax.swing.JPanel{
     JFrame window = new JFrame();
     public CardWindow(CardFactory property,int carta){
-        
         window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         window.setSize(265, 390);
         window.setLocation(750, 350);
         window.setLayout(null);
         window.setResizable(false);
-        
         window.add(property.getCard(carta,true));
-
     }
     public void Init(){
        window.setVisible(true); 

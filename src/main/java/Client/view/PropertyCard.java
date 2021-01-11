@@ -28,7 +28,7 @@ public class PropertyCard extends Card {
         super(image, id);
     }
     public void addButton(boolean canBuy){
-           if (canBuy){
+        if (canBuy){
             buy = new JButton("Comprar");
             buy.setBounds(15, 310, 85, 20);
             this.add(buy);
