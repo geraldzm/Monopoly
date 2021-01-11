@@ -6,16 +6,12 @@
 package Client.view;
 
 import Client.model.CardFactory;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
@@ -25,25 +21,23 @@ import javax.swing.JScrollPane;
  */
 public class CardsWindow extends javax.swing.JPanel{
     JFrame window = new JFrame();
-    public CardsWindow(int [] cartas ) throws IOException {
+    public CardsWindow(CardFactory property,int [] cartas ) throws IOException {
         window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        window.setSize(1020, 400);
+        window.setSize(1020, 410);
+        window.setLocation(430, 600);
         window.setLayout(null);
-        //window.setResizable(false);
+        window.setResizable(false);
         
         setLocation(0, 0);
         setSize(1004, 350);
         
         JScrollPane scrollPane = new JScrollPane(this);
-        scrollPane.setSize(1004, 350);
+        scrollPane.setSize(1004, 370);
         scrollPane.setLocation(0, 0);
         
         window.add(scrollPane);
-        
-        CardFactory cardProperty = new CardFactory();
-        
         for (int i = 0; i < cartas.length; i++) {
-            this.add(cardProperty.getCard(cartas[i]));
+            this.add(property.getCard(cartas[i],false));
         }
         
         Linelayout lineaL = new Linelayout();
@@ -56,7 +50,7 @@ public class CardsWindow extends javax.swing.JPanel{
     }
     private class Linelayout implements LayoutManager{
         private ArrayList<Component> components = new ArrayList<>();
-        private int x = 0;
+        private int x;
         private Container parent;
         
         /*
@@ -67,33 +61,25 @@ public class CardsWindow extends javax.swing.JPanel{
         
         @Override
         public void addLayoutComponent(String name, Component comp) {
-            System.out.println("ERROR");
-//            comp.setLocation(x, 0);
-//            components.add(comp);
-//            x += comp.getSize().width;
         }
 
         @Override
         public void removeLayoutComponent(Component comp) {
-            System.out.println("ERROR 1");
             components.remove(comp);
         }
 
         @Override
         public Dimension preferredLayoutSize(Container parent) {
-            System.out.println("ERROR 2");
             return parent.getSize();
         }
 
         @Override
         public Dimension minimumLayoutSize(Container parent) {
-            System.out.println("ERROR  3");
             return parent.getSize();
         }
 
         @Override
         public void layoutContainer(Container parent) {
-            System.out.println("ERROR 4");
             x = 0;
             for (int i = 0; i < parent.getComponentCount(); i++) {
                 System.out.println("Cartas: "+ i);
@@ -102,6 +88,7 @@ public class CardsWindow extends javax.swing.JPanel{
                 x += comp.getWidth();
                 if(x>parent.getWidth()){
                     parent.setSize(x, parent.getHeight());
+                
                 }
             }
             this.parent = parent;

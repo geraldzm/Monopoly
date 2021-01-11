@@ -12,12 +12,9 @@ package Client.model;
  */
 
 import Client.view.PropertyCard;
-import java.awt.Image;
 import java.util.Hashtable;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.swing.*;
-import javax.imageio.ImageIO;
 
 
 public class CardFactory {
@@ -30,8 +27,9 @@ public class CardFactory {
             cards.put(i,new PropertyCard( new ImageIcon (Utils.getIcon.apply(i+".png").getScaledInstance(251, 350, 251)), i));
         }
     }
-    
-    public PropertyCard getCard(int value){
+    public PropertyCard getCard(int value,boolean canBuy){
+        cards.get(value).addButton(canBuy);
         return cards.get(value);
     }
+    
 }
