@@ -4,6 +4,8 @@ out/
 Monopoly.iml
 src/main/java/META-INF/
 
+*.png
+
 # Netbeans
 target/
 nbactions.xml
