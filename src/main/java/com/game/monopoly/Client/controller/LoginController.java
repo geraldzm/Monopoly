@@ -12,7 +12,7 @@ import com.game.monopoly.common.Comunication.IDMessage;
 import com.game.monopoly.common.Comunication.Listener;
 
 
-public class LoginController implements MouseListener {
+public class LoginController implements IController, MouseListener {
     LoginWindow window;
     
     public LoginController(LoginWindow window){
@@ -21,10 +21,12 @@ public class LoginController implements MouseListener {
         init();
     }
     
+    @Override
     public void start(){
         window.setVisible(true);
     }
 
+    @Override
     public void init() {
         try {
             window.btnPlay.addMouseListener(this);
@@ -91,6 +93,7 @@ public class LoginController implements MouseListener {
         
     }
 
+    @Override
     public void close() {
         window.dispose();
     }

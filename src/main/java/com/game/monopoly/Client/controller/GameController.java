@@ -5,11 +5,12 @@ import java.io.IOException;
 
 import com.game.monopoly.Client.model.Game;
 import com.game.monopoly.Client.model.Utils;
+import com.game.monopoly.Client.view.CardsWindow;
 import com.game.monopoly.Client.view.GameWindow;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class GameController implements MouseListener{
+public class GameController implements IController, MouseListener{
     private GameWindow window;
     private Game game;
     
@@ -19,11 +20,13 @@ public class GameController implements MouseListener{
         init();
     }
     
+    @Override
     public void start(){
         window.setVisible(true);
         game.start();
     }
 
+    @Override
     public void init() {
         game = new Game();
         
@@ -42,6 +45,7 @@ public class GameController implements MouseListener{
         }
     }
 
+    @Override
     public void close() {
         window.dispose();
     }
@@ -59,7 +63,10 @@ public class GameController implements MouseListener{
     
     // Evento cuando se clickea el boton de abrir propiedades
     private void onBtnCardsClicked(){
+        var controller = new CardsController(new CardsWindow());
         
+        controller.init();
+        controller.start();
     }
     
     // Evento para enviar mensajes
