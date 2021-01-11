@@ -12,44 +12,31 @@ import com.game.monopoly.common.Comunication.IDMessage;
 import com.game.monopoly.common.Comunication.Listener;
 
 
-public class LoginController implements IController, MouseListener {
-    WindowController controller;
+public class LoginController implements MouseListener {
     LoginWindow window;
     
-    public LoginController(LoginWindow window, WindowController controller){
+    public LoginController(LoginWindow window){
         this.window = window;
-        this.controller = controller;
         
         init();
     }
     
-    @Override
     public void start(){
         window.setVisible(true);
     }
 
-    @Override
     public void init() {
-        System.out.println("Esta");
         try {
+            window.btnPlay.addMouseListener(this);
+            window.btnExit.addMouseListener(this);
+            
             window.background.setIcon(Utils.getComponentIcon("AppBG.png", window.background.getWidth(), window.background.getHeight()));
             window.btnPlay.setIcon(Utils.getComponentIcon("ButtonsBG.png", window.btnPlay.getWidth(), window.btnPlay.getHeight()));
-            window.btnPlay.addMouseListener(this);
             window.btnExit.setIcon(Utils.getComponentIcon("ButtonsBG.png", window.btnExit.getWidth(), window.btnExit.getHeight()));
             window.lbMonopoly.setIcon(Utils.getComponentIcon("monopoly_logo.png", window.lbMonopoly.getWidth(), window.lbMonopoly.getHeight()));
         } catch (IOException ex) {
-            System.out.println("Imagen nula");
+            System.out.println("ERR IMG NULA: " + ex.getMessage());
         }
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent mouseEvent) {
-
     }
 
     @Override
@@ -58,19 +45,9 @@ public class LoginController implements IController, MouseListener {
             playButton();
 
         } else if (e.getSource().equals(window.btnExit)){
-            window.dispose();
+            close();
 
         }
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent mouseEvent) {
-
     }
     
     // Evento del boton jugar
@@ -114,8 +91,25 @@ public class LoginController implements IController, MouseListener {
         
     }
 
-    @Override
     public void close() {
         window.dispose();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
     }
 }

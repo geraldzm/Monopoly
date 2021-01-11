@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 public class Utils {
     public static Function<String, BufferedImage> getIcon = s -> {
         try {
-            return ImageIO.read(new File("src/main/java/Client/res/Image/" + s));
+            return ImageIO.read(new File("src/main/java/com/game/monopoly/Client/res/Image/" + s));
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error de lectura de imagen: " + s);
@@ -20,7 +20,7 @@ public class Utils {
     
     // obtiene imagenes pero listas para componentes de Swing
     public static ImageIcon getComponentIcon(String path, int width, int height) throws FileNotFoundException, IOException{
-        BufferedImage bg = ImageIO.read(new FileInputStream("/home/gerald/develop/poo/Monopoly/src/main/java/Client/res/Image/" + path));
+        BufferedImage bg = ImageIO.read(new FileInputStream("src/main/java/com/game/monopoly/Client/res/Image/" + path));
 
         Image dimg = bg.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(dimg);
