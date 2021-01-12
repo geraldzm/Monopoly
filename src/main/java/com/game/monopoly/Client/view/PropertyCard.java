@@ -4,11 +4,11 @@ import javax.swing.*;
 
 
 public class PropertyCard extends Card {
-
+    
     public static enum Type {
         BUY,SELL,NONE;
     }
-
+    
     private JButton sell;
     private JButton buy;
     private JButton mortgage;

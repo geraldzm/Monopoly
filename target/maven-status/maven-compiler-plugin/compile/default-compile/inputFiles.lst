@@ -1,33 +1,43 @@
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\model\Interfaces\IRenderable.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\model\Utils.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\common\Comunication\ChatConnection.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\common\Comunication\Message.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\model\GameObject.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\common\Comunication\Listener.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\model\GameMatrix.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\model\Model.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\common\Comunication\IDMessage.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Server\Server.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\controller\ServerCommunication.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Server\ActionQueue.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\model\Constant.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\view\GameWindow.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\view\MainWindow.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\controller\WindowController.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\common\Comunication\Connection.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Server\Player.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\controller\EWindows.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\model\Token.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\model\Handler\Handler.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\view\LoginWindow.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Server\Bank.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\controller\LoginController.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\model\Game.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\controller\IController.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\common\RunnableThread.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\model\Handler\HandlerGameObjects.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\common\Comunication\Sender.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\controller\GameController.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Client\model\Interfaces\ITick.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\common\Comunication\Receiver.java
-F:\TEC\II Semestre 2020\POO\Progras\Monopoly\src\main\java\com\game\monopoly\Server\ServerConnection.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\view\CardWindow.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\common\RunnableThread.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\controller\LoginController.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\controller\GameController.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\model\Handler\HandlerGameObjects.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\controller\CardsScrollLayout.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\view\CardsWindow.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\common\Comunication\ChatConnection.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\controller\IController.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\view\PropertyCard.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\view\LoginWindow.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\common\Comunication\Receiver.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\common\Comunication\Sender.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\model\Interfaces\ITick.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Server\Player.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\common\Comunication\Connection.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\model\Interfaces\IRenderable.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\model\Handler\Handler.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Server\Bank.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\controller\ServerCommunication.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\model\Game.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\model\GameMatrix.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Server\Server.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\model\GameObject.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\view\OrderWindow.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\model\CardFactory.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\common\Comunication\Listener.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\common\Comunication\IDMessage.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\view\MainWindow.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\view\CasualCard.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\model\Token.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\view\GameWindow.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\common\Comunication\Message.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\controller\OrderController.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\model\CardWindowType.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Server\ActionQueue.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\model\Constant.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\view\Card.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\view\CardsScrollWindow.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\model\Model.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\model\Utils.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Client\controller\CardsController.java
+C:\Users\fgm_o\Documents\GitHub\Monopoly\src\main\java\com\game\monopoly\Server\ServerConnection.java

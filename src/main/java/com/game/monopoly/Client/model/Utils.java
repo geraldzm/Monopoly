@@ -21,7 +21,7 @@ public class Utils {
     // obtiene imagenes pero listas para componentes de Swing
     public static ImageIcon getComponentIcon(String path, int width, int height) throws FileNotFoundException, IOException{
         //src/main/java/com/game/monopoly/Client/res/Image/
-        BufferedImage bg = ImageIO.read(new FileInputStream("/home/gerald/develop/poo/Monopoly/src/main/java/com/game/monopoly/Client/res/Image/" + path));
+        BufferedImage bg = ImageIO.read(new FileInputStream("src/main/java/com/game/monopoly/Client/res/Image/" + path));
 
         Image dimg = bg.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(dimg);

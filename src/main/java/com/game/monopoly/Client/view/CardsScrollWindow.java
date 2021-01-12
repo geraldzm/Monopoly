@@ -12,7 +12,7 @@ import java.io.IOException;
 public class CardsScrollWindow extends JFrame {
 
     public CardsScrollWindow(int [] cards, CardWindowType type) {
-
+        
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(1004, 410);
         setLocation(430, 600);
@@ -27,7 +27,6 @@ public class CardsScrollWindow extends JFrame {
         for (int cardValue : cards) {
             panel.add(CardFactory.getCard(cardValue, type.getCardType()));
         }
-
         try {
             ImageIcon backgroundLogo = Utils.getComponentIcon("Logo_Game_of_Thrones.png", 1004, 320);
             panel.add(new JLabel(backgroundLogo));

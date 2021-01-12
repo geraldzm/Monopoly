@@ -7,7 +7,7 @@ public class Card extends JPanel {
     private JLabel imageLabel;
     private final int id;
     private final ImageIcon image;
-
+    
     public Card(ImageIcon image, int id) {
         this.id = id;
         this.image = image;
@@ -17,7 +17,8 @@ public class Card extends JPanel {
 
         setSize(image.getIconWidth(), image.getIconHeight());
         setLayout(null);
-        add(imageLabel);
+        //add(imageLabel);
+        
     }
 
 
