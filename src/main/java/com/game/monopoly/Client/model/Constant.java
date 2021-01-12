@@ -9,4 +9,9 @@ public class Constant {
     
     public static final int TOKEN_WIDTH = 32;
     public static final int TOKEN_HEIGHT = 32;
+    
+    public static final String devImgPath = "src/main/java/com/game/monopoly/Client/res/Image/"; 
+    public static final String prodImgPath = "/home/gerald/develop/poo/Monopoly/src/main/java/com/game/monopoly/Client/res/Image/";
+    
+    public static final boolean isProd = false;
 }

@@ -39,7 +39,7 @@ public class OrderController implements IController, MouseListener{
     @Override
     public void close() {
         // TODO: Enviar el DONE al server
-        window.dispose();
+        window.setVisible(false);
     }
 
     @Override

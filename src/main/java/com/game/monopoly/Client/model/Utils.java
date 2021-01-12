@@ -1,5 +1,6 @@
 package com.game.monopoly.Client.model;
 
+import static com.game.monopoly.Client.model.Constant.*;
 import java.awt.Image;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -8,20 +9,22 @@ import java.util.function.Function;
 import javax.swing.ImageIcon;
 
 public class Utils {
-    public static Function<String, BufferedImage> getIcon = s -> {
+    public static Function<String, BufferedImage> getIcon = path -> {
         try {
-            return ImageIO.read(new File("src/main/java/com/game/monopoly/Client/res/Image/" + s));
+            String fullPath = (isProd) ? prodImgPath + path : devImgPath + path;
+            return ImageIO.read(new File(fullPath));
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Error de lectura de imagen: " + s);
+            System.out.println("Error de lectura de imagen: " + path);
         }
         return null;
     };
     
     // obtiene imagenes pero listas para componentes de Swing
     public static ImageIcon getComponentIcon(String path, int width, int height) throws FileNotFoundException, IOException{
-        //src/main/java/com/game/monopoly/Client/res/Image/
-        BufferedImage bg = ImageIO.read(new FileInputStream("/home/gerald/develop/poo/Monopoly/src/main/java/com/game/monopoly/Client/res/Image/" + path));
+        String fullPath = (isProd) ? prodImgPath + path : devImgPath + path;
+        
+        BufferedImage bg = ImageIO.read(new FileInputStream(fullPath));
 
         Image dimg = bg.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(dimg);
