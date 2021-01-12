@@ -1,15 +1,11 @@
 package com.game.monopoly.Client.model;
 
-import com.game.monopoly.Client.controller.FrameController;
-import com.game.monopoly.Client.controller.FramesID;
-import com.game.monopoly.Client.controller.ServerCommunication;
+import com.game.monopoly.Client.controller.*;
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
+import com.game.monopoly.common.Comunication.*;
 import static com.game.monopoly.common.Comunication.IDMessage.*;
-import com.game.monopoly.common.Comunication.Listener;
-import com.game.monopoly.common.Comunication.Message;
-import java.io.IOException;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import java.io.*;
+import javax.swing.*;
 
 public class GameListener {
     private static GameListener listener;

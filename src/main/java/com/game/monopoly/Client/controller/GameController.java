@@ -1,14 +1,10 @@
 package com.game.monopoly.Client.controller;
 
 
-import java.io.IOException;
-
-import com.game.monopoly.Client.model.Game;
-import com.game.monopoly.Client.model.Utils;
-import com.game.monopoly.Client.view.CardsWindow;
-import com.game.monopoly.Client.view.GameWindow;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import com.game.monopoly.Client.model.*;
+import com.game.monopoly.Client.view.*;
+import java.awt.event.*;
+import java.io.*;
 
 public class GameController implements IController, MouseListener{
     private GameWindow window;
@@ -16,8 +12,6 @@ public class GameController implements IController, MouseListener{
     
     public GameController(GameWindow window){
         this.window = window;
-        
-        init();
     }
     
     @Override

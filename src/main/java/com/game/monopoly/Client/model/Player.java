@@ -1,7 +1,5 @@
 package com.game.monopoly.Client.model;
 
-import javax.swing.ImageIcon;
-
 public class Player extends Token {
     private static Player player;
     
@@ -10,8 +8,10 @@ public class Player extends Token {
     
     private int ID;
     
-    private Player(ImageIcon img) {
-        super(img);
+    private Player(String token) {
+        super(token);
+        
+        this.token = token;
     }
     
     public static Player getInstance(){

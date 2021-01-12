@@ -1,12 +1,12 @@
 package com.game.monopoly.Client.model;
 
 import static com.game.monopoly.Client.model.Constant.*;
-import java.awt.Image;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+import java.awt.*;
+import java.awt.image.*;
 import java.io.*;
-import java.util.function.Function;
-import javax.swing.ImageIcon;
+import java.util.function.*;
+import javax.imageio.*;
+import javax.swing.*;
 
 public class Utils {
     public static Function<String, BufferedImage> getIcon = path -> {
