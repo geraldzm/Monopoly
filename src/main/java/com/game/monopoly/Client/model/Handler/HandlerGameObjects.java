@@ -1,6 +1,6 @@
 package com.game.monopoly.Client.model.Handler;
 
-import com.game.monopoly.Client.model.GameObject;
+import com.game.monopoly.Client.model.Objects.GameObject;
 import com.game.monopoly.Client.model.Interfaces.IRenderable;
 import com.game.monopoly.Client.model.Interfaces.ITick;
 

@@ -1,5 +1,8 @@
-package com.game.monopoly.Client.model;
+package com.game.monopoly.Client.model.Objects;
 
+import com.game.monopoly.Client.model.GameMatrix;
+import com.game.monopoly.Client.model.Objects.GameObject;
+import com.game.monopoly.Client.model.Utils;
 import static com.game.monopoly.Client.model.Constant.*;
 import java.awt.*;
 import java.util.*;
@@ -12,11 +15,7 @@ public class Token extends GameObject{
     
     private int cardPos;
     private Point matrixPos;
-
-    public Token(ImageIcon img) {
-        super(img);
-    }
-
+    
     public Token(String token) {
         super(new ImageIcon(Utils.getIcon.apply(token).getScaledInstance(TOKEN_WIDTH, TOKEN_HEIGHT, 0)));
         movesQueue = new LinkedList<>();

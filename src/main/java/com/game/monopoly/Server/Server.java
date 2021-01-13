@@ -59,10 +59,12 @@ public class Server extends RunnableThread {
         actionQueue.executeQueue();
 
         // 4. init chat
-        players.forEach(p -> p.setChatListener(m -> players.forEach(p2 -> p2.sendChatMessage(m, p))));
+        players.forEach(p -> p.setChatListener(m -> {
+            players.forEach(p2 -> p2.sendChatMessage(m, p));
+        }));
 
         // 5. sort
-        sortByTurn(players, new AtomicInteger(1));
+     //   sortByTurn(players, new AtomicInteger(1));
     }
 
     private String getNamesFromPlayers(ArrayList<Player> players) {
