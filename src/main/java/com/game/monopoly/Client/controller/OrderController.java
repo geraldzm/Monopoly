@@ -1,17 +1,21 @@
 package com.game.monopoly.Client.controller;
 
-import com.game.monopoly.Client.model.Utils;
-import com.game.monopoly.Client.view.OrderWindow;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
-import javax.swing.JLabel;
+import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
+import com.game.monopoly.Client.model.*;
+import com.game.monopoly.Client.view.*;
+import static com.game.monopoly.common.Comunication.IDMessage.DONE;
+import java.awt.event.*;
+import java.io.*;
+import javax.swing.*;
 
 public class OrderController implements IController, MouseListener{
     private OrderWindow window;
     
     JLabel[] players = new JLabel[6];
     JLabel[] results = new JLabel[6];
+    
+    private int[] dices;
+    private String[] playerList;
     
     public OrderController(OrderWindow window){
         this.window = window;
@@ -26,6 +30,7 @@ public class OrderController implements IController, MouseListener{
     @Override
     public void init() {
         initArray();
+        initData();
         
         try {
             window.btnExit.addMouseListener(this);
@@ -35,10 +40,29 @@ public class OrderController implements IController, MouseListener{
             System.out.println("ERR IMG NULA: " + ex.getMessage());
         }
     }
+    
+    private void initData(){
+        for (int i = 0; i < 6; i++){
+            if (i < playerList.length){
+                players[i].setText("Jugador: " + playerList[i]);
+                results[i].setText("Resultado: " + dices[i+2]);
+            } else{
+                players[i].setText("");
+                results[i].setText("");
+            }
+        }
+    }
 
     @Override
     public void close() {
-        // TODO: Enviar el DONE al server
+        try {
+            ServerCommunication server = getServerCommunication();
+
+            server.sendMessage(DONE);
+        } catch (IOException ex) {
+            System.out.println("ERROR: " + ex.getMessage());
+        }
+        
         window.setVisible(false);
     }
 
@@ -80,5 +104,21 @@ public class OrderController implements IController, MouseListener{
         results[3] = window.lbRst3;
         results[4] = window.lbRst4;
         results[5] = window.lbRst5;
+    }
+
+    public int[] getDices() {
+        return dices;
+    }
+
+    public void setDices(int[] dices) {
+        this.dices = dices;
+    }
+
+    public String[] getPlayers() {
+        return playerList;
+    }
+
+    public void setPlayers(String[] players) {
+        this.playerList = players;
     }
 }

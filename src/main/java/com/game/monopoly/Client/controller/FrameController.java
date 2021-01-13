@@ -7,7 +7,7 @@ public class FrameController {
     private static FrameController frameController;
     private HashMap<FramesID, IController> windows;
     private IController currentWindow;
-
+    
     private FrameController(){
         windows = new HashMap<>();
         
@@ -48,4 +48,6 @@ public class FrameController {
         windows.get(frame).init();
         windows.get(frame).start();
     }
+    
+    
 }

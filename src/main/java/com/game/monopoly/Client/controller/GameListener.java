@@ -1,11 +1,12 @@
 package com.game.monopoly.Client.controller;
 
+import com.game.monopoly.Client.controller.GameListener;
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
 import com.game.monopoly.Client.model.*;
 import com.game.monopoly.common.Comunication.*;
 import static com.game.monopoly.common.Comunication.IDMessage.*;
 import java.io.*;
-import java.util.Arrays;
+import java.util.*;
 import javax.swing.*;
 
 public class GameListener {
@@ -124,7 +125,14 @@ public class GameListener {
                       System.out.println("Dices: ");
                       System.out.println(msg.getString());
                       System.out.println(Arrays.toString(msg.getNumbers()));
-                      server.sendMessage(DONE);
+                      
+                      FrameController controller = FrameController.getInstance();
+                      OrderController order = (OrderController) controller.getWindow(FramesID.DICEORDER);
+                      
+                      order.setDices(msg.getNumbers());
+                      order.setPlayers(msg.getString().split(","));
+                      
+                      controller.openNewWindow(FramesID.DICEORDER);
                   }
               }
         };  
