@@ -50,20 +50,26 @@ public class Server extends RunnableThread {
         actionQueue.addAction(messages, null, DONE);
         actionQueue.executeQueue();
 
-        System.out.println("IDs asignados!");
-
         // 2. request each player a name
         actionQueue.addAction(new Message(NAME), message -> players.get(message.getNumber()).setName(message.getString()));
         actionQueue.executeQueue();
 
-        System.out.println("Nombres recibidos: ");
-        players.forEach(p -> System.out.println(p.getId() +"  "+ p.getName())); // print ID Name
+        // 3. send names
+        actionQueue.addAction(new Message( getNamesFromPlayers(players), NAMES));
+        actionQueue.executeQueue();
 
+        // 4. init chat
+        players.forEach(p -> p.setChatListener(m -> players.forEach(p2 -> p2.sendChatMessage(m, p))));
 
-        // 3. init chat
-        players.forEach(p -> p.setChatListener(m -> players.forEach(p2 -> p2.sendChatMessage(m))));
+        // 5. sort
+        sortByTurn(players, new AtomicInteger(1));
+    }
 
-      //  sortByTurn(players, new AtomicInteger(1));
+    private String getNamesFromPlayers(ArrayList<Player> players) {
+        StringBuilder names = new StringBuilder();
+        players.forEach(p -> names.append(p.getName()).append(","));
+
+        return names.toString();
     }
 
 
@@ -81,6 +87,17 @@ public class Server extends RunnableThread {
 
         ActionQueue actionQueue = new ActionQueue(new ArrayList<>(players));
         actionQueue.addAction(rollAllDices(players), null, DONE);
+
+        int [] results = new int[3*players.size()];
+
+        for (int i = 0; i < players.size(); i++) {
+            int[] dices = players.get(i).getDices();
+            for (int j = 0; j < dices.length; j++) {
+
+            }
+        }
+
+        actionQueue.addAction(new Message(results, getNamesFromPlayers(players), DICES));
 
         //1. tiramos los dados de todos
         for (Player player : players) {

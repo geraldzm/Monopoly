@@ -9,15 +9,19 @@ import com.game.monopoly.Client.view.LoginWindow;
 import javax.swing.*;
 
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
+import com.game.monopoly.Client.model.GameListener;
+import com.game.monopoly.Client.model.Player;
 import static com.game.monopoly.common.Comunication.IDMessage.*;
 
 import com.game.monopoly.common.Comunication.IDMessage;
 import com.game.monopoly.common.Comunication.Listener;
 import com.game.monopoly.common.Comunication.Message;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class LoginController implements IController, MouseListener {
-    LoginWindow window;
+    private LoginWindow window;
     
     public LoginController(LoginWindow window){
         this.window = window;
@@ -63,64 +67,32 @@ public class LoginController implements IController, MouseListener {
     
     // Evento del boton jugar
     private void playButton() {
-        try{
-            ServerCommunication server = getServerCommunication();
-            server.removeReceiverFilter();
-
-            MomentPlayer thisPlayer = new MomentPlayer();
-            thisPlayer.name = window.tfUserName.getText();
-
-
-            Listener connecting = msg -> {
-              switch(msg.getIdMessage()){
-                  case ADMIN -> {
-                      int amount = Integer.parseInt(JOptionPane.showInputDialog(window, "Soy admin"));
-                      
-                      server.sendInt(amount, RESPONSE);
-                      
-                      System.out.println("Soy admin");
-                  }
-                  case REJECTED -> { 
-                      System.out.println("Lo siento mijo hoy no :c");
-                  }
-                  case ACCEPTED -> {
-                      System.out.println("Que empiecen los juegos del hambre");
-                  }
-                  case ID -> {
-                      thisPlayer.id = msg.getNumber();
-                      server.sendMessage(DONE);
-                  }
-
-                  case NAME -> server.sendMessage(new Message(thisPlayer.id, thisPlayer.name, RESPONSE));
-
-                  case NAMES -> {
-
-                  }
-
-                  case STARTED -> {
-                      // Redireccionar al juego
-                      System.out.println("EL juego comienza");
-
-                      server.sendMessage(DONE);
-                  }
-              }  
-            };
+        if (!isAValidField(window.tfUserName.getText())){
+            JOptionPane.showMessageDialog(window, "El nombre de usuario no puede contener ',', estar vacio o empezar con espacios en blanco");
             
-            Listener chat = msg -> {
-                System.out.println(msg.getString());
-            };
-            
-            server.setListener(connecting);
-
-        }catch(IOException ex){
-            System.out.println("F: " + ex.getMessage());
+            return;
         }
         
+        GameListener listener = GameListener.getInstance();
+        Player player = Player.getInstance();
+        
+        player.setName(window.tfUserName.getText());
+        listener.setWindow(window);
+        
+        try {
+            listener.setListener();
+        } catch (IOException ex) {
+            System.out.println("LISTENER ERROR: " + ex.getMessage());
+        }
+    }
+    
+    private boolean isAValidField(String field){
+        return !field.contains(",") && !field.isEmpty() && !field.startsWith(" ");
     }
 
     @Override
     public void close() {
-        window.dispose();
+        window.setVisible(false);
     }
 
     @Override

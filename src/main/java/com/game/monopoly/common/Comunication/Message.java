@@ -37,6 +37,13 @@ public class Message implements Serializable {
         this.numbers = numbers;
     }
 
+    public Message( int[] numbers, String string, IDMessage idMessage) {
+        this.number = null;
+        this.idMessage = idMessage;
+        this.string = string;
+        this.numbers = numbers;
+    }
+
     public Message(IDMessage idMessage) {
         this.number = null;
         this.idMessage = idMessage;

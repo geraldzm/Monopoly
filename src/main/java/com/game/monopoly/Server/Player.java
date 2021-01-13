@@ -26,8 +26,8 @@ public class Player extends ChatConnection {
     }
 
 
-    public void sendChatMessage(Message message){
-        sendMessage(new Message(name + ": " +message.getString(), message.getIdMessage()));
+    public void sendChatMessage(Message message, Player sender){
+        sendMessage(new Message(sender.getName() + ": " +message.getString(), message.getIdMessage()));
     }
 
     public int[] rollDices() {

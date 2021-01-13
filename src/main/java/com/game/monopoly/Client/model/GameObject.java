@@ -1,11 +1,8 @@
 package com.game.monopoly.Client.model;
 
-import com.game.monopoly.Client.model.Interfaces.IRenderable;
-import com.game.monopoly.Client.model.Interfaces.ITick;
-
-import java.awt.Graphics;
-import java.awt.Point;
-import javax.swing.ImageIcon;
+import com.game.monopoly.Client.model.Interfaces.*;
+import java.awt.*;
+import javax.swing.*;
 
 public class GameObject implements IRenderable, ITick {
     protected Point pos, vel;

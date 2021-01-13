@@ -35,7 +35,7 @@ public class CardsController implements IController, MouseListener{
     
     @Override
     public void close(){
-        window.dispose();
+        window.setVisible(false);
     }
 
     @Override

@@ -1,16 +1,25 @@
 package com.game.monopoly.Client.model;
 
-import java.awt.Point;
-import javax.swing.ImageIcon;
-
 import static com.game.monopoly.Client.model.Constant.*;
+import java.awt.*;
+import java.util.*;
+import java.util.Queue;
+import javax.swing.*;
 
 public class Token extends GameObject{
+    private Queue<Point> movesQueue;
     private Point moveTo;
     
+    private int cardPos;
+    private Point matrixPos;
+
     public Token(ImageIcon img) {
         super(img);
-        
+    }
+
+    public Token(String token) {
+        super(new ImageIcon(Utils.getIcon.apply(token).getScaledInstance(TOKEN_WIDTH, TOKEN_HEIGHT, 0)));
+        movesQueue = new LinkedList<>();
         pos = GameMatrix.indexToPos(0);
     }
     
@@ -18,6 +27,9 @@ public class Token extends GameObject{
     public void tick(){
         if (moveTo != null)
             moveAnimation();
+        else if (movesQueue.peek() != null && moveTo == null){
+            moveTo = movesQueue.poll();
+        }
     }
     
     private void moveAnimation(){
@@ -35,15 +47,43 @@ public class Token extends GameObject{
         
         pos.setLocation((int) (pos.x + Math.round(velX)), (int) (pos.y + Math.round(velY)));
         
-        if (moveTo.x == pos.x && moveTo.y == pos.y) 
+        int sigmaX = Math.abs(pos.x - moveTo.x);
+        int sigmaY = Math.abs(pos.y - moveTo.y);
+        
+        if (sigmaX < 3 && sigmaY < 3){
             moveTo = null;
+        }
     }
     
     public boolean isAnimationOver(){
         return moveTo == null;
     }
+
+    public Point getMoveTo() {
+        return moveTo;
+    }
+
+    public void setMoveTo(Point moveTo) {
+        movesQueue.add(moveTo);
+    }
+
+    public int getCurrentPos() {
+        return cardPos;
+    }
+
+    public void setCurrentPos(int currentPos) {
+        this.cardPos = currentPos;
+    }
+
+    public Point getMatrixPos() {
+        return matrixPos;
+    }
+
+    public void setMatrixPos(Point matrixPos) {
+        this.matrixPos = matrixPos;
+    }  
     
-    public void move(int position){
-        moveTo = new GameMatrix(11, 11, CANVAS_WIDTH, CANVAS_HEIGHT).getPosition(GameMatrix.indexToPos(position));
+    public Queue<Point> getQueue(){
+        return this.movesQueue;
     }
 }

@@ -5,6 +5,7 @@ import java.io.Serializable;
 public enum IDMessage implements Serializable {
     //main.java.Server->client
     DICE(true),
+    DICES(true),
     MOVE(true),
     GIVEMONEY(true),
     TAKEMONEY(true),

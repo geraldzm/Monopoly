@@ -1,44 +1,62 @@
 package com.game.monopoly.Client.model;
 
-
-import java.awt.*;
-import java.awt.image.BufferStrategy;
-import java.util.Date;
-import javax.swing.ImageIcon;
-
 import static com.game.monopoly.Client.model.Constant.*;
-import com.game.monopoly.Client.model.Handler.HandlerGameObjects;
+import com.game.monopoly.Client.model.Handler.*;
+import java.awt.*;
+import java.awt.image.*;
+import java.util.*;
+import javax.swing.*;
 
 public class Game extends Canvas implements Runnable {
     private Thread thread;
     private boolean running = false;
     
-    private GameMatrix matrix;
-    private HandlerGameObjects handlerGameObjects;
+    private final GameMatrix matrix;
+    private final HandlerGameObjects handlerGameObjects;
     
     private ImageIcon background = new ImageIcon(
-            Utils.getIcon.apply(GAME_BACKGROUND).getScaledInstance(CANVAS_WIDTH, CANVAS_HEIGHT, CANVAS_WIDTH)
+            Utils.getIcon.apply(GAME_BACKGROUND).getScaledInstance(CANVAS_WIDTH, CANVAS_HEIGHT, 0)
     );
     
-    int counter = 5;
-    long since;
+    private final HashMap<Integer, Token> players;
+    
+    private long since;
+    private final long sinceD = 20000;
 
     public Game(){
         matrix = new GameMatrix(11, 11, CANVAS_WIDTH, CANVAS_HEIGHT);
+        players = new HashMap<>();
+        
+        players.put(0, new Token(tokens[0]));
+        players.put(1, new Token(tokens[1]));
+        players.put(2, new Token(tokens[2]));
+        players.put(3, new Token(tokens[3]));
+        players.put(4, new Token(tokens[4]));
+        players.put(5, new Token(tokens[5]));
+        players.put(6, new Token(tokens[6]));
+        players.put(7, new Token(tokens[7]));
+        
+        matrix.addPlayer(players.get(0));
+        matrix.addPlayer(players.get(1));
+        matrix.addPlayer(players.get(2));
+        matrix.addPlayer(players.get(3));
+        matrix.addPlayer(players.get(4));
+        matrix.addPlayer(players.get(5));
+        matrix.addPlayer(players.get(6));
+        matrix.addPlayer(players.get(7));
         
         handlerGameObjects = new HandlerGameObjects();
         
-        Point pos = matrix.getPosition(matrix.indexToPos(counter));
+        handlerGameObjects.addObject(players.get(0));
+        handlerGameObjects.addObject(players.get(1));
+        handlerGameObjects.addObject(players.get(2));
+        handlerGameObjects.addObject(players.get(3));
+        handlerGameObjects.addObject(players.get(4));
+        handlerGameObjects.addObject(players.get(5));
+        handlerGameObjects.addObject(players.get(6));
+        handlerGameObjects.addObject(players.get(7));
         
-        System.out.println(pos.x + " " + pos.y);
-        
-        handlerGameObjects.addObject(new Token(
-                new ImageIcon(Utils.getIcon.apply(PLAYERS[0]).getScaledInstance(TOKEN_WIDTH, TOKEN_HEIGHT, 0)
-                )));
-        
-        handlerGameObjects.getList().get(0).pos = pos;
-        
-        since = new Date().getTime() + 2000;
+        since = new Date().getTime();
     }
 
     public synchronized void start(){
@@ -72,13 +90,13 @@ public class Game extends Canvas implements Runnable {
 
             boolean shouldRender = false;
             while(delta >=1) {
-                tick();
+                //tick();
                 delta--;
                 shouldRender = true;
             }
 
             if(shouldRender) {
-                render();
+             //   render();
                 frames++;
             }
 
@@ -106,19 +124,21 @@ public class Game extends Canvas implements Runnable {
         handlerGameObjects.render(g);
         handlerGameObjects.tick();
         
-        Token token = ((Token) handlerGameObjects.getList().get(0));
-        
-        if (since - new Date().getTime() < 0 && token.isAnimationOver()){
-            counter++;
-            token.move(counter);
+        if (since + sinceD - new Date().getTime() < 0){
+            for (int i = 0; i < handlerGameObjects.getList().size(); i++){
+                Token current = (Token) handlerGameObjects.getList().get(i);
+                if (!current.isAnimationOver()) continue;
+                
+                int moveTo = current.getCurrentPos() + new Random().nextInt(12);
+                moveTo = (new Random().nextInt(100) < 50) ? moveTo : current.getCurrentPos() - new Random().nextInt(12);
+                moveTo = (moveTo < 0) ? 40 + moveTo : moveTo;
+                moveTo = (moveTo >= 40) ? 0 : moveTo;
+                matrix.movePlayer(current, moveTo);
+            }
             
-            Point pos = token.pos;
-            
-            System.out.println(pos);
-            
-            since = new Date().getTime() + 2000;
+            since = new Date().getTime();
         }
-
+        
         g.dispose();
         bs.show();
     }

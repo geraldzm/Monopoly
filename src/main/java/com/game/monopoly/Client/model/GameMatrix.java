@@ -1,14 +1,17 @@
 package com.game.monopoly.Client.model;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.util.ArrayList;
+import java.awt.*;
+import java.util.*;
 
 public class GameMatrix {
-    private int cols, rows;
-    private int screenWidth, screenHeight;
+    private final int cols;
+    private final int rows;
+    private final int screenWidth;
+    private final int screenHeight;
     private static final int objectsPerCard = 8;
+    private static final int totalCards = 40;
+    
+    private final Token[][][] gameMatrix;
     
     public GameMatrix(int cols, int rows, int screenWidth, int screenHeight){
         this.cols = cols;
@@ -16,6 +19,64 @@ public class GameMatrix {
         
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
+        
+        gameMatrix = new Token[totalCards][2][objectsPerCard / 2];
+    }
+    
+    // Recibe un index de la posicion de la carta y lo settea en la matriz
+    public void addPlayer(Token token){
+        int initialPos = 0;
+        
+        Point pos = getFreePosition(initialPos);
+        
+        // Esto no deberia pasar, pero, para evitar errores
+        if (pos == null) return;
+        
+        token.setCurrentPos(initialPos);
+        token.setMatrixPos(pos);
+        
+        gameMatrix[initialPos][pos.y][pos.x] = token;
+        
+        token.setPos(getPosition(indexToPos(initialPos), pos.x, pos.y));
+    }
+    
+    public void movePlayer(Token token, int card){
+        if (token.getCurrentPos() < card){
+            for (int i = token.getCurrentPos(); i < card; i++){
+                setPlayer(token, i);
+            }
+        }else{
+            for (int i = token.getCurrentPos(); i > card; i--){
+                setPlayer(token, i);
+            }
+        }
+    }
+    
+    public void setPlayer(Token token, int card){
+        gameMatrix[token.getCurrentPos()][token.getMatrixPos().y][token.getMatrixPos().x] = null;
+        
+        Point pos = getFreePosition(card);
+        
+        // Esto no deberia pasar, pero, para evitar errores
+        if (pos == null) return;
+        
+        token.setCurrentPos(card);
+        token.setMatrixPos(pos);
+        
+        gameMatrix[card][pos.y][pos.x] = token;
+        
+        token.setMoveTo(getPosition(indexToPos(card), pos.x, pos.y));
+    }
+    
+    private Point getFreePosition(int card){
+        for (int i = 0; i < 2; i++){
+            for (int j = 0; j < objectsPerCard / 2; j++){
+                if (gameMatrix[card][i][j] == null)
+                    return new Point(j, i);
+            }
+        }
+        
+        return null;
     }
     
     public Point getPosition(int x, int y){
@@ -24,18 +85,18 @@ public class GameMatrix {
         Point pos = points.get(0);
         Point size = points.get(1);
         
-        pos = matrixRect(1, 1, pos.x, pos.y, size.x, size.y);
+        pos = matrixRect(0, 1, pos.x, pos.y, size.x, size.y);
         
         return pos;
     }
     
-    public Point getPosition(Point point){
+    public Point getPosition(Point point, int x, int y){
         ArrayList<Point> points = getPoints(point.x, point.y);
 
         Point pos = points.get(0);
         Point size = points.get(1);
         
-        pos = matrixRect(2, 1, pos.x, pos.y, size.x, size.y);
+        pos = matrixRect(y, x, pos.x, pos.y, size.x, size.y);
         
         return pos;
     }
@@ -44,24 +105,20 @@ public class GameMatrix {
     public Point matrixRect(int i, int j, int x, int y, int width, int height){
         Point pos = new Point();
         
-        System.out.println("Pos bef: " + new Point(x, y));
-        
         int hSize = height / 2;
         int wSize = (width * 2) / objectsPerCard;
         
         if (shouldInvert(x, y, height) || (x == 0 && y == 0)){
             hSize = (height * 2) / objectsPerCard;
             wSize = width / 2;
-        }
-        
-        if (isCorner(new Point(x, y), height)){
-            System.out.println("hSize: " + hSize + ", wSize: " + wSize);
+            
+            int tmp = i;
+            i = j;
+            j = tmp;
         }
         
         pos.x = x + j * wSize;
         pos.y = y + i * hSize;
-        
-        System.out.println("Pos after: " + pos);
         
         return pos;
     }
