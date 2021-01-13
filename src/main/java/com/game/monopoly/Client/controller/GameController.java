@@ -77,7 +77,7 @@ public class GameController implements IController, MouseListener{
     public void triggerDiceAnimation(int[] dice){
         game.dice1.setAnimation(dice[0]);
         game.dice2.setAnimation(dice[1]);
-        
+        game.dice2.addEnd();
         // Activar mensaje global
     }
     

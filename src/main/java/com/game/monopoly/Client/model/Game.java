@@ -99,13 +99,13 @@ public class Game extends Canvas implements Runnable {
 
             boolean shouldRender = false;
             while(delta >=1) {
-                //tick();
+                tick();
                 delta--;
                 shouldRender = true;
             }
 
             if(shouldRender) {
-             //   render();
+              //  render();
                 frames++;
             }
 
@@ -131,8 +131,7 @@ public class Game extends Canvas implements Runnable {
         matrix.drawSquares(g);
         
         handlerGameObjects.render(g);
-        handlerGameObjects.tick();
-        
+
         if (since + sinceD - new Date().getTime() < 0){
             for (int i = 0; i < 6; i++){
                 Token current = (Token) players.get(i);
@@ -145,9 +144,7 @@ public class Game extends Canvas implements Runnable {
                 matrix.movePlayer(current, moveTo);
             }
             since = new Date().getTime();
-            
-            dice1.setAnimation(new Random().nextInt(5) + 1);
-            dice2.setAnimation(new Random().nextInt(5) + 1);
+
         }
         
         g.dispose();
@@ -156,5 +153,6 @@ public class Game extends Canvas implements Runnable {
 
     private void tick() {
         // it must be contained by the controller.
+        handlerGameObjects.tick();
     }
 }

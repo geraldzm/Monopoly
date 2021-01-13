@@ -5,6 +5,7 @@ import com.game.monopoly.Client.model.*;
 import com.game.monopoly.common.Comunication.*;
 import static com.game.monopoly.common.Comunication.IDMessage.*;
 import java.io.*;
+import java.util.Arrays;
 import javax.swing.*;
 
 public class GameListener {
@@ -91,6 +92,7 @@ public class GameListener {
 
                   case NAME -> {
                       System.out.println("Local: Enviando nombre de usuario al servidor...");
+                      System.out.println( player.getName());
                       server.sendMessage(new Message(player.getID(), player.getName(), RESPONSE));
                   }
 
@@ -113,9 +115,16 @@ public class GameListener {
                       
                       FrameController controller = FrameController.getInstance();
                       GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
-                      
+
                       gameController.triggerDiceAnimation(msg.getNumbers());
                       gameController.triggerGlobalMsg("Se han tirado los dados!");
+                  }
+
+                  case DICES -> {
+                      System.out.println("Dices: ");
+                      System.out.println(msg.getString());
+                      System.out.println(Arrays.toString(msg.getNumbers()));
+                      server.sendMessage(DONE);
                   }
               }
         };  

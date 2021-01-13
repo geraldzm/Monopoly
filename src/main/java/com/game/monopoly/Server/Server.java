@@ -27,8 +27,6 @@ public class Server extends RunnableThread {
     @Override
     public void execute() {
         // Game starts
-        System.out.println("Jugadores: ");
-        players.values().forEach(p -> System.out.println("\t ["+p.getName()+ " " + p.getDices()[0]+" " + p.getDices()[1]+" " + p.getDices()[2] + "]"));
 
 
         stopThread();
@@ -64,7 +62,7 @@ public class Server extends RunnableThread {
         }));
 
         // 5. sort
-     //   sortByTurn(players, new AtomicInteger(1));
+        sortByTurn(players, players, new AtomicInteger(1));
     }
 
     private String getNamesFromPlayers(ArrayList<Player> players) {
@@ -78,10 +76,11 @@ public class Server extends RunnableThread {
     /**
      * Adds all the players to hasTable, id=turn value=player
      * */
-    private void sortByTurn(ArrayList<Player> players, AtomicInteger turn) {
+    private void sortByTurn(ArrayList<Player> all, ArrayList<Player> players, AtomicInteger turn) {
         if(players.size() == 0) return;
         if(players.size() == 1){
             this.players.put(turn.getAndIncrement(), players.get(0));
+            System.out.println("Se le asigna el turno a : " +  players.get(0).getName()+ " " +  (turn.get()-1));
             return;
         }
 
@@ -89,17 +88,29 @@ public class Server extends RunnableThread {
 
         ActionQueue actionQueue = new ActionQueue(new ArrayList<>(players));
         actionQueue.addAction(rollAllDices(players), null, DONE);
+        actionQueue.executeQueue();
 
+
+        // 1. creamos cadena de nombres
+        StringBuilder names = new StringBuilder();
+        players.forEach(player -> {
+            names.append(player.getName()).append(",");
+        });
+
+        // 2. sacamos los dados de todos
         int [] results = new int[3*players.size()];
-
+        int index = 0;
         for (int i = 0; i < players.size(); i++) {
             int[] dices = players.get(i).getDices();
-            for (int j = 0; j < dices.length; j++) {
-
-            }
+            results[index++] = dices[0];
+            results[index++] = dices[1];
+            results[index++] = dices[2];
         }
 
-        actionQueue.addAction(new Message(results, getNamesFromPlayers(players), DICES));
+        //le informamos a todos:
+        ActionQueue actionQueueAll = new ActionQueue(new ArrayList<>(all));
+        actionQueueAll.addAction(new Message(results, getNamesFromPlayers(players), DICES));
+        actionQueue.executeQueue();
 
         //1. tiramos los dados de todos
         for (Player player : players) {
@@ -111,15 +122,13 @@ public class Server extends RunnableThread {
                 list.put(dices[2], new ArrayList<>(Arrays.asList(player)));
         }
 
-        actionQueue.executeQueue();
-
         List<Integer> keys = list.entrySet().stream() // se ordenan las llaves de mayor a menor
                 .map(Map.Entry::getKey)
                 .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
 
         for (int i: keys) { // se recorre del mas alto al mas bajo
-            sortByTurn(list.get(i), turn);
+            sortByTurn(all, list.get(i), turn);
         }
     }
 
