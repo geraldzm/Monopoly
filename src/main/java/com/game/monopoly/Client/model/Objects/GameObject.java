@@ -1,4 +1,4 @@
-package com.game.monopoly.Client.model;
+package com.game.monopoly.Client.model.Objects;
 
 import com.game.monopoly.Client.model.Interfaces.*;
 import java.awt.*;

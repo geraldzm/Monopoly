@@ -1,7 +1,7 @@
-package com.game.monopoly.Client.model;
+package com.game.monopoly.Client.controller;
 
-import com.game.monopoly.Client.controller.*;
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
+import com.game.monopoly.Client.model.*;
 import com.game.monopoly.common.Comunication.*;
 import static com.game.monopoly.common.Comunication.IDMessage.*;
 import java.io.*;
@@ -42,6 +42,23 @@ public class GameListener {
         }
         
         amountPlayers = amount;
+    }
+    
+    // Settea el listener del chat
+    public Listener setChatListener() throws IOException{
+        ServerCommunication server = getServerCommunication();
+        
+        Listener chatListener = msg -> {
+            FrameController controller = FrameController.getInstance();
+            
+            GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
+            
+            gameController.addChatMsg(msg.getString());
+        };
+        
+        server.setChatListener(chatListener);
+        
+        return chatListener;
     }
     
     public Listener setListener() throws IOException{
@@ -87,6 +104,16 @@ public class GameListener {
                       controller.openWindow(FramesID.GAME);
 
                       server.sendMessage(DONE);
+                  }
+                  case DICE -> {
+                      System.out.println("Servidor: Se recibio un resultado de dado...");
+                      System.out.println("Iniciando animacion de dados");
+                      
+                      FrameController controller = FrameController.getInstance();
+                      GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
+                      
+                      gameController.triggerDiceAnimation(msg.getNumbers());
+                      gameController.triggerGlobalMsg("Se han tirado los dados!");
                   }
               }
         };  

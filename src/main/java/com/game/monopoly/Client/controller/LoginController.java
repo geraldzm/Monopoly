@@ -9,7 +9,6 @@ import com.game.monopoly.Client.view.LoginWindow;
 import javax.swing.*;
 
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
-import com.game.monopoly.Client.model.GameListener;
 import com.game.monopoly.Client.model.Player;
 import static com.game.monopoly.common.Comunication.IDMessage.*;
 

@@ -27,10 +27,12 @@ public class GameWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
         setBackground(new java.awt.Color(255, 102, 102));
-        setMinimumSize(new java.awt.Dimension(1500, 1000));
+        setMaximumSize(new java.awt.Dimension(1500, 1050));
+        setMinimumSize(new java.awt.Dimension(1500, 1050));
         setName("GameContainer"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(1500, 1050));
         setResizable(false);
-        setSize(new java.awt.Dimension(1500, 1000));
+        setSize(new java.awt.Dimension(1500, 1050));
         getContentPane().setLayout(null);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -84,7 +86,7 @@ public class GameWindow extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(930, 130, 550, 660);
         getContentPane().add(background);
-        background.setBounds(0, 0, 1500, 1000);
+        background.setBounds(0, 0, 1500, 1070);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -99,7 +101,7 @@ public class GameWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JLabel lbGeneralInfo;
-    private javax.swing.JTextArea taChat;
-    private javax.swing.JTextField tfChat;
+    public javax.swing.JTextArea taChat;
+    public javax.swing.JTextField tfChat;
     // End of variables declaration//GEN-END:variables
 }

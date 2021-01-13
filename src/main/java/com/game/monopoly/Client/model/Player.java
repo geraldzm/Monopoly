@@ -1,6 +1,6 @@
 package com.game.monopoly.Client.model;
 
-public class Player extends Token {
+public class Player{
     private static Player player;
     
     private String name;
@@ -9,7 +9,6 @@ public class Player extends Token {
     private int ID;
     
     private Player(String token) {
-        super(token);
         
         this.token = token;
     }
