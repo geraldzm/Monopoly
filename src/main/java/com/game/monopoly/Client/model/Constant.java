@@ -10,6 +10,8 @@ public class Constant {
     public static final int TOKEN_WIDTH = 32;
     public static final int TOKEN_HEIGHT = 32;
     
+    public static final int DICE_SIZE = 50;
+    
     public static final String devImgPath = "src/main/java/com/game/monopoly/Client/res/Image/"; 
     public static final String prodImgPath = "/home/gerald/develop/poo/Monopoly/src/main/java/com/game/monopoly/Client/res/Image/";
     
@@ -24,5 +26,14 @@ public class Constant {
         "token_5.png",
         "token_6.png",
         "token_7.png"
+    };
+    
+    public static final String[] dices = {
+        "dice_1.png",
+        "dice_2.png",
+        "dice_3.png",
+        "dice_4.png",
+        "dice_5.png",
+        "dice_6.png"
     };
 }

@@ -1,13 +1,13 @@
 package com.game.monopoly.Client.controller;
 
 import com.game.monopoly.Client.view.*;
-import java.util.HashMap;
+import java.util.*;
 
 public class FrameController {
     private static FrameController frameController;
     
-    HashMap<FramesID, IController> windows;
-    IController currentWindow;
+    private HashMap<FramesID, IController> windows;
+    private IController currentWindow;
     
     private FrameController(){
         windows = new HashMap<>();
@@ -26,6 +26,10 @@ public class FrameController {
         
         return frameController;
     }
+    
+    public IController getWindow(FramesID frame){
+        return windows.get(frame);
+    }        
     
     // Cambia de ventana principal
     public void openWindow(FramesID frame){

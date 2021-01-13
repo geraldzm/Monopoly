@@ -1,5 +1,8 @@
-package com.game.monopoly.Client.model;
+package com.game.monopoly.Client.model.Objects;
 
+import com.game.monopoly.Client.model.GameMatrix;
+import com.game.monopoly.Client.model.Objects.GameObject;
+import com.game.monopoly.Client.model.Utils;
 import static com.game.monopoly.Client.model.Constant.*;
 import java.awt.*;
 import java.util.*;

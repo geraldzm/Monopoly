@@ -2,6 +2,7 @@ package com.game.monopoly.Client.model;
 
 import static com.game.monopoly.Client.model.Constant.*;
 import com.game.monopoly.Client.model.Handler.*;
+import com.game.monopoly.Client.model.Objects.*;
 import java.awt.*;
 import java.awt.image.*;
 import java.util.*;
@@ -21,7 +22,9 @@ public class Game extends Canvas implements Runnable {
     private final HashMap<Integer, Token> players;
     
     private long since;
-    private final long sinceD = 20000;
+    private final long sinceD = 10000;
+    
+    public Dice dice1, dice2;
 
     public Game(){
         matrix = new GameMatrix(11, 11, CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -55,6 +58,12 @@ public class Game extends Canvas implements Runnable {
         handlerGameObjects.addObject(players.get(5));
         handlerGameObjects.addObject(players.get(6));
         handlerGameObjects.addObject(players.get(7));
+        
+        dice1 = new Dice(400, 400);
+        dice2 = new Dice(460, 400);
+        
+        handlerGameObjects.addObject(dice1);
+        handlerGameObjects.addObject(dice2);
         
         since = new Date().getTime();
     }
@@ -125,8 +134,8 @@ public class Game extends Canvas implements Runnable {
         handlerGameObjects.tick();
         
         if (since + sinceD - new Date().getTime() < 0){
-            for (int i = 0; i < handlerGameObjects.getList().size(); i++){
-                Token current = (Token) handlerGameObjects.getList().get(i);
+            for (int i = 0; i < 6; i++){
+                Token current = (Token) players.get(i);
                 if (!current.isAnimationOver()) continue;
                 
                 int moveTo = current.getCurrentPos() + new Random().nextInt(12);
@@ -137,6 +146,9 @@ public class Game extends Canvas implements Runnable {
             }
             
             since = new Date().getTime();
+            
+            dice1.setAnimation(new Random().nextInt(5) + 1);
+            dice2.setAnimation(new Random().nextInt(5) + 1);
         }
         
         g.dispose();
