@@ -42,10 +42,14 @@ public class OrderController implements IController, MouseListener{
     }
     
     private void initData(){
+        int j = 2;
+        
         for (int i = 0; i < 6; i++){
             if (i < playerList.length){
                 players[i].setText("Jugador: " + playerList[i]);
-                results[i].setText("Resultado: " + dices[i+2]);
+                results[i].setText("Resultado: " + dices[j-2] + " + " + dices[j-1] + " = " + dices[j]);
+                
+                j += 3;
             } else{
                 players[i].setText("");
                 results[i].setText("");
