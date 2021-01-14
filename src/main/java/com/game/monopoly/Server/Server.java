@@ -2,14 +2,12 @@ package com.game.monopoly.Server;
 
 
 
-import com.game.monopoly.common.Comunication.Message;
-import com.game.monopoly.common.RunnableThread;
-
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-
+import com.game.monopoly.common.Comunication.*;
+import com.game.monopoly.common.*;
 import static com.game.monopoly.common.Comunication.IDMessage.*;
+import java.util.*;
+import java.util.concurrent.atomic.*;
+import java.util.stream.*;
 
 
 public class Server extends RunnableThread {
@@ -110,7 +108,8 @@ public class Server extends RunnableThread {
         //le informamos a todos:
         ActionQueue actionQueueAll = new ActionQueue(new ArrayList<>(all));
         actionQueueAll.addAction(new Message(results, getNamesFromPlayers(players), DICES));
-        actionQueue.executeQueue();
+        actionQueueAll.executeQueue();
+        
 
         //1. tiramos los dados de todos
         for (Player player : players) {
