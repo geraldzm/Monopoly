@@ -19,7 +19,7 @@ public enum IDMessage implements Serializable {
     ID(true),
     NAME,
     NAMES,
-    TURNRS,
+    TURNRS(true),
     TURN,
     //######main.java.Client -> main.java.Server######
     RESPONSE,
@@ -76,9 +76,12 @@ public enum IDMessage implements Serializable {
 * de ID, desde cero para arriba
 * e.g. "Carlos,Maria,Mario,valeria"   para el cliente llamado Mario con ID 2
 *
-* TURNRS: se esta enviando los resultados de los dados para elegir el orden de turno
+* DICES: se esta enviando los resultados de los dados para elegir el orden de turno
 * String "Carlos,Maria,valeria"   int [1, 2, 3, 4, 5, 9, 6, 4, 10]
 *
+* TURNRS: se envia cuando se esta eliguiendo el orden de turno, lleva un int que representa el turno del cliente
+*
+* TURN: le indica al cliente que es su turno de jugar
 * #######################################################################
 * --------------------client->main.java.Server------------------------
 *

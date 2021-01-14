@@ -5,6 +5,7 @@ Monopoly.iml
 src/main/java/META-INF/
 
 *.png
+*.jpg
 
 # Netbeans
 target/

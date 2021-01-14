@@ -79,6 +79,9 @@ public class Server extends RunnableThread {
         if(players.size() == 1){
             this.players.put(turn.getAndIncrement(), players.get(0));
             System.out.println("Se le asigna el turno a : " +  players.get(0).getName()+ " " +  (turn.get()-1));
+            ActionQueue actionTurn = new ActionQueue(players.get(0));
+            actionTurn.addAction(new Message((turn.get()-1), TURNRS));
+            actionTurn.executeQueue();
             return;
         }
 

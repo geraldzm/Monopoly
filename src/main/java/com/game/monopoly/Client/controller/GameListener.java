@@ -134,6 +134,13 @@ public class GameListener {
                       
                       controller.openNewWindow(FramesID.DICEORDER);
                   }
+
+                  case TURNRS -> {
+                      //* TURNRS (turn results): se envia cuando se esta eliguiendo el orden de turno, lleva un int que representa el turno del cliente
+                      JOptionPane.showConfirmDialog(window, "Mi turno será: " + msg.getNumber());
+                      server.sendMessage(DONE);
+                  }
+
               }
         };  
             
