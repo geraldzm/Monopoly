@@ -4,14 +4,14 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[600, 370]"/>
+      <Dimension value="[800, 370]"/>
     </Property>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[600, 370]"/>
+      <Dimension value="[800, 370]"/>
     </Property>
     <Property name="resizable" type="boolean" value="false"/>
     <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[600, 370]"/>
+      <Dimension value="[800, 370]"/>
     </Property>
   </Properties>
   <SyntheticProperties>
@@ -33,7 +33,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -48,6 +48,12 @@
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[800, 370]"/>
+        </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[800, 370]"/>
+        </Property>
       </Properties>
 
       <Layout>
@@ -56,42 +62,34 @@
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="lbRst0" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
-                                      <Component id="lbPlayer0" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="lbRst1" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
-                                      <Component id="lbPlayer1" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="lbRst3" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
-                                      <Component id="lbPlayer3" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="lbRst4" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
-                                      <Component id="lbPlayer4" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
+                              <Component id="lbRst0" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                              <Component id="lbPlayer0" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                              <Component id="lbRst3" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                              <Component id="lbPlayer3" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="115" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lbRst1" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                              <Component id="lbPlayer1" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                              <Component id="lbRst4" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                              <Component id="lbPlayer4" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="136" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="lbRst5" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
                               <Component id="lbPlayer5" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
                               <Component id="lbRst2" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
                               <Component id="lbPlayer2" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="85" max="32767" attributes="0"/>
               </Group>
               <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
           </Group>
