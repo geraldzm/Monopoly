@@ -2,7 +2,7 @@ package com.game.monopoly.Client.view;
 
 import javax.swing.*;
 
-public class Card extends JPanel {
+public class Card extends JLayeredPane {
 
     private JLabel imageLabel;
     private final int id;
@@ -17,7 +17,7 @@ public class Card extends JPanel {
 
         setSize(image.getIconWidth(), image.getIconHeight());
         setLayout(null);
-        add(imageLabel);
+        add(imageLabel, 1,0);
     }
 
 
