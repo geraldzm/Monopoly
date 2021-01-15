@@ -13,16 +13,22 @@ public class MainWindow extends JFrame {
         //var controller = new CardsController(new CardsWindow());
         //var controller = new OrderController(new OrderWindow());
 
-/*
-        CardsScrollWindow cardsScrollWindow = new CardsScrollWindow(new int[]{1,3,4,11,13,14,17}, CardWindowType.FRIEND);
+
+        CardsScrollWindow cardsScrollWindow = new CardsScrollWindow(new int[]{1,3,4,5,6,8,9,11,12,13,14,15,16,18,19,21,23,24,25,26,27,28,29,31,32,34,35,37,38,39}, CardWindowType.FRIEND);
         cardsScrollWindow.setVisible(true);
+
+/*
+        for (int i = 42; i < 74; i++) {
+            CardWindow cardWindow = new CardWindow(i, CardWindowType.ENEMY);
+            cardWindow.setVisible(true);
+        }
+
+
+        CardWindow cardWindow = new CardWindow(67, CardWindowType.ENEMY);
+        cardWindow.setVisible(true); 
 */
-
-        CardWindow cardWindow = new CardWindow(63, CardWindowType.ENEMY);
-        cardWindow.setVisible(true);
-
         
-      //  controller.init();
-       // controller.start();
+      // controller.init();
+      // controller.start();
     }
 }

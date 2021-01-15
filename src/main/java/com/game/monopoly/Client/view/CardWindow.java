@@ -13,7 +13,7 @@ public class CardWindow extends JFrame{
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocation(750, 350);
         setSize(card.getWidth()+17, card.getHeight() + 40);
-        if (cardValue > 41) setSize(card.getWidth()+17, card.getHeight()+40);
+        if (cardValue > 41) setSize(card.getWidth()+16, card.getHeight()+39);
         setLayout(null);
         setResizable(false);
         add(card);

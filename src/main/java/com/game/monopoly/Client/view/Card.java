@@ -17,7 +17,7 @@ public class Card extends JPanel {
 
         setSize(image.getIconWidth(), image.getIconHeight());
         setLayout(null);
-        //add(imageLabel);
+        add(imageLabel);
         
     }
 

@@ -24,7 +24,7 @@ public class CasualCard extends Card{
         string = new JTextArea();
         string.setEditable(false);//Puede escribir
         string.setOpaque(false);//Fondo
-        string.setFont(new Font("Arial Black", Font.BOLD, 12));//Tipo de letra
+        string.setFont(new Font("Arial Black", Font.BOLD, 13));//Tipo de letra
         string.setForeground(Color.black);//Color de la letra
         string.setBounds(50, 90, 1000, 100);//Setear texto despues en la carta
         string.setText(text);
