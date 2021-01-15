@@ -22,6 +22,7 @@ public enum IDMessage implements Serializable {
     TURNRS(true),
     TURN,
     GETTOKEN,
+    TOKENS,
     //######main.java.Client -> main.java.Server######
     RESPONSE,
     DONE
@@ -83,6 +84,8 @@ public enum IDMessage implements Serializable {
 * TURNRS: se envia cuando se esta eliguiendo el orden de turno, lleva un int que representa el turno del cliente
 *
 * TURN: le indica al cliente que es su turno de jugar
+*
+* TOKENS: resultado de los tokens
 * #######################################################################
 * --------------------client->main.java.Server------------------------
 *

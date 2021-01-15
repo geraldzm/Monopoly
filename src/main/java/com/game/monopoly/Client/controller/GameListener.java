@@ -3,6 +3,7 @@ package com.game.monopoly.Client.controller;
 import com.game.monopoly.Client.controller.GameListener;
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
 import com.game.monopoly.Client.model.*;
+import com.game.monopoly.Client.view.ComboBoxPopUp;
 import com.game.monopoly.common.Comunication.*;
 import static com.game.monopoly.common.Comunication.IDMessage.*;
 import java.io.*;
@@ -138,8 +139,26 @@ public class GameListener {
 
                   case GETTOKEN -> {
                       System.out.println("Tokens disponibles: " + Arrays.toString(msg.getNumbers()));
-                      String eliga_un_token = JOptionPane.showInputDialog("Eliga un token" +"  : " + player.getName());
-                      server.sendMessage(new Message(Integer.parseInt(eliga_un_token), RESPONSE));
+                      new ComboBoxPopUp(msg.getNumbers()); // la respuesta al server esta en la accion del boton (en el controlador)
+                  }
+
+                  case GIVEMONEY -> {
+                      // trae un mensaje en el string con la razon por la que se le da la plata
+                      // tiene la cantidad de plata que se le esta dando en el numero
+                      JOptionPane.showMessageDialog(window, String.format("%s: %s", msg.getString(), msg.getNumber(), player.getName()), "Money", JOptionPane.INFORMATION_MESSAGE);
+                      server.sendMessage(DONE);
+                  }
+
+                  case TOKENS -> {
+
+                      int[] rs = msg.getNumbers(); // tokens recibidos, el orden es el mismo que el ID de cada jugador 0-n
+                      System.out.println("Resultado de los tokens: ");
+
+                      for (int i = 0; i < rs.length; i++) {
+                          System.out.println(String.format("\tEl di: %d escogió el token= %d", i, rs[i]));
+                      }
+
+                      server.sendMessage(DONE);
                   }
               }
         };  

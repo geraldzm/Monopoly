@@ -13,14 +13,15 @@ import java.util.stream.*;
 public class Server extends RunnableThread {
 
 
-    private Hashtable<Integer, Player> players;
-    private ArrayList<Player> playersByIds;
+    private Hashtable<Integer, Player> players; // Integer = turn; 0-n
+    private ArrayList<Player> playersByIds; // order = id; 0-n
     private int turn;
 
     public Server() {
         players = new Hashtable<>();
         playersByIds = connectPlayers();
         gameInit(playersByIds); // conectamos a todos && settiamos el juego
+        turn = 0;
     }
 
     @Override
@@ -55,6 +56,10 @@ public class Server extends RunnableThread {
         // 6. get tokens
         getSelectedTokens();
 
+        // 7. set initial money
+        actionQueue.addAction(new Message(1500,"El banco le da $1500", GIVEMONEY));
+        actionQueue.executeQueue();
+        players.forEach(p -> p.setCash(1500));
     }
 
     private void getSelectedTokens() {
@@ -75,6 +80,17 @@ public class Server extends RunnableThread {
             singleAction.addAction(new Message(ref.tokens, GETTOKEN), tokenSelectionListener);
             singleAction.executeQueue();
         }
+
+
+        //set tokens to everyone
+        ActionQueue actionQueue= new ActionQueue(new ArrayList<>(playersByIds));
+
+        AtomicInteger i = new AtomicInteger(0);
+        int[] tokens = new int[players.size()];
+        playersByIds.forEach(p -> tokens[i.getAndIncrement()] = p.getToken());
+
+        actionQueue.addAction(new Message(tokens, TOKENS));
+        actionQueue.executeQueue();
     }
 
     private void assignIds(ArrayList<Player> players, ActionQueue actionQueue) {
