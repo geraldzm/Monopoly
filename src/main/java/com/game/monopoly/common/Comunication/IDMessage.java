@@ -21,6 +21,8 @@ public enum IDMessage implements Serializable {
     NAMES,
     TURNRS(true),
     TURN,
+    GETTOKEN,
+    REJECTEDTOKEN,
     //######main.java.Client -> main.java.Server######
     RESPONSE,
     DONE

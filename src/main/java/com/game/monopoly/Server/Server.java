@@ -61,6 +61,32 @@ public class Server extends RunnableThread {
 
         // 5. sort
         sortByTurn(players, players, new AtomicInteger(1));
+
+        // 6. get tokens
+        HashSet<Integer> tokens = new HashSet<>();
+
+        getTokens(players, tokens);
+    }
+
+    private void getTokens(ArrayList<Player> players, HashSet<Integer> tokens) {
+
+        ActionQueue actionQueue = new ActionQueue(new ArrayList<>(players));
+
+        Listener requestResponse = message -> {
+
+            System.out.println("El id: " + message.getId() + " tiene el token=" + message.getNumber());
+            Player player = players.stream().filter(p -> message.getId() == p.getId()).findFirst().get();
+
+            if(tokens.contains(message.getNumber())){ // BUG de concurrencia
+                getTokens( new ArrayList<>(Arrays.asList(player)), tokens);
+            }else {
+                tokens.add(message.getNumber());
+                player.setToken(message.getNumber());
+            }
+        };
+
+        actionQueue.addAction(new Message(GETTOKEN), requestResponse);
+        actionQueue.executeQueue();
     }
 
     private String getNamesFromPlayers(ArrayList<Player> players) {

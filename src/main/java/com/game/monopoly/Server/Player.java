@@ -14,7 +14,7 @@ import java.util.Random;
  * */
 public class Player extends ChatConnection {
 
-    private int cash, id;
+    private int cash, id, token;
     private String name;
     private boolean go; //if he has gone through GO
     private static int count;
@@ -72,5 +72,13 @@ public class Player extends ChatConnection {
 
     public void setDices(int[] dices) {
         this.dices = dices;
+    }
+
+    public int getToken() {
+        return token;
+    }
+
+    public void setToken(int token) {
+        this.token = token;
     }
 }

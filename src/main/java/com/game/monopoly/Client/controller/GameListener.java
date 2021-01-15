@@ -136,6 +136,17 @@ public class GameListener {
                       server.sendMessage(DONE);
                   }
 
+                  case GETTOKEN -> {
+                      String eliga_un_token = JOptionPane.showInputDialog("Eliga un token");
+                      server.sendMessage(new Message( Integer.parseInt(eliga_un_token), RESPONSE));
+                  }
+
+                  case REJECTEDTOKEN ->{
+                      JOptionPane.showMessageDialog(null, "Alguien mas ya eligió esa ficha!", "Rechazado", JOptionPane.ERROR_MESSAGE);
+                      String eliga_un_token = JOptionPane.showInputDialog("Eliga un token");
+                      server.sendMessage(new Message( Integer.parseInt(eliga_un_token), RESPONSE));
+                  }
+
               }
         };  
             

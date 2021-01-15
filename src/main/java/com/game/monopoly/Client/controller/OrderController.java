@@ -68,6 +68,7 @@ public class OrderController implements IController, MouseListener{
         }
         
         window.setVisible(false);
+        window.dispose();
     }
 
     @Override
@@ -75,7 +76,6 @@ public class OrderController implements IController, MouseListener{
         if (e.getSource().equals(window.btnExit)){
             close();
         }
-        
     }
 
     @Override
