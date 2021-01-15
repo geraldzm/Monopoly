@@ -10,6 +10,7 @@ import javax.swing.*;
 
 public class OrderController implements IController, MouseListener{
     private OrderWindow window;
+    private int n = 0;
     
     JLabel[] players = new JLabel[6];
     JLabel[] results = new JLabel[6];
@@ -42,14 +43,12 @@ public class OrderController implements IController, MouseListener{
     }
     
     private void initData(){
-        int j = 2;
-        
+
         for (int i = 0; i < 6; i++){
+
             if (i < playerList.length){
-                players[i].setText("Jugador: " + playerList[i]);
-                results[i].setText("Resultado: " + dices[j-2] + " + " + dices[j-1] + " = " + dices[j]);
-                
-                j += 3;
+                players[i].setText(playerList[i]);
+                results[i].setText("Dices " + dices[i*3] + " + " + dices[i*3+1] + " =" + dices[i*3+2]);
             } else{
                 players[i].setText("");
                 results[i].setText("");
@@ -60,9 +59,10 @@ public class OrderController implements IController, MouseListener{
     @Override
     public void close() {
         try {
-            ServerCommunication server = getServerCommunication();
+            System.out.println("Se preciona el close: " + (++n));
 
-            server.sendMessage(DONE);
+            getServerCommunication().sendMessage(DONE);
+
         } catch (IOException ex) {
             System.out.println("ERROR: " + ex.getMessage());
         }

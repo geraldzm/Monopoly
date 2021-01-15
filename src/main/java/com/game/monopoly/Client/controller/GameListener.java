@@ -92,18 +92,15 @@ public class GameListener {
                   }
 
                   case NAME -> {
-                      System.out.println("Local: Enviando nombre de usuario al servidor...");
                       System.out.println( player.getName());
                       server.sendMessage(new Message(player.getID(), player.getName(), RESPONSE));
                   }
 
                   case NAMES -> {
-                      System.out.println("Todos los jugadores: " + msg.getString());
                       server.sendMessage(DONE);
                   }
 
                   case STARTED -> {
-                      System.out.println("Servidor: El juego puede iniciar...");
                       FrameController controller = FrameController.getInstance();
                       
                       controller.openWindow(FramesID.GAME);
@@ -111,9 +108,6 @@ public class GameListener {
                       server.sendMessage(DONE);
                   }
                   case DICE -> {
-                      System.out.println("Servidor: Se recibio un resultado de dado...");
-                      System.out.println("Iniciando animacion de dados");
-                      
                       FrameController controller = FrameController.getInstance();
                       GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
 
@@ -137,7 +131,7 @@ public class GameListener {
 
                   case TURNRS -> {
                       //* TURNRS (turn results): se envia cuando se esta eliguiendo el orden de turno, lleva un int que representa el turno del cliente
-                      JOptionPane.showConfirmDialog(window, "Mi turno será: " + msg.getNumber());
+                      JOptionPane.showMessageDialog(null, "Mi turno será: " + msg.getNumber());
                       server.sendMessage(DONE);
                   }
 

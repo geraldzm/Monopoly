@@ -34,14 +34,17 @@ public class ActionQueue {
     public ActionQueue(Connection recipient) {
         this.recipients = new ArrayList<>();
         this.recipients.add(recipient);
+        System.out.println("Cola creada con: 1 personas");
     }
 
     public ActionQueue(List<Connection> recipients) {
         this.recipients = recipients;
+        System.out.println("Cola creada con: " + recipients.size() + " personas");
     }
 
     public ActionQueue(Hashtable<Integer, Player> recipients) {
         this.recipients = new ArrayList<>(recipients.values());
+        System.out.println("Cola creada con: " + recipients.size() + " personas");
     }
 
     public void addAction(Message message){

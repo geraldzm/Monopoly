@@ -5,8 +5,9 @@ public class GameWindow extends javax.swing.JFrame {
 
     public GameWindow() {
         initComponents();
-        setSize(new java.awt.Dimension(1500, 1000));
-        setResizable(false);
+       // setSize(new java.awt.Dimension(1500, 1000));
+        setSize(new java.awt.Dimension(600, 600));
+        setResizable(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -32,7 +33,7 @@ public class GameWindow extends javax.swing.JFrame {
         setName("GameContainer"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1500, 1050));
         setResizable(false);
-        setSize(new java.awt.Dimension(1500, 1050));
+        setSize(new java.awt.Dimension(600, 600));
         getContentPane().setLayout(null);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
