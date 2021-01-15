@@ -21,6 +21,14 @@ public class Token extends GameObject{
         movesQueue = new LinkedList<>();
         pos = GameMatrix.indexToPos(0);
     }
+
+    // Constructor para los players
+    protected Token(){
+        super(null);
+
+        movesQueue = new LinkedList<>();
+        pos = GameMatrix.indexToPos(0);
+    }
     
     @Override
     public void tick(){

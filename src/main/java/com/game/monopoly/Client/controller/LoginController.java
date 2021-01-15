@@ -8,10 +8,11 @@ import com.game.monopoly.Client.model.Utils;
 import com.game.monopoly.Client.view.LoginWindow;
 import javax.swing.*;
 
-import com.game.monopoly.Client.model.Player;
+import com.game.monopoly.Client.model.Objects.Player;
 
 public class LoginController implements IController, MouseListener {
     private LoginWindow window;
+    private boolean isLogged;
     
     public LoginController(LoginWindow window){
         this.window = window;
@@ -26,6 +27,8 @@ public class LoginController implements IController, MouseListener {
 
     @Override
     public void init() {
+        isLogged = false;
+
         try {
             window.btnPlay.addMouseListener(this);
             window.btnExit.addMouseListener(this);
@@ -57,12 +60,18 @@ public class LoginController implements IController, MouseListener {
     
     // Evento del boton jugar
     private void playButton() {
+        if (isLogged){
+            JOptionPane.showMessageDialog(window, "Usted ya ha iniciado sesion...");
+
+            return;
+        }
+
         if (!isAValidField(window.tfUserName.getText())){
             JOptionPane.showMessageDialog(window, "El nombre de usuario no puede contener ',', estar vacio o empezar con espacios en blanco");
             
             return;
         }
-        
+        isLogged = true;
         GameListener listener = GameListener.getInstance();
         Player player = Player.getInstance();
         
@@ -73,6 +82,7 @@ public class LoginController implements IController, MouseListener {
             listener.setListener();
         } catch (IOException ex) {
             System.out.println("LISTENER ERROR: " + ex.getMessage());
+            isLogged = false;
         }
     }
     

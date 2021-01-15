@@ -3,6 +3,8 @@ package com.game.monopoly.Client.controller;
 
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
 import com.game.monopoly.Client.model.*;
+import com.game.monopoly.Client.model.Objects.Player;
+import com.game.monopoly.Client.model.Objects.Players;
 import com.game.monopoly.Client.view.*;
 import java.awt.event.*;
 import java.io.*;
@@ -114,7 +116,15 @@ public class GameController implements IController, MouseListener{
         }, 
         5000);
     }
-    
+
+    public void setPlayerPosition(Players player, int position, boolean direction){
+        game.movePlayer(player, position, direction);
+    }
+
+    public void addPlayers(HashMap<Integer, Players> players){
+        game.initPlayers(players);
+    }
+
     // Evento cuando se clickea el boton de abrir propiedades
     private void onBtnCardsClicked(){
         var controller = new CardsController(new CardsWindow());

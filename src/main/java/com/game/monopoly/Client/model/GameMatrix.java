@@ -23,33 +23,54 @@ public class GameMatrix {
         
         gameMatrix = new Token[totalCards][2][objectsPerCard / 2];
     }
-    
+
     // Recibe un index de la posicion de la carta y lo settea en la matriz
     public void addPlayer(Token token){
         int initialPos = 0;
-        
+
         Point pos = getFreePosition(initialPos);
-        
+
         // Esto no deberia pasar, pero, para evitar errores
         if (pos == null) return;
-        
+
         token.setCurrentPos(initialPos);
         token.setMatrixPos(pos);
-        
+
         gameMatrix[initialPos][pos.y][pos.x] = token;
-        
+
+        token.setPos(getPosition(indexToPos(initialPos), pos.x, pos.y));
+    }
+
+    // Recibe un index de la posicion de la carta y lo settea en la matriz
+    public void addPlayer(Token token, int initialPos){
+        Point pos = getFreePosition(initialPos);
+
+        // Esto no deberia pasar, pero, para evitar errores
+        if (pos == null) return;
+
+        token.setCurrentPos(initialPos);
+        token.setMatrixPos(pos);
+
+        gameMatrix[initialPos][pos.y][pos.x] = token;
+
         token.setPos(getPosition(indexToPos(initialPos), pos.x, pos.y));
     }
     
-    public void movePlayer(Token token, int card){
-        if (token.getCurrentPos() < card){
-            for (int i = token.getCurrentPos(); i < card; i++){
-                setPlayer(token, i);
-            }
-        }else{
-            for (int i = token.getCurrentPos(); i > card; i--){
-                setPlayer(token, i);
-            }
+    public void movePlayer(Token token, int card, boolean isBackwards){
+        boolean isAtPosition = false;
+        int index = token.getCurrentPos();
+
+        while (!isAtPosition){
+            setPlayer(token, index);
+
+            // Lo redireccionamos
+            index = (isBackwards) ? index - 1 : index + 1;
+
+            // Evitamos que salga de los indices
+            index = (index < 0) ? 39 : index;
+            index = (index >= 40) ? 0 : index;
+
+            isAtPosition = index == card;
         }
     }
     

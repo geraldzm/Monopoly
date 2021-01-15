@@ -1,8 +1,10 @@
 package com.game.monopoly.Client.controller;
 
-import com.game.monopoly.Client.controller.GameListener;
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
-import com.game.monopoly.Client.model.*;
+
+import com.game.monopoly.Client.model.Objects.Player;
+import com.game.monopoly.Client.model.Objects.Players;
+import com.game.monopoly.Client.model.Objects.Token;
 import com.game.monopoly.common.Comunication.*;
 import static com.game.monopoly.common.Comunication.IDMessage.*;
 import java.io.*;
@@ -12,10 +14,12 @@ import javax.swing.*;
 public class GameListener {
     private static GameListener listener;
     private JFrame window;
+
     private int amountPlayers;
-    
+    private HashMap<Integer, Token> players; // Esta la vamos a usar para instanciar a los jugadores
+
     private GameListener(){
-        
+        players = new HashMap<>();
     }
     
     // Singleton para el Listener
@@ -88,6 +92,10 @@ public class GameListener {
                   case ID -> {
                       System.out.println("Servidor: Se ha recibido la ID: " + msg.getNumber());
                       player.setID(msg.getNumber());
+
+                      // Lo agregamos a los jugadores
+                      players.put(player.getID(), player);
+
                       server.sendMessage(DONE);
                   }
 
@@ -97,6 +105,17 @@ public class GameListener {
                   }
 
                   case NAMES -> {
+                      String playerNames[] = msg.getString().split(",");
+
+                      for (int ID = 0; ID < playerNames.length; ID++){
+                          // Evitamos agregar el jugador
+                          if (ID == player.getID()) continue;
+
+                          Players currentPlayer = new Players();
+
+                          players.put(ID, currentPlayer);
+                      }
+
                       server.sendMessage(DONE);
                   }
 

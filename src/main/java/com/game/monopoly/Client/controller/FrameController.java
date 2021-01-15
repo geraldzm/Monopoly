@@ -45,9 +45,33 @@ public class FrameController {
     
     // Abre una nueva ventana sin sustituir a la principal
     public void openNewWindow(FramesID frame){
-        windows.get(frame).init();
-        windows.get(frame).start();
+        IController controller = generateWindow(frame);
+
+        controller.init();
+        controller.start();
     }
     
-    
+    // Genera una nueva instancia de una ventana
+    private static IController generateWindow(FramesID frame){
+        IController controller = null;
+        
+        switch(frame){
+            case LOGIN:
+                controller = new LoginController(new LoginWindow());
+                break;
+            case GAME:
+                controller = new GameController(new GameWindow());
+                break;
+            case CARDS:
+                break;
+            case TABLE:
+                controller = new CardsController(new CardsWindow());
+                break;
+            case DICEORDER:
+                controller = new OrderController(new OrderWindow());
+                break;
+        }
+
+        return controller;
+    }
 }
