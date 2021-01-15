@@ -132,12 +132,12 @@ public class GameListener {
 
                   case TURNRS -> {
                       //* TURNRS (turn results): se envia cuando se esta eliguiendo el orden de turno, lleva un int que representa el turno del cliente
-                      JOptionPane.showMessageDialog(null, "Mi turno será: " + msg.getNumber());
+                      JOptionPane.showMessageDialog(null, "Mi turno será: " + msg.getNumber()+"  : " + player.getName());
                       server.sendMessage(DONE);
                   }
 
                   case GETTOKEN -> {
-                      String eliga_un_token = JOptionPane.showInputDialog("Eliga un token");
+                      String eliga_un_token = JOptionPane.showInputDialog("Eliga un token" +"  : " + player.getName());
                       server.sendMessage(new Message( Integer.parseInt(eliga_un_token), RESPONSE));
                   }
 

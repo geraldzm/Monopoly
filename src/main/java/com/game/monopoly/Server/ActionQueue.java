@@ -29,7 +29,6 @@ public class ActionQueue {
         synchronized (lock){
             done++;
             if(m.getId() != null) ready.add(m.getId());
-            else System.out.println("id nullo");
             lock.notify();
         }
     };
@@ -78,7 +77,6 @@ public class ActionQueue {
             action = actionsQueue.poll().orElse(null);
             ArrayList<Message> messages = queueMessages.poll().orElse(null);
             Predicate<Message> filter = filters.poll().orElse(message -> true).and(m -> {
-                System.out.println(" se valida por iD: " + !ready.contains(m.getId()) + " " + m.getId());
                 return !ready.contains(m.getId());
             } );
 

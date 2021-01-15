@@ -64,7 +64,6 @@ public class Server extends RunnableThread {
 
         // 6. get tokens
         HashSet<Integer> tokens = new HashSet<>();
-
         getTokens(players, tokens);
     }
 
@@ -79,6 +78,7 @@ public class Server extends RunnableThread {
 
             if(tokens.contains(message.getNumber())){ // BUG de concurrencia
                 getTokens( new ArrayList<>(Arrays.asList(player)), tokens);
+                System.out.println("Se rechaza un tokens");
             }else {
                 tokens.add(message.getNumber());
                 player.setToken(message.getNumber());

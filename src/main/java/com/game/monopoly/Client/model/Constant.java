@@ -15,7 +15,7 @@ public class Constant {
     public static final String devImgPath = "src/main/java/com/game/monopoly/Client/res/Image/"; 
     public static final String prodImgPath = "/home/gerald/develop/poo/Monopoly/src/main/java/com/game/monopoly/Client/res/Image/";
     
-    public static final boolean isProd = true;
+    public static final boolean isProd = false;
 
     public static final String[] tokens = {
         "token_0.png",

@@ -105,7 +105,7 @@ public class Game extends Canvas implements Runnable {
             }
 
             if(shouldRender) {
-              //  render();
+                render();
                 frames++;
             }
 
