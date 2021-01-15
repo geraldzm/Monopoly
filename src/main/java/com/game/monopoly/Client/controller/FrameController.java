@@ -13,7 +13,6 @@ public class FrameController {
         
         windows.put(FramesID.LOGIN, new LoginController(new LoginWindow()));
         windows.put(FramesID.GAME, new GameController(new GameWindow()));
-        windows.put(FramesID.CARDS, null); // Nececesito el merge con la rama de Niko
         windows.put(FramesID.TABLE, new CardsController(new CardsWindow()));
         windows.put(FramesID.DICEORDER, new OrderController(new OrderWindow()));
     }

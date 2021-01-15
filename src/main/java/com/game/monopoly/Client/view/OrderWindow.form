@@ -67,27 +67,27 @@
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lbRst0" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="lbPlayer0" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
-                              <Component id="lbRst3" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
                               <Component id="lbPlayer3" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                              <Component id="lbRst0" pref="222" max="32767" attributes="0"/>
+                              <Component id="lbRst3" alignment="0" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="115" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lbRst1" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="lbPlayer1" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
-                              <Component id="lbRst4" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
                               <Component id="lbPlayer4" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                              <Component id="lbRst1" alignment="0" pref="222" max="32767" attributes="0"/>
+                              <Component id="lbRst4" alignment="0" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="136" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lbRst5" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                          <EmptySpace pref="39" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="lbPlayer5" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
-                              <Component id="lbRst2" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
                               <Component id="lbPlayer2" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                              <Component id="lbRst2" pref="220" max="32767" attributes="0"/>
+                              <Component id="lbRst5" alignment="0" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
