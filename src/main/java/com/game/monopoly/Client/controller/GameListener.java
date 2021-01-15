@@ -137,16 +137,10 @@ public class GameListener {
                   }
 
                   case GETTOKEN -> {
+                      System.out.println("Tokens disponibles: " + Arrays.toString(msg.getNumbers()));
                       String eliga_un_token = JOptionPane.showInputDialog("Eliga un token" +"  : " + player.getName());
-                      server.sendMessage(new Message( Integer.parseInt(eliga_un_token), RESPONSE));
+                      server.sendMessage(new Message(Integer.parseInt(eliga_un_token), RESPONSE));
                   }
-
-                  case REJECTEDTOKEN ->{
-                      JOptionPane.showMessageDialog(null, "Alguien mas ya eligió esa ficha!", "Rechazado", JOptionPane.ERROR_MESSAGE);
-                      String eliga_un_token = JOptionPane.showInputDialog("Eliga un token");
-                      server.sendMessage(new Message( Integer.parseInt(eliga_un_token), RESPONSE));
-                  }
-
               }
         };  
             

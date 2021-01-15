@@ -76,9 +76,7 @@ public class ActionQueue {
             // POPS
             action = actionsQueue.poll().orElse(null);
             ArrayList<Message> messages = queueMessages.poll().orElse(null);
-            Predicate<Message> filter = filters.poll().orElse(message -> true).and(m -> {
-                return !ready.contains(m.getId());
-            } );
+            Predicate<Message> filter = filters.poll().orElse(message -> true).and(m ->!ready.contains(m.getId()));
 
             // SEND
             for (int i = 0; i < recipients.size(); i++) {

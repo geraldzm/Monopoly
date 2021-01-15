@@ -14,12 +14,13 @@ public class Server extends RunnableThread {
 
 
     private Hashtable<Integer, Player> players;
+    private ArrayList<Player> playersByIds;
     private int turn;
 
     public Server() {
         players = new Hashtable<>();
-        gameInit(connectPlayers()); // conectamos a todos && settiamos el juego
-
+        playersByIds = connectPlayers();
+        gameInit(playersByIds); // conectamos a todos && settiamos el juego
     }
 
     @Override
@@ -32,19 +33,10 @@ public class Server extends RunnableThread {
      * <h3>Game configs</h3>
      * */
     private void gameInit(ArrayList<Player> players) {
+        ActionQueue actionQueue = new ActionQueue(new ArrayList<>(players));
 
         // 1. assign ids
-        ArrayList<Message> messages = new ArrayList<>();
-        players.forEach(player ->{ // each player has a different message
-            player.setId(messages.size());
-            messages.add(new Message(player.getId(), ID));
-        });
-
-        ActionQueue actionQueue = new ActionQueue(new ArrayList<>(players));
-        actionQueue.addAction(messages, null, DONE);
-        actionQueue.executeQueue();
-
-        System.out.println("Se asignan los IDs");
+        assignIds(players, actionQueue);
 
         // 2. request each player a name
         actionQueue.addAction(new Message(NAME), message -> players.get(message.getNumber()).setName(message.getString()));
@@ -55,38 +47,47 @@ public class Server extends RunnableThread {
         actionQueue.executeQueue();
 
         // 4. init chat
-        players.forEach(p -> p.setChatListener(m -> {
-            players.forEach(p2 -> p2.sendChatMessage(m, p));
-        }));
+        players.forEach(p -> p.setChatListener(m -> players.forEach(p2 -> p2.sendChatMessage(m, p))));
 
         // 5. sort
         sortByTurn(players, players, new AtomicInteger(1));
 
         // 6. get tokens
-        HashSet<Integer> tokens = new HashSet<>();
-        getTokens(players, tokens);
+        getSelectedTokens();
+
     }
 
-    private void getTokens(ArrayList<Player> players, HashSet<Integer> tokens) {
-
-        ActionQueue actionQueue = new ActionQueue(new ArrayList<>(players));
-
-        Listener requestResponse = message -> {
-
-            System.out.println("El id: " + message.getId() + " tiene el token=" + message.getNumber());
-            Player player = players.stream().filter(p -> message.getId() == p.getId()).findFirst().get();
-
-            if(tokens.contains(message.getNumber())){ // BUG de concurrencia
-                getTokens( new ArrayList<>(Arrays.asList(player)), tokens);
-                System.out.println("Se rechaza un tokens");
-            }else {
-                tokens.add(message.getNumber());
-                player.setToken(message.getNumber());
-            }
+    private void getSelectedTokens() {
+        var ref = new Object() {
+            int[] tokens = new int[]{0, 1, 2, 3, 4, 5, 6, 7};
         };
 
-        actionQueue.addAction(new Message(GETTOKEN), requestResponse);
+        for(int i = 1; i <= players.size(); i++) {
+            Player p = this.players.get(i);
+            ActionQueue singleAction = new ActionQueue(p);
+
+            Listener tokenSelectionListener = msg -> {
+                System.out.println("ID " + msg.getId() + " eligio=" + msg.getNumber());
+                p.setToken(msg.getNumber());
+                ref.tokens = Arrays.stream(ref.tokens).filter(in -> in != msg.getNumber()).toArray();
+            };
+
+            singleAction.addAction(new Message(ref.tokens, GETTOKEN), tokenSelectionListener);
+            singleAction.executeQueue();
+        }
+    }
+
+    private void assignIds(ArrayList<Player> players, ActionQueue actionQueue) {
+        ArrayList<Message> messages = new ArrayList<>();
+        players.forEach(player ->{ // each player has a different message
+            player.setId(messages.size());
+            messages.add(new Message(player.getId(), ID));
+        });
+
+        actionQueue.addAction(messages, null, DONE);
         actionQueue.executeQueue();
+
+        System.out.println("Se asignan los IDs");
     }
 
     private String getNamesFromPlayers(ArrayList<Player> players) {
