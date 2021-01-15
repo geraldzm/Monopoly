@@ -12,7 +12,7 @@ public class PropertyCard extends Card {
         BUY,SELL,NONE;
     }
 
-    private JLabel sell, buy, mortgage;
+    public JLabel sell, buy, mortgage;
 
     public PropertyCard(ImageIcon image, int id, Type type) {
         super(image, id);

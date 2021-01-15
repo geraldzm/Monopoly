@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Message implements Serializable {
 
     private final Integer number;
+    private Integer id;
     private final int[] numbers;
     private final String string;
     private final IDMessage idMessage;
@@ -52,6 +53,10 @@ public class Message implements Serializable {
     }
 
 
+    public Message setId(int id){
+        this.id = id;
+        return this;
+    }
 
     // ------- GETTERS ---------
 
@@ -69,5 +74,9 @@ public class Message implements Serializable {
 
     public int[] getNumbers() {
         return numbers;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }

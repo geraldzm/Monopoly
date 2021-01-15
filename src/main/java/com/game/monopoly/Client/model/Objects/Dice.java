@@ -61,7 +61,7 @@ public class Dice extends GameObject{
                 return;
             }
 
-            img = new ImageIcon(Utils.getIcon.apply(dices[nextDice]).getScaledInstance(DICE_SIZE, DICE_SIZE, 0));
+            super.setImg(new ImageIcon(Utils.getIcon.apply(dices[nextDice]).getScaledInstance(DICE_SIZE, DICE_SIZE, 0)));
             
             since = new Date().getTime();
         }

@@ -61,6 +61,10 @@ public class Token extends GameObject{
             moveTo = null;
         }
     }
+
+    public void setTokenImg(int token){
+        super.setImg(new ImageIcon(Utils.getIcon.apply(tokens[token]).getScaledInstance(TOKEN_WIDTH, TOKEN_HEIGHT, 0)));
+    }
     
     public boolean isAnimationOver(){
         return moveTo == null;

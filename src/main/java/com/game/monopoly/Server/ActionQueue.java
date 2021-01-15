@@ -23,28 +23,27 @@ public class ActionQueue {
 
     private Listener action;
 
+    private HashSet<Integer> ready;
     private final Listener listener = m -> {
         if(action != null) action.action(m);
         synchronized (lock){
             done++;
+            if(m.getId() != null) ready.add(m.getId());
             lock.notify();
         }
     };
 
-    public ActionQueue(Connection recipient) {
-        this.recipients = new ArrayList<>();
-        this.recipients.add(recipient);
-        System.out.println("Cola creada con: 1 personas");
+    public ActionQueue(Player recipient) {
+        this(Arrays.asList(recipient));
     }
 
     public ActionQueue(List<Connection> recipients) {
+        this.ready = new HashSet<>();
         this.recipients = recipients;
-        System.out.println("Cola creada con: " + recipients.size() + " personas");
     }
 
     public ActionQueue(Hashtable<Integer, Player> recipients) {
-        this.recipients = new ArrayList<>(recipients.values());
-        System.out.println("Cola creada con: " + recipients.size() + " personas");
+        this(new ArrayList<>(recipients.values()));
     }
 
     public void addAction(Message message){
@@ -77,7 +76,7 @@ public class ActionQueue {
             // POPS
             action = actionsQueue.poll().orElse(null);
             ArrayList<Message> messages = queueMessages.poll().orElse(null);
-            Predicate<Message> filter = filters.poll().orElse(null);
+            Predicate<Message> filter = filters.poll().orElse(message -> true).and(m ->!ready.contains(m.getId()));
 
             // SEND
             for (int i = 0; i < recipients.size(); i++) {
@@ -99,9 +98,9 @@ public class ActionQueue {
         }
 
         // clean
+        ready.clear();
         recipients.forEach(c -> c.setListener(null));
         action = null;
-        System.out.println("Fin cola");
     }
 
     public void executeQueue() {

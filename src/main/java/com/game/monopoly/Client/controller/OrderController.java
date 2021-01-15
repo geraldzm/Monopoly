@@ -45,6 +45,7 @@ public class OrderController implements IController, MouseListener{
     private void initData(){
 
         for (int i = 0; i < 6; i++){
+            int j = 2;
 
             if (i < playerList.length){
                 players[i].setText(playerList[i]);
@@ -68,6 +69,7 @@ public class OrderController implements IController, MouseListener{
         }
         
         window.setVisible(false);
+        window.dispose();
     }
 
     @Override
@@ -75,7 +77,6 @@ public class OrderController implements IController, MouseListener{
         if (e.getSource().equals(window.btnExit)){
             close();
         }
-        
     }
 
     @Override

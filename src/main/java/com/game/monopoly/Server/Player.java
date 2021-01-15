@@ -7,6 +7,8 @@ import com.game.monopoly.common.Comunication.Message;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 /**
@@ -14,11 +16,13 @@ import java.util.Random;
  * */
 public class Player extends ChatConnection {
 
-    private int cash, id;
+    private int cash, id, token;
+    private int[] dices;
     private String name;
     private boolean go; //if he has gone through GO
+    private HashSet<Integer> cards;
+
     private static int count;
-    private int[] dices;
 
     public Player(Socket socket) throws IOException {
         super(socket, null);
@@ -73,4 +77,37 @@ public class Player extends ChatConnection {
     public void setDices(int[] dices) {
         this.dices = dices;
     }
+
+    public int getToken() {
+        return token;
+    }
+
+    public void setToken(int token) {
+        this.token = token;
+    }
+
+    public void setCash(int cash) {
+        this.cash = cash;
+    }
+
+    public void addCash(int cash) {
+        this.cash += cash;
+    }
+
+    public void setGo(boolean go) {
+        this.go = go;
+    }
+
+    public HashSet<Integer> getCards() {
+        return cards;
+    }
+
+    public void setCards(HashSet<Integer> cards) {
+        this.cards = cards;
+    }
+
+    public void addCard(Integer card) {
+        cards.add(card);
+    }
+
 }

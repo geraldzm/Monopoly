@@ -13,20 +13,20 @@ import java.util.stream.*;
 public class Server extends RunnableThread {
 
 
-    private Hashtable<Integer, Player> players;
+    private Hashtable<Integer, Player> players; // Integer = turn; 0-n
+    private ArrayList<Player> playersByIds; // order = id; 0-n
     private int turn;
 
     public Server() {
         players = new Hashtable<>();
-        gameInit(connectPlayers()); // conectamos a todos && settiamos el juego
-
+        playersByIds = connectPlayers();
+        gameInit(playersByIds); // conectamos a todos && settiamos el juego
+        turn = 0;
     }
 
     @Override
     public void execute() {
         // Game starts
-
-
         stopThread();
     }
 
@@ -34,17 +34,10 @@ public class Server extends RunnableThread {
      * <h3>Game configs</h3>
      * */
     private void gameInit(ArrayList<Player> players) {
+        ActionQueue actionQueue = new ActionQueue(new ArrayList<>(players));
 
         // 1. assign ids
-        ArrayList<Message> messages = new ArrayList<>();
-        players.forEach(player ->{ // each player has a different message
-            player.setId(messages.size());
-            messages.add(new Message(player.getId(), ID));
-        });
-
-        ActionQueue actionQueue = new ActionQueue(new ArrayList<>(players));
-        actionQueue.addAction(messages, null, DONE);
-        actionQueue.executeQueue();
+        assignIds(players, actionQueue);
 
         // 2. request each player a name
         actionQueue.addAction(new Message(NAME), message -> players.get(message.getNumber()).setName(message.getString()));
@@ -55,12 +48,62 @@ public class Server extends RunnableThread {
         actionQueue.executeQueue();
 
         // 4. init chat
-        players.forEach(p -> p.setChatListener(m -> {
-            players.forEach(p2 -> p2.sendChatMessage(m, p));
-        }));
+        players.forEach(p -> p.setChatListener(m -> players.forEach(p2 -> p2.sendChatMessage(m, p))));
 
         // 5. sort
         sortByTurn(players, players, new AtomicInteger(1));
+
+        // 6. get tokens
+        getSelectedTokens();
+
+        // 7. set initial money
+        actionQueue.addAction(new Message(1500,"El banco le da $1500", GIVEMONEY));
+        actionQueue.executeQueue();
+        players.forEach(p -> p.setCash(1500));
+    }
+
+    private void getSelectedTokens() {
+        var ref = new Object() {
+            int[] tokens = new int[]{0, 1, 2, 3, 4, 5, 6, 7};
+        };
+
+        for(int i = 1; i <= players.size(); i++) {
+            Player p = this.players.get(i);
+            ActionQueue singleAction = new ActionQueue(p);
+
+            Listener tokenSelectionListener = msg -> {
+                System.out.println("ID " + msg.getId() + " eligio=" + msg.getNumber());
+                p.setToken(msg.getNumber());
+                ref.tokens = Arrays.stream(ref.tokens).filter(in -> in != msg.getNumber()).toArray();
+            };
+
+            singleAction.addAction(new Message(ref.tokens, GETTOKEN), tokenSelectionListener);
+            singleAction.executeQueue();
+        }
+
+
+        //set tokens to everyone
+        ActionQueue actionQueue= new ActionQueue(new ArrayList<>(playersByIds));
+
+        AtomicInteger i = new AtomicInteger(0);
+        int[] tokens = new int[players.size()];
+        playersByIds.forEach(p -> tokens[i.getAndIncrement()] = p.getToken());
+
+        actionQueue.addAction(new Message(tokens, TOKENS));
+        actionQueue.executeQueue();
+    }
+
+    private void assignIds(ArrayList<Player> players, ActionQueue actionQueue) {
+        ArrayList<Message> messages = new ArrayList<>();
+        players.forEach(player ->{ // each player has a different message
+            player.setId(messages.size());
+            messages.add(new Message(player.getId(), ID));
+        });
+
+        actionQueue.addAction(messages, null, DONE);
+        actionQueue.executeQueue();
+
+        System.out.println("Se asignan los IDs");
     }
 
     private String getNamesFromPlayers(ArrayList<Player> players) {

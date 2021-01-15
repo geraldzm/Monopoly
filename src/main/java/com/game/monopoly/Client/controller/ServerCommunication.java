@@ -1,6 +1,7 @@
 package com.game.monopoly.Client.controller;
 
 import com.game.monopoly.common.Comunication.ChatConnection;
+import com.game.monopoly.common.Comunication.IDMessage;
 import com.game.monopoly.common.Comunication.Listener;
 import com.game.monopoly.common.Comunication.Message;
 
@@ -17,6 +18,7 @@ public class ServerCommunication extends ChatConnection {
     private static ServerCommunication serverCommunication;
 
     private Listener logbookListener, chatListener;
+    private int idClient=-1;
 
     private ServerCommunication(Socket socket) throws IOException {
         super(socket, null);
@@ -53,8 +55,22 @@ public class ServerCommunication extends ChatConnection {
     }
 
     @Override
+    public void sendMessage(Message message) {
+        super.sendMessage(idClient == -1 ? message : message.setId(idClient));
+    }
+
+    @Override
+    public void sendMessage(IDMessage message) {
+        super.sendMessage(idClient == -1 ? new Message(message) : new Message(message).setId(idClient));
+    }
+
+    @Override
     public void setChatListener(Listener chat) {
         this.chatListener = chat;
+    }
+
+    public void setID(int id){
+        idClient = id;
     }
 
     /**

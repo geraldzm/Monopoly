@@ -6,7 +6,8 @@ import javax.swing.*;
 
 public class GameObject implements IRenderable, ITick {
     protected Point pos, vel;
-    protected ImageIcon img;
+
+    private ImageIcon img;
     
     // TODO: Agregarlos
     protected int width;
@@ -73,5 +74,13 @@ public class GameObject implements IRenderable, ITick {
 
     public void setVel(Point vel) {
         this.vel = vel;
+    }
+
+    public ImageIcon getImg() {
+        return img;
+    }
+
+    public void setImg(ImageIcon img) {
+        this.img = img;
     }
 }
