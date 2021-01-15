@@ -88,6 +88,7 @@ public class GameListener {
                   case ID -> {
                       System.out.println("Servidor: Se ha recibido la ID: " + msg.getNumber());
                       player.setID(msg.getNumber());
+                      server.setID(msg.getNumber());
                       server.sendMessage(DONE);
                   }
 

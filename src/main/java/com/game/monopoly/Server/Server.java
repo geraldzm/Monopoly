@@ -25,8 +25,6 @@ public class Server extends RunnableThread {
     @Override
     public void execute() {
         // Game starts
-
-
         stopThread();
     }
 
@@ -45,6 +43,8 @@ public class Server extends RunnableThread {
         ActionQueue actionQueue = new ActionQueue(new ArrayList<>(players));
         actionQueue.addAction(messages, null, DONE);
         actionQueue.executeQueue();
+
+        System.out.println("Se asignan los IDs");
 
         // 2. request each player a name
         actionQueue.addAction(new Message(NAME), message -> players.get(message.getNumber()).setName(message.getString()));
