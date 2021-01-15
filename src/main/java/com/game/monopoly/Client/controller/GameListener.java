@@ -1,6 +1,8 @@
+
 package com.game.monopoly.Client.controller;
 
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
+
 import com.game.monopoly.Client.model.Objects.Player;
 import com.game.monopoly.Client.model.Objects.Players;
 import com.game.monopoly.Client.view.ComboBoxPopUp;
@@ -13,191 +15,167 @@ import javax.swing.*;
 public class GameListener {
     private static GameListener listener;
     private JFrame window;
-
     private int amountPlayers;
-    private HashMap<Integer, Players> players; // Esta la vamos a usar para instanciar a los jugadores
+
+    private HashMap<Integer, Players> players;
 
     private GameListener(){
         players = new HashMap<>();
     }
-    
+
     // Singleton para el Listener
     public static GameListener getInstance(){
         if (listener == null){
             listener = new GameListener();
         }
-        
+
         return listener;
     }
-    
+
     private void askAmountPlayers(){
         int amount = -1;
-        
+
         while(true){
             try{
                 amount = Integer.parseInt(JOptionPane.showInputDialog(window, "Cuantas personas van a jugar? (incluyendote)"));
             }catch(NumberFormatException ex){
                 amount = -1;
             }
-            
+
             if (amount < 0 || amount > 6)
                 JOptionPane.showMessageDialog(window, "Introduzca un numero valido...");
             else
                 break;
         }
-        
+
         amountPlayers = amount;
     }
-    
+
     // Settea el listener del chat
     public Listener setChatListener() throws IOException{
         ServerCommunication server = getServerCommunication();
-        
+
         Listener chatListener = msg -> {
             System.out.println("Un mensaje");
             FrameController controller = FrameController.getInstance();
-            
+
             GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
-            
+
             gameController.addChatMsg(msg.getString());
         };
-        
+
         server.setChatListener(chatListener);
-        
+
         return chatListener;
     }
-    
+
     public Listener setListener() throws IOException{
         ServerCommunication server = getServerCommunication();
         server.removeReceiverFilter();
-        
+
         Player player = Player.getInstance();
-        
+
         Listener gameListener = msg -> {
-              switch(msg.getIdMessage()){
-                  case ADMIN -> {
-                      askAmountPlayers();
-                      
-                      server.sendInt(amountPlayers, RESPONSE);
-                      
-                      System.out.println("Servidor: Este usuario ahora es administrador");
-                  }
-                  case REJECTED -> { 
-                      System.out.println("Servidor: Se ha rechazado tu peticion de unirse...");
-                  }
-                  case ACCEPTED -> {
-                      System.out.println("Servidor: Se ha aceptado tu peticion de unirse!");
-                  }
-                  case ID -> {
-                      System.out.println("Servidor: Se ha recibido la ID: " + msg.getNumber());
+            switch(msg.getIdMessage()){
+                case ADMIN -> {
+                    askAmountPlayers();
 
-                      // Lo agregamos a los jugadores
-                      players.put(player.getID(), player);
-                      server.setID(msg.getNumber());
-                      server.sendMessage(DONE);
-                  }
+                    server.sendInt(amountPlayers, RESPONSE);
 
-                  case NAME -> {
-                      System.out.println( player.getName());
-                      server.sendMessage(new Message(player.getID(), player.getName(), RESPONSE));
-                  }
-                  case NAMES -> {
-                      System.out.println(msg.getString());
-                      String playerNames[] = msg.getString().split(",");
+                    System.out.println("Servidor: Este usuario ahora es administrador");
+                }
+                case REJECTED -> {
+                    System.out.println("Servidor: Se ha rechazado tu peticion de unirse...");
+                }
+                case ACCEPTED -> {
+                    System.out.println("Servidor: Se ha aceptado tu peticion de unirse!");
+                }
+                case ID -> {
+                    System.out.println("Servidor: Se ha recibido la ID: " + msg.getNumber());
+                    player.setID(msg.getNumber());
+                    server.setID(msg.getNumber());
+                    server.sendMessage(DONE);
+                }
 
-                      for (int ID = 0; ID < playerNames.length; ID++){
-                          // Evitamos agregar el jugador
-                          if (ID == player.getID()) continue;
+                case NAME -> {
+                    System.out.println( player.getName());
+                    server.sendMessage(new Message(player.getID(), player.getName(), RESPONSE));
+                }
 
-                          Players currentPlayer = new Players();
+                case NAMES -> {
+                    server.sendMessage(DONE);
+                }
 
-                          players.put(ID, currentPlayer);
-                      }
+                case STARTED -> {
+                    FrameController controller = FrameController.getInstance();
 
-                      server.sendMessage(DONE);
-                  }
+                    controller.openWindow(FramesID.GAME);
 
-                  case STARTED -> {
-                      FrameController controller = FrameController.getInstance();
+                    server.sendMessage(DONE);
+                }
+                case DICE -> {
+                    FrameController controller = FrameController.getInstance();
+                    GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
 
-                      controller.openWindow(FramesID.GAME);
+                    gameController.triggerDiceAnimation(msg.getNumbers());
+                    gameController.triggerGlobalMsg("Se han tirado los dados!");
+                }
 
-                      server.sendMessage(DONE);
-                  }
-                  case DICE -> {
-                      FrameController controller = FrameController.getInstance();
-                      GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
+                case DICES -> {
+                    System.out.println("Dices: ");
+                    System.out.println(msg.getString());
+                    System.out.println(Arrays.toString(msg.getNumbers()));
 
-                      gameController.triggerDiceAnimation(msg.getNumbers());
-                      gameController.triggerGlobalMsg("Se han tirado los dados!");
-                  }
+                    FrameController controller = FrameController.getInstance();
+                    OrderController order = (OrderController) controller.generateWindow(FramesID.DICEORDER);
 
-                  case DICES -> {
-                      System.out.println("Dices: ");
-                      System.out.println(msg.getString());
-                      System.out.println(Arrays.toString(msg.getNumbers()));
-                      
-                      FrameController controller = FrameController.getInstance();
-                      OrderController order = (OrderController) controller.getWindow(FramesID.DICEORDER);
-                      
-                      order.setDices(msg.getNumbers());
-                      order.setPlayers(msg.getString().split(","));
-                      
-                      controller.openNewWindow(FramesID.DICEORDER);
-                  }
+                    order.setDices(msg.getNumbers());
+                    order.setPlayers(msg.getString().split(","));
 
-                  case TURNRS -> {
-                      //* TURNRS (turn results): se envia cuando se esta eliguiendo el orden de turno, lleva un int que representa el turno del cliente
-                      JOptionPane.showMessageDialog(null, "Mi turno será: " + msg.getNumber()+"  : " + player.getName());
-                      server.sendMessage(DONE);
-                  }
+                    order.init();
+                    order.start();
+                }
 
-                  case GETTOKEN -> {
-                      System.out.println("Tokens disponibles: " + Arrays.toString(msg.getNumbers()));
-                      new ComboBoxPopUp(msg.getNumbers()); // la respuesta al server esta en la accion del boton (en el controlador)
-                  }
+                case TURNRS -> {
+                    //* TURNRS (turn results): se envia cuando se esta eliguiendo el orden de turno, lleva un int que representa el turno del cliente
+                    JOptionPane.showMessageDialog(null, "Mi turno será: " + msg.getNumber()+"  : " + player.getName());
+                    server.sendMessage(DONE);
+                }
 
-                  case GIVEMONEY -> {
-                      // trae un mensaje en el string con la razon por la que se le da la plata
-                      // tiene la cantidad de plata que se le esta dando en el numero
-                      JOptionPane.showMessageDialog(window, String.format("%s: %s", msg.getString(), msg.getNumber(), player.getName()), "Money", JOptionPane.INFORMATION_MESSAGE);
-                      server.sendMessage(DONE);
-                  }
+                case GETTOKEN -> {
+                    System.out.println("Tokens disponibles: " + Arrays.toString(msg.getNumbers()));
+                    new ComboBoxPopUp(msg.getNumbers()); // la respuesta al server esta en la accion del boton (en el controlador)
+                }
 
-                  case TOKENS -> {
+                case GIVEMONEY -> {
+                    // trae un mensaje en el string con la razon por la que se le da la plata
+                    // tiene la cantidad de plata que se le esta dando en el numero
 
-                      int[] rs = msg.getNumbers(); // tokens recibidos, el orden es el mismo que el ID de cada jugador 0-n
-                      System.out.println("Resultado de los tokens: ");
+                    JOptionPane.showMessageDialog(window, String.format("%s: %s", msg.getString(), msg.getNumber(), player.getName()), "Money", JOptionPane.INFORMATION_MESSAGE);
+                    server.sendMessage(DONE);
+                }
 
-                      for (int i = 0; i < rs.length; i++) {
-                          players.get(i).setTokenImg(rs[i]); // Con esto se deberian elegir los tokens
-                          System.out.println(String.format("\tEl di: %d escogió el token= %d", i, rs[i]));
-                      }
+                case TOKENS -> {
+                    System.out.println("Server: se recibio dinero");
+                    int[] rs = msg.getNumbers(); // tokens recibidos, el orden es el mismo que el ID de cada jugador 0-n
+                    System.out.println("Resultado de los tokens: ");
 
-                      server.sendMessage(DONE);
-                  }
-                  case READYGAME->{
-                      System.out.println("Servidor: El juego esta iniciando");
+                    for (int i = 0; i < rs.length; i++) {
+                        System.out.println(String.format("\tEl di: %d escogió el token= %d", i, rs[i]));
+                    }
 
-                      FrameController controller = FrameController.getInstance();
-                      GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
+                    server.sendMessage(DONE);
+                }
+            }
+        };
 
-                      System.out.println("Agregando jugadores al tablero");
-                      gameController.addPlayers(players); // Agregamos los jugadores al tablero
-                      System.out.println("Jugadores agregados");
-                  }
-              }
-        };  
-            
-            
+
         server.setListener(gameListener);
-        
+
         return gameListener;
     }
 
     public void setWindow(JFrame window) {
         this.window = window;
     }
-    
-    
 }

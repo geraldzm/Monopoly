@@ -51,7 +51,7 @@ public class FrameController {
     }
     
     // Genera una nueva instancia de una ventana
-    private static IController generateWindow(FramesID frame){
+    public static IController generateWindow(FramesID frame){
         IController controller = null;
         
         switch(frame){

@@ -11,13 +11,13 @@ import javax.swing.*;
 public class OrderController implements IController, MouseListener{
     private OrderWindow window;
     private int n = 0;
-    
+
     JLabel[] players = new JLabel[6];
     JLabel[] results = new JLabel[6];
-    
+
     private int[] dices;
     private String[] playerList;
-    
+
     public OrderController(OrderWindow window){
         this.window = window;
     }
@@ -27,32 +27,35 @@ public class OrderController implements IController, MouseListener{
         window.pack();
         window.setVisible(true);
     }
-    
+
     @Override
     public void init() {
         initArray();
         initData();
-        
+
         try {
             window.btnExit.addMouseListener(this);
-            
+
             window.btnExit.setIcon(Utils.getComponentIcon("ButtonsBG.png", window.btnExit.getWidth(), window.btnExit.getHeight()));
         } catch (IOException ex) {
             System.out.println("ERR IMG NULA: " + ex.getMessage());
         }
     }
-    
+
     private void initData(){
 
         for (int i = 0; i < 6; i++){
-            int j = 2;
+            try {
+                if (i < playerList.length){
+                    players[i].setText(playerList[i]);
+                    results[i].setText("Dices " + dices[i*3] + " + " + dices[i*3+1] + " =" + dices[i*3+2]);
+                } else{
+                    players[i].setText("");
+                    results[i].setText("");
+                }
 
-            if (i < playerList.length){
-                players[i].setText(playerList[i]);
-                results[i].setText("Dices " + dices[i*3] + " + " + dices[i*3+1] + " =" + dices[i*3+2]);
-            } else{
-                players[i].setText("");
-                results[i].setText("");
+            }catch (Exception ex){
+                System.out.println(ex.getMessage());
             }
         }
     }
@@ -67,7 +70,7 @@ public class OrderController implements IController, MouseListener{
         } catch (IOException ex) {
             System.out.println("ERROR: " + ex.getMessage());
         }
-        
+
         window.setVisible(false);
         window.dispose();
     }
@@ -93,7 +96,7 @@ public class OrderController implements IController, MouseListener{
     @Override
     public void mouseExited(MouseEvent e) {
     }
-    
+
     // Inicializa el array de labels
     private void initArray(){
         players[0] = window.lbPlayer0;
@@ -102,7 +105,7 @@ public class OrderController implements IController, MouseListener{
         players[3] = window.lbPlayer3;
         players[4] = window.lbPlayer4;
         players[5] = window.lbPlayer5;
-        
+
         results[0] = window.lbRst0;
         results[1] = window.lbRst1;
         results[2] = window.lbRst2;
