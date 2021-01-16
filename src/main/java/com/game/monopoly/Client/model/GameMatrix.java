@@ -61,6 +61,7 @@ public class GameMatrix {
         int index = token.getCurrentPos();
 
         while (!isAtPosition){
+            System.out.println("Moviendo al jugador a: " + index);
             setPlayer(token, index);
 
             // Lo redireccionamos
@@ -72,6 +73,8 @@ public class GameMatrix {
 
             isAtPosition = index == card;
         }
+
+        token.addEnd();
     }
     
     public void setPlayer(Token token, int card){
@@ -86,7 +89,7 @@ public class GameMatrix {
         token.setMatrixPos(pos);
         
         gameMatrix[card][pos.y][pos.x] = token;
-        
+
         token.setMoveTo(getPosition(indexToPos(card), pos.x, pos.y));
     }
     

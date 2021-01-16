@@ -38,12 +38,11 @@ public class Token extends GameObject{
         movesQueue.add(new Point(-1, -1));
     }
 
-
     @Override
     public void tick(){
         if (moveTo != null)
             moveAnimation();
-        else if (movesQueue.peek() != null && moveTo == null){
+        else if (movesQueue.peek() != null){
             moveTo = movesQueue.poll();
         }
     }
@@ -51,6 +50,7 @@ public class Token extends GameObject{
     private void moveAnimation(){
         if(moveTo.getX()  == -1 && moveTo.getY() == -1){
             moveTo = null;
+
             try {
                 System.out.println("Se retorna DONE movimiento");
                 ServerCommunication.getServerCommunication().sendDone();
@@ -67,7 +67,12 @@ public class Token extends GameObject{
         
         double distance = Math.sqrt(Math.pow(hitBox.getX()-(target.getX()+offset), 2) + Math.pow(hitBox.getY()-(target.getY()+offset), 2));
 
-        if(distance == 0) return;
+        // Claramente si la distancia es 0... ya llego xD
+        if(distance == 0){
+            moveTo = null;
+
+            return;
+        }
         
         double velX = (-1/distance)*(hitBox.getX()-(target.getX()+offset));
         double velY = (-1/distance)*(hitBox.getY()-(target.getY()+offset));
@@ -76,7 +81,9 @@ public class Token extends GameObject{
         
         int sigmaX = Math.abs(pos.x - moveTo.x);
         int sigmaY = Math.abs(pos.y - moveTo.y);
-        
+
+        System.out.println("Pos: " + pos + ", tinee que llegar a: " + moveTo);
+
         if (sigmaX < 3 && sigmaY < 3){
             moveTo = null;
         }

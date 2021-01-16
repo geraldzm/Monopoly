@@ -96,6 +96,8 @@ public class GameListener {
                     player.setID(msg.getNumber());
                     server.setID(msg.getNumber());
 
+                    players.put(msg.getNumber(), player);
+
                     server.sendMessage(DONE);
                 }
 
@@ -112,8 +114,10 @@ public class GameListener {
                     for (int ID = 0; ID < playerNames.length; ID++){
                         if (ID == player.getID()) continue;
 
+                        System.out.println("Adding ID#" + ID + ", Name: " + playerNames[ID]);
                         Players currentPlayer = new Players();
                         currentPlayer.setID(ID);
+                        currentPlayer.setName(playerNames[ID]);
 
                         players.put(ID, currentPlayer);
                     }
@@ -131,9 +135,15 @@ public class GameListener {
 
                 case MOVE -> {
                     System.out.println("Se va a mover: " + Arrays.toString(msg.getNumbers()));
+
                     FrameController controller = FrameController.getInstance();
                     GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
-                    gameController.setPlayerPosition(players.get(msg.getNumbers()[0]), 1==msg.getNumbers()[1], msg.getNumbers()[2]);
+
+                    Players cPlayer = players.get(msg.getNumbers()[0]);
+                    int pos = msg.getNumbers()[2];
+                    boolean dir = msg.getNumbers()[1] == 0; // 0 atras, 1 hacia adelante
+
+                    gameController.setPlayerPosition(cPlayer, dir, pos);
 
                 }
 

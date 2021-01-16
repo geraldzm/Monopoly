@@ -58,7 +58,7 @@ public class Game extends Canvas implements Runnable, Clickable {
     @Override
     public void run(){
         long lastTime = System.nanoTime();
-        double amountOfTicks = 60.0D;
+        double amountOfTicks = 30.0D;
         double ns = 1000000000D / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
@@ -101,6 +101,7 @@ public class Game extends Canvas implements Runnable, Clickable {
         g.drawImage(background.getImage(), 0, 0, this);
 
         handlerGameObjects.render(g);
+        handlerGameObjects.tick();
         
         matrix.drawSquares(g);
         
@@ -110,7 +111,6 @@ public class Game extends Canvas implements Runnable, Clickable {
 
     private void tick() {
         // it must be contained by the controller.
-        handlerGameObjects.tick();
     }
 
     // Esta funcion se va a encargar de recibir a los jugadores
