@@ -64,6 +64,10 @@ public class ServerCommunication extends ChatConnection {
         super.sendMessage(idClient == -1 ? new Message(message) : new Message(message).setId(idClient));
     }
 
+    public void sendDone(){
+        super.sendMessage(idClient == -1 ? new Message(DONE) : new Message(DONE).setId(idClient));
+    }
+
     @Override
     public void setChatListener(Listener chat) {
         this.chatListener = chat;

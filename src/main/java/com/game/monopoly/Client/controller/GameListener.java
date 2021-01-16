@@ -128,6 +128,21 @@ public class GameListener {
 
                     server.sendMessage(DONE);
                 }
+
+                case MOVE -> {
+                    System.out.println("Se va a mover: " + Arrays.toString(msg.getNumbers()));
+                    FrameController controller = FrameController.getInstance();
+                    GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
+                    gameController.setPlayerPosition(players.get(msg.getNumbers()[0]), 1==msg.getNumbers()[1], msg.getNumbers()[2]);
+
+                }
+
+                case GAMEREADY -> {
+                    FrameController controller = FrameController.getInstance();
+                    GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
+                    gameController.addPlayers(players);
+                    server.sendDone();
+                }
                 case DICE -> {
                     FrameController controller = FrameController.getInstance();
                     GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
@@ -153,13 +168,13 @@ public class GameListener {
 
                 case TURNRS -> {
                     //* TURNRS (turn results): se envia cuando se esta eliguiendo el orden de turno, lleva un int que representa el turno del cliente
-                    JOptionPane.showMessageDialog(null, "Mi turno será: " + msg.getNumber()+"  : " + player.getName());
+                    JOptionPane.showMessageDialog(window, "Mi turno será: " + msg.getNumber()+"  : " + player.getName());
                     server.sendMessage(DONE);
                 }
 
                 case GETTOKEN -> {
                     System.out.println("Tokens disponibles: " + Arrays.toString(msg.getNumbers()));
-                    new ComboBoxPopUp(msg.getNumbers()); // la respuesta al server esta en la accion del boton (en el controlador)
+                    new ComboBoxPopUp(msg.getNumbers(), window); // la respuesta al server esta en la accion del boton (en el controlador)
                 }
 
                 case GIVEMONEY -> {
@@ -168,7 +183,7 @@ public class GameListener {
                     GameController gameController = (GameController) FrameController.getInstance().getWindow(FramesID.GAME);
 
                     gameController.setPlayerMoney(msg.getNumber());
-                    gameController.triggerGlobalMsg(String.format("%s: %s", msg.getString(), msg.getNumber(), player.getName()));
+                    gameController.triggerGlobalMsg(String.format("%s: %s", msg.getString(), player.getName()));
                     server.sendMessage(DONE);
                 }
 

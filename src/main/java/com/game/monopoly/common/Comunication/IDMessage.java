@@ -13,7 +13,7 @@ public enum IDMessage implements Serializable {
     REJECTED,
     ACCEPTED,
     STARTED(true),
-    READYGAME(true),
+    GAMEREADY(true),
     END,
     MESSAGE,
     LOGBOOK,

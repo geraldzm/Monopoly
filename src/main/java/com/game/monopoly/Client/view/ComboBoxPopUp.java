@@ -3,6 +3,7 @@ package com.game.monopoly.Client.view;
 import com.game.monopoly.Client.controller.ComboBoxPopUpController;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
@@ -15,7 +16,7 @@ public class ComboBoxPopUp {
     public int result;
     public JDialog diag;
 
-    public ComboBoxPopUp(int [] tokens) {
+    public ComboBoxPopUp(int [] tokens, Frame frame) {
         if(tokens.length == 0) return;
 
         result = -1;
@@ -36,7 +37,7 @@ public class ComboBoxPopUp {
         panel.add(button);
 
 
-        diag = new JDialog();
+        diag = new JDialog(frame);
         diag.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         diag.getContentPane().add(panel);
         diag.setLocationRelativeTo(null);

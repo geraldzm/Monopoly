@@ -1,10 +1,14 @@
 package com.game.monopoly.Client.model.Objects;
 
+import com.game.monopoly.Client.controller.ServerCommunication;
 import com.game.monopoly.Client.model.GameMatrix;
 import com.game.monopoly.Client.model.Objects.GameObject;
 import com.game.monopoly.Client.model.Utils;
+import com.game.monopoly.common.Comunication.IDMessage;
+
 import static com.game.monopoly.Client.model.Constant.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.*;
 import java.util.Queue;
 import javax.swing.*;
@@ -29,7 +33,12 @@ public class Token extends GameObject{
         movesQueue = new LinkedList<>();
         pos = GameMatrix.indexToPos(0);
     }
-    
+
+    public void addEnd(){
+        movesQueue.add(new Point(-1, -1));
+    }
+
+
     @Override
     public void tick(){
         if (moveTo != null)
@@ -40,6 +49,17 @@ public class Token extends GameObject{
     }
     
     private void moveAnimation(){
+        if(moveTo.getX()  == -1 && moveTo.getY() == -1){
+            moveTo = null;
+            try {
+                System.out.println("Se retorna DONE movimiento");
+                ServerCommunication.getServerCommunication().sendDone();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
         Point target = moveTo;
         Point hitBox = pos;
         

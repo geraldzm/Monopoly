@@ -60,6 +60,11 @@ public class Server extends RunnableThread {
         actionQueue.addAction(new Message(1500,"El banco le da $1500", GIVEMONEY));
         actionQueue.executeQueue();
         players.forEach(p -> p.setCash(1500));
+
+        // 8. notify start
+        actionQueue.addAction(new Message(GAMEREADY));
+        actionQueue.addAction(new Message( new int[]{0, 1, 3} , MOVE));
+        actionQueue.executeQueue();
     }
 
     private void getSelectedTokens() {

@@ -131,7 +131,7 @@ public class GameController implements IController, MouseListener{
         5000);
     }
 
-    public void setPlayerPosition(Players player, int position, boolean direction){
+    public void setPlayerPosition(Players player, boolean direction, int position){
         game.movePlayer(player, position, direction);
     }
 
