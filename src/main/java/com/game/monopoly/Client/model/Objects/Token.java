@@ -74,8 +74,8 @@ public class Token extends GameObject{
             return;
         }
         
-        double velX = (-1/distance)*(hitBox.getX()-(target.getX()+offset));
-        double velY = (-1/distance)*(hitBox.getY()-(target.getY()+offset));
+        double velX = (-2/distance)*(hitBox.getX()-(target.getX()+offset));
+        double velY = (-2/distance)*(hitBox.getY()-(target.getY()+offset));
         
         pos.setLocation((int) (pos.x + Math.round(velX)), (int) (pos.y + Math.round(velY)));
         

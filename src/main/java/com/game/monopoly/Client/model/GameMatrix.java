@@ -62,7 +62,6 @@ public class GameMatrix {
 
         while (!isAtPosition){
             System.out.println("Moviendo al jugador a: " + index);
-            setPlayer(token, index);
 
             // Lo redireccionamos
             index = (isBackwards) ? index - 1 : index + 1;
@@ -72,6 +71,7 @@ public class GameMatrix {
             index = (index >= 40) ? 0 : index;
 
             isAtPosition = index == card;
+            setPlayer(token, index);
         }
 
         token.addEnd();

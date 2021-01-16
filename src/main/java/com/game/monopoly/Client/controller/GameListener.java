@@ -134,7 +134,6 @@ public class GameListener {
                 }
 
                 case MOVE -> {
-                    System.out.println("Se va a mover: " + Arrays.toString(msg.getNumbers()));
 
                     FrameController controller = FrameController.getInstance();
                     GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
