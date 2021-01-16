@@ -20,7 +20,7 @@ public class GameWindow extends javax.swing.JFrame {
         gameContainer = new javax.swing.JPanel();
         tfChat = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        taChat1 = new javax.swing.JTextArea();
+        taLog = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
         taChat = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
@@ -30,10 +30,8 @@ public class GameWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
         setBackground(new java.awt.Color(255, 102, 102));
-        setMaximumSize(new java.awt.Dimension(1550, 1035));
         setMinimumSize(new java.awt.Dimension(1550, 1035));
         setName("GameContainer"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(1550, 1035));
         setResizable(false);
         setSize(new java.awt.Dimension(1550, 1035));
         getContentPane().setLayout(null);
@@ -79,12 +77,12 @@ public class GameWindow extends javax.swing.JFrame {
         getContentPane().add(tfChat);
         tfChat.setBounds(930, 900, 550, 40);
 
-        taChat1.setEditable(false);
-        taChat1.setBackground(new java.awt.Color(255, 255, 255));
-        taChat1.setColumns(20);
-        taChat1.setForeground(new java.awt.Color(0, 0, 0));
-        taChat1.setRows(5);
-        jScrollPane2.setViewportView(taChat1);
+        taLog.setEditable(false);
+        taLog.setBackground(new java.awt.Color(255, 255, 255));
+        taLog.setColumns(20);
+        taLog.setForeground(new java.awt.Color(0, 0, 0));
+        taLog.setRows(5);
+        jScrollPane2.setViewportView(taLog);
 
         getContentPane().add(jScrollPane2);
         jScrollPane2.setBounds(930, 60, 550, 390);
@@ -132,7 +130,7 @@ public class GameWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     public javax.swing.JLabel lbGeneralInfo;
     public javax.swing.JTextArea taChat;
-    public javax.swing.JTextArea taChat1;
+    public javax.swing.JTextArea taLog;
     public javax.swing.JTextField tfChat;
     // End of variables declaration//GEN-END:variables
 }

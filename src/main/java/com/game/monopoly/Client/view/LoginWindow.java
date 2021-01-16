@@ -58,7 +58,7 @@ public class LoginWindow extends javax.swing.JFrame {
         background.setMinimumSize(new java.awt.Dimension(500, 600));
         background.setPreferredSize(new java.awt.Dimension(500, 600));
         getContentPane().add(background);
-        background.setBounds(0, 0, 500, 510);
+        background.setBounds(0, 0, 500, 580);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

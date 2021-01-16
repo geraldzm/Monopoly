@@ -49,6 +49,23 @@ public class GameListener {
         amountPlayers = amount;
     }
 
+    public Listener setLogListener() throws IOException{
+        ServerCommunication server = getServerCommunication();
+
+        Listener logListener = msg -> {
+            FrameController controller = FrameController.getInstance();
+
+            GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
+
+            gameController.addLogMsg(msg.getString());
+            server.sendDone();
+        };
+
+        server.setLogbookListener(logListener);
+
+        return logListener;
+    }
+
     // Settea el listener del chat
     public Listener setChatListener() throws IOException{
         ServerCommunication server = getServerCommunication();

@@ -43,8 +43,9 @@ public class GameController implements IController, MouseListener{
             window.btnCards.setIcon(Utils.getComponentIcon("ButtonsBG.png", window.btnCards.getWidth(), window.btnCards.getHeight()));
             window.btnSend.setIcon(Utils.getComponentIcon("ButtonsBG.png", window.btnSend.getWidth(), window.btnSend.getHeight()));
         
-            // Activamos el chat
+            // Activamos el chat y el log
             GameListener.getInstance().setChatListener();
+            GameListener.getInstance().setLogListener();
         } catch (IOException ex) {
             System.out.println("Imagen nula");
         }
@@ -73,6 +74,14 @@ public class GameController implements IController, MouseListener{
         currentChat += "\n" + msg;
         
         window.taChat.setText(currentChat);
+    }
+
+    public void addLogMsg(String msg){
+        String currentLog = window.taLog.getText();
+
+        currentLog += "\n" + msg;
+
+        window.taLog.setText(currentLog);
     }
     
     // Permite activar la animacion de los dados dice debe estar entre 1-6

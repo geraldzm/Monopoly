@@ -80,7 +80,7 @@ public class ServerCommunication extends ChatConnection {
     /**
      * <h3>This listener will receive all the logbook's updates</h3>
      * */
-    public void setLogbookListener() {
+    public void setLogbookListener(Listener logbookListener) {
         this.logbookListener = logbookListener;
     }
 }
