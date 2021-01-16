@@ -82,7 +82,21 @@ public class GameController implements IController, MouseListener{
         game.dice2.addEnd();
         // Activar mensaje global
     }
-    
+
+    public void setPlayerMoney(int amount){
+        globalMsg.set(0, "Dinero: $"+amount);
+        String fullMsg = "";
+
+        for (int i = 0; i < globalMsg.size(); i++){
+            if (i != globalMsg.size() - 1)
+                fullMsg += globalMsg.get(i) + ", ";
+            else
+                fullMsg += globalMsg.get(i);
+        }
+
+        window.lbGeneralInfo.setText(fullMsg);
+    }
+
     // Agregamos un mensaje momentaneo
     public void triggerGlobalMsg(String msg){
         String fullMsg = "";

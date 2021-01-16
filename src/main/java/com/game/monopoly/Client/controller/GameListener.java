@@ -92,8 +92,10 @@ public class GameListener {
                 }
                 case ID -> {
                     System.out.println("Servidor: Se ha recibido la ID: " + msg.getNumber());
+
                     player.setID(msg.getNumber());
                     server.setID(msg.getNumber());
+
                     server.sendMessage(DONE);
                 }
 
@@ -103,6 +105,19 @@ public class GameListener {
                 }
 
                 case NAMES -> {
+                    System.out.println("Client: Adding players");
+
+                    String playerNames[] = msg.getString().split(",");
+
+                    for (int ID = 0; ID < playerNames.length; ID++){
+                        if (ID == player.getID()) continue;
+
+                        Players currentPlayer = new Players();
+                        currentPlayer.setID(ID);
+
+                        players.put(ID, currentPlayer);
+                    }
+
                     server.sendMessage(DONE);
                 }
 
@@ -150,17 +165,22 @@ public class GameListener {
                 case GIVEMONEY -> {
                     // trae un mensaje en el string con la razon por la que se le da la plata
                     // tiene la cantidad de plata que se le esta dando en el numero
+                    GameController gameController = (GameController) FrameController.getInstance().getWindow(FramesID.GAME);
 
-                    JOptionPane.showMessageDialog(window, String.format("%s: %s", msg.getString(), msg.getNumber(), player.getName()), "Money", JOptionPane.INFORMATION_MESSAGE);
+                    gameController.setPlayerMoney(msg.getNumber());
+                    gameController.triggerGlobalMsg(String.format("%s: %s", msg.getString(), msg.getNumber(), player.getName()));
                     server.sendMessage(DONE);
                 }
 
                 case TOKENS -> {
-                    System.out.println("Server: se recibio dinero");
+                    System.out.println("Server: se recibieron los tokens");
                     int[] rs = msg.getNumbers(); // tokens recibidos, el orden es el mismo que el ID de cada jugador 0-n
                     System.out.println("Resultado de los tokens: ");
 
                     for (int i = 0; i < rs.length; i++) {
+                        if (players.containsKey(i))
+                            players.get(i).setTokenImg(rs[i]);
+
                         System.out.println(String.format("\tEl di: %d escogió el token= %d", i, rs[i]));
                     }
 
