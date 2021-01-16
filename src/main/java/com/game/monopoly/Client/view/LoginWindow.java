@@ -14,8 +14,6 @@ public class LoginWindow extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         lbMonopoly = new javax.swing.JLabel();
         tfUserName = new javax.swing.JTextField();
-        cbTokens = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btnExit = new javax.swing.JLabel();
@@ -33,21 +31,11 @@ public class LoginWindow extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Jugar");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(80, 400, 60, 25);
+        jLabel3.setBounds(80, 300, 60, 25);
         getContentPane().add(lbMonopoly);
         lbMonopoly.setBounds(50, 40, 400, 80);
         getContentPane().add(tfUserName);
         tfUserName.setBounds(40, 210, 420, 30);
-
-        cbTokens.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(cbTokens);
-        cbTokens.setBounds(40, 320, 420, 30);
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Ficha");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(40, 270, 220, 30);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -60,17 +48,17 @@ public class LoginWindow extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Salir");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(80, 480, 60, 25);
+        jLabel4.setBounds(80, 380, 60, 25);
         getContentPane().add(btnExit);
-        btnExit.setBounds(40, 470, 140, 50);
+        btnExit.setBounds(40, 370, 140, 50);
         getContentPane().add(btnPlay);
-        btnPlay.setBounds(40, 390, 140, 50);
+        btnPlay.setBounds(40, 290, 140, 50);
 
         background.setMaximumSize(new java.awt.Dimension(500, 600));
         background.setMinimumSize(new java.awt.Dimension(500, 600));
         background.setPreferredSize(new java.awt.Dimension(500, 600));
         getContentPane().add(background);
-        background.setBounds(0, 0, 500, 600);
+        background.setBounds(0, 0, 500, 510);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -80,8 +68,6 @@ public class LoginWindow extends javax.swing.JFrame {
     public javax.swing.JLabel background;
     public javax.swing.JLabel btnExit;
     public javax.swing.JLabel btnPlay;
-    private javax.swing.JComboBox<String> cbTokens;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

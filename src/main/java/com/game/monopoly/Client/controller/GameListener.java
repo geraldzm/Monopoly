@@ -2,10 +2,8 @@
 package com.game.monopoly.Client.controller;
 
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
-
-import com.game.monopoly.Client.model.Objects.Player;
-import com.game.monopoly.Client.model.Objects.Players;
-import com.game.monopoly.Client.view.ComboBoxPopUp;
+import com.game.monopoly.Client.model.Objects.*;
+import com.game.monopoly.Client.view.*;
 import com.game.monopoly.common.Comunication.*;
 import static com.game.monopoly.common.Comunication.IDMessage.*;
 import java.io.*;
@@ -129,7 +127,9 @@ public class GameListener {
                     FrameController controller = FrameController.getInstance();
 
                     controller.openWindow(FramesID.GAME);
-
+                    
+                    
+                    window = ((GameController) controller.getWindow(FramesID.GAME)).getWindow();
                     server.sendMessage(DONE);
                 }
 

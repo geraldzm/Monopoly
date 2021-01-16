@@ -14,6 +14,8 @@ public class GameMatrix {
     
     private final Token[][][] gameMatrix;
     
+    private final Rectangle[] positions;
+    
     public GameMatrix(int cols, int rows, int screenWidth, int screenHeight){
         this.cols = cols;
         this.rows = rows;
@@ -22,6 +24,28 @@ public class GameMatrix {
         this.screenHeight = screenHeight;
         
         gameMatrix = new Token[totalCards][2][objectsPerCard / 2];
+        positions = new Rectangle[40];
+        
+        generateRectangles();
+    }
+    
+    // Dada una posicion x, y en el canvas determina que carta selecciono
+    // Retorna -1 si no toco ninguna
+    public int getCardClicked(int x, int y){
+        for (int i = 0; i < positions.length; i++){
+            if (positions[i].contains(x, y)) return i;
+        }
+        
+        return -1;
+    }
+    
+    private void generateRectangles(){
+        for (int i = 0; i < positions.length; i++){
+            Point pos = getPosition(indexToPos(i).x, indexToPos(i).y);
+            Point sizes = getSizes(indexToPos(i).x, indexToPos(i).y);
+            
+            positions[i] = new Rectangle(pos.x, pos.y, sizes.x, sizes.y);
+        }
     }
 
     // Recibe un index de la posicion de la carta y lo settea en la matriz
@@ -110,7 +134,7 @@ public class GameMatrix {
         Point pos = points.get(0);
         Point size = points.get(1);
         
-        pos = matrixRect(0, 1, pos.x, pos.y, size.x, size.y);
+        pos = matrixRect(0, 0, pos.x, pos.y, size.x, size.y);
         
         return pos;
     }
@@ -124,6 +148,12 @@ public class GameMatrix {
         pos = matrixRect(y, x, pos.x, pos.y, size.x, size.y);
         
         return pos;
+    }
+    
+    public Point getSizes(int x, int y){
+        ArrayList<Point> points = getPoints(x, y);
+        
+        return points.get(1);
     }
     
     // Dado un plano determina el punto donde deberia ir colocado un objeto
@@ -253,19 +283,20 @@ public class GameMatrix {
         Color color = g.getColor();
         
         g.setColor(Color.red);
-        for (int y = 0; y < cols; y++){
-            for (int x = 0; x < rows; x++){
-                ArrayList<Point> points = getPoints(x, y);
-                
-                Point pos = points.get(0);
-                Point size = points.get(1);
-                
-                drawInnerSquares(g, pos.x, pos.y, size.x, size.y);
-                
-                // Test para verificar la hitbox
-                g.drawRect(pos.x, pos.y, size.x, size.y);
-            }
+        
+        for (Rectangle position : positions) {
+            g.drawRect(position.x, position.y, position.width, position.height);
         }
+        /*for (int y = 0; y < cols; y++){
+        for (int x = 0; x < rows; x++){
+        ArrayList<Point> points = getPoints(x, y);
+        Point pos = points.get(0);
+        Point size = points.get(1);
+        drawInnerSquares(g, pos.x, pos.y, size.x, size.y);
+        // Test para verificar la hitbox
+        g.drawRect(pos.x, pos.y, size.x, size.y);
+        }
+        }*/
         
         g.setColor(color);
     }

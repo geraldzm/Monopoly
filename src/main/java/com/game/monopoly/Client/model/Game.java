@@ -2,10 +2,11 @@ package com.game.monopoly.Client.model;
 
 import static com.game.monopoly.Client.model.Constant.*;
 import com.game.monopoly.Client.model.Handler.*;
-import com.game.monopoly.Client.model.Interfaces.Clickable;
+import com.game.monopoly.Client.model.Interfaces.*;
 import com.game.monopoly.Client.model.Objects.*;
+import com.game.monopoly.Client.view.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.image.*;
 import java.util.*;
 import javax.swing.*;
@@ -21,8 +22,6 @@ public class Game extends Canvas implements Runnable, Clickable {
             Utils.getIcon.apply(GAME_BACKGROUND).getScaledInstance(CANVAS_WIDTH, CANVAS_HEIGHT, 0)
     );
     
-    private long since;
-    private final long sinceD = 10000;
     public Dice dice1, dice2;
 
     public Game(){
@@ -36,8 +35,9 @@ public class Game extends Canvas implements Runnable, Clickable {
         
         handlerGameObjects.addObject(dice1);
         handlerGameObjects.addObject(dice2);
-
-        since = new Date().getTime();
+        
+        Mouse mouse = new Mouse(this);
+        this.addMouseListener(mouse);
     }
 
     public synchronized void start(){
@@ -103,6 +103,7 @@ public class Game extends Canvas implements Runnable, Clickable {
         handlerGameObjects.render(g);
         handlerGameObjects.tick();
         
+        // Si necesitan testear las posiciones de la matriz usen esto
         matrix.drawSquares(g);
         
         g.dispose();
@@ -142,6 +143,11 @@ public class Game extends Canvas implements Runnable, Clickable {
 
     @Override
     public void clickReleased(MouseEvent e) {
-
+        int selectedCard = matrix.getCardClicked(e.getX(), e.getY());
+        
+        if (selectedCard != -1){
+            // TODO: GENERAR JSON & VALIDAR SI ES ENEMIGO
+            new CardWindow(selectedCard, CardWindowType.ENEMY).setVisible(true);
+        }
     }
 }
