@@ -2,10 +2,14 @@ package com.game.monopoly.Client.controller;
 
 
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
+import static com.game.monopoly.common.Comunication.IDMessage.FINISHEDTURN;
+
 import com.game.monopoly.Client.model.Objects.*;
 import com.game.monopoly.Client.model.*;
 import com.game.monopoly.Client.model.Objects.*;
 import com.game.monopoly.Client.view.*;
+import com.game.monopoly.Server.Server;
+
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
@@ -38,10 +42,12 @@ public class GameController implements IController, MouseListener{
         try {
             window.btnSend.addMouseListener(this);
             window.btnCards.addMouseListener(this);
+            window.btnTurn.addMouseListener(this);
             
             window.background.setIcon(Utils.getComponentIcon("AppBG.png", window.background.getWidth(), window.background.getHeight()));
             window.btnCards.setIcon(Utils.getComponentIcon("ButtonsBG.png", window.btnCards.getWidth(), window.btnCards.getHeight()));
             window.btnSend.setIcon(Utils.getComponentIcon("ButtonsBG.png", window.btnSend.getWidth(), window.btnSend.getHeight()));
+            window.btnTurn.setIcon(Utils.getComponentIcon("ButtonsBG.png", window.btnTurn.getWidth(), window.btnTurn.getHeight()));
         
             // Activamos el chat y el log
             GameListener.getInstance().setChatListener();
@@ -64,6 +70,18 @@ public class GameController implements IController, MouseListener{
         } else if (e.getSource().equals(window.btnSend)){
             onBtnSendClicked();
             
+        } else if (e.getSource().equals(window.btnTurn)){
+            onBtnTurn();
+        }
+    }
+
+    private void onBtnTurn(){
+        System.out.println("Cliente: el turno ha terminado");
+        try {
+            ServerCommunication serverCommunication = getServerCommunication();
+            serverCommunication.sendMessage(FINISHEDTURN);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
     

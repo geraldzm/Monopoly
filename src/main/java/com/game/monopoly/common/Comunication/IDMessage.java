@@ -15,6 +15,7 @@ public enum IDMessage implements Serializable {
     STARTED(true),
     GAMEREADY(true),
     END,
+    FINISHEDTURN,
     MESSAGE,
     LOGBOOK,
     ID(true),

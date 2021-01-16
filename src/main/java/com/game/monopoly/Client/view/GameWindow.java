@@ -12,6 +12,8 @@ public class GameWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
+        btnTurn = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnSend = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -35,6 +37,19 @@ public class GameWindow extends javax.swing.JFrame {
         setResizable(false);
         setSize(new java.awt.Dimension(1550, 1035));
         getContentPane().setLayout(null);
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Terminar turno");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(190, 950, 130, 40);
+
+        btnTurn.setBackground(new java.awt.Color(0, 0, 0));
+        btnTurn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnTurn.setForeground(new java.awt.Color(0, 0, 0));
+        getContentPane().add(btnTurn);
+        btnTurn.setBounds(190, 950, 130, 40);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -121,8 +136,10 @@ public class GameWindow extends javax.swing.JFrame {
     public javax.swing.JLabel background;
     public javax.swing.JLabel btnCards;
     public javax.swing.JLabel btnSend;
+    public javax.swing.JLabel btnTurn;
     public javax.swing.JPanel gameContainer;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
