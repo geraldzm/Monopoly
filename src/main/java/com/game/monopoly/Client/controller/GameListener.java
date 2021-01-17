@@ -58,7 +58,6 @@ public class GameListener {
             GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
 
             gameController.addLogMsg(msg.getString());
-            server.sendDone();
         };
 
         server.setLogbookListener(logListener);
@@ -227,6 +226,41 @@ public class GameListener {
 
                     server.sendMessage(DONE);
                 }
+
+                case TURN -> {
+                    // hago un JOptionPane en vez del mensaje de abajo porque hay que hacer mas que un simple mensaje, solo como recordatorio
+                    JOptionPane.showMessageDialog(window, "Comienza mi turno" + player.getName());
+                    server.sendDone();
+                }
+
+                case ADDCARD -> {
+                    System.out.println("Se intenta agregar una card con el id: " + msg.getNumber());
+                    server.sendDone();
+                }
+
+                case REMOVECARD -> {
+                    System.out.println("Se intenta quitar una card con el id: " + msg.getNumber());
+                    server.sendDone();
+                }
+                case REJECTEDBUYATTEND -> {
+                    System.out.println("No se pudo comprar la carta con el id: " + msg.getNumber());
+                    System.out.println("Por la razon: " + msg.getString());
+                    server.sendDone();
+                }
+                case TAKEMONEY -> {
+                    System.out.println("El nuevo saldo del cliente " + players.get(msg.getNumber()).getName() + " es: " + msg.getNumber());
+                    server.sendDone();
+                }
+                case LOSSER -> {
+                    System.out.println("Este cliente ha perdido");
+                    server.sendDone();
+                }
+/*
+3. Cliente solicita vender
+4. Cliente solicita hipotecar
+8. Server le puede notificar al cliente que muestre cartas
+10.
+* */
             }
         };
 

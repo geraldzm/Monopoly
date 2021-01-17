@@ -1,5 +1,7 @@
 package com.game.monopoly.common.Comunication;
 
+import com.game.monopoly.Server.Player;
+
 import java.io.Serializable;
 
 public class Message implements Serializable {
@@ -9,6 +11,7 @@ public class Message implements Serializable {
     private final int[] numbers;
     private final String string;
     private final IDMessage idMessage;
+    private transient Player player;
 
     public Message(int number, String string, IDMessage idMessage) {
         this.number = number;
@@ -78,5 +81,13 @@ public class Message implements Serializable {
 
     public Integer getId() {
         return id;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

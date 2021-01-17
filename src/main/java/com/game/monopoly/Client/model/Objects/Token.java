@@ -2,9 +2,7 @@ package com.game.monopoly.Client.model.Objects;
 
 import com.game.monopoly.Client.controller.ServerCommunication;
 import com.game.monopoly.Client.model.GameMatrix;
-import com.game.monopoly.Client.model.Objects.GameObject;
 import com.game.monopoly.Client.model.Utils;
-import com.game.monopoly.common.Comunication.IDMessage;
 
 import static com.game.monopoly.Client.model.Constant.*;
 import java.awt.*;
@@ -82,7 +80,6 @@ public class Token extends GameObject{
         int sigmaX = Math.abs(pos.x - moveTo.x);
         int sigmaY = Math.abs(pos.y - moveTo.y);
 
-        System.out.println("Pos: " + pos + ", tinee que llegar a: " + moveTo);
 
         if (sigmaX < 3 && sigmaY < 3){
             moveTo = null;

@@ -18,10 +18,7 @@ public class ChatConnection extends Connection {
         // CHAT listenner
         super.setListener( m -> {
             switch (m.getIdMessage()) {
-                case LOGBOOK -> {
-                    if(chat != null) chat.action(m);
-                }
-                case MESSAGE ->{
+                case LOGBOOK, MESSAGE -> {
                     if(chat != null) chat.action(m);
                 }
                 default -> {

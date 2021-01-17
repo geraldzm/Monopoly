@@ -16,6 +16,7 @@ public class CardWindow extends JFrame{
         setSize(card.getWidth(), card.getHeight() + 40);
         setLayout(null);
         setResizable(false);
+        setLocationRelativeTo(null);
 
         add(card);
     }

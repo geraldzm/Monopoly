@@ -38,7 +38,8 @@ public class GameController implements IController, MouseListener{
         window.gameContainer.add(game);
         
         globalMsg.add("Dinero: $0");
-        
+        globalMsg.add("Player: " + Player.getInstance().getName());
+
         try {
             window.btnSend.addMouseListener(this);
             window.btnCards.addMouseListener(this);
@@ -76,7 +77,7 @@ public class GameController implements IController, MouseListener{
     }
 
     private void onBtnTurn(){
-        System.out.println("Cliente: el turno ha terminado");
+        triggerGlobalMsg("Cliente: el turno ha terminado");
         try {
             ServerCommunication serverCommunication = getServerCommunication();
             serverCommunication.sendMessage(FINISHEDTURN);

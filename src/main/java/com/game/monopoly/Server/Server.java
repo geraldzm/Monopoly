@@ -1,7 +1,5 @@
 package com.game.monopoly.Server;
 
-
-
 import com.game.monopoly.common.Comunication.*;
 import com.game.monopoly.common.*;
 import static com.game.monopoly.common.Comunication.IDMessage.*;
@@ -10,24 +8,67 @@ import java.util.concurrent.atomic.*;
 import java.util.stream.*;
 
 
-public class Server extends RunnableThread {
+public class Server extends RunnableThread implements Listener{
 
 
     private Hashtable<Integer, Player> players; // Integer = turn; 0-n
     private ArrayList<Player> playersByIds; // order = id; 0-n
     private int turn;
+    private Player currentPlayer;
+    private final Object diceLocker, turnLocker;
 
     public Server() {
         players = new Hashtable<>();
         playersByIds = connectPlayers();
+        LogMessageFactory.setAllPlayers(playersByIds); // sign all players to receive LogMessages
         gameInit(playersByIds); // conectamos a todos && settiamos el juego
-        turn = 0;
+        turn = 1;
+        diceLocker = new Object();
+        turnLocker = new Object();
     }
 
     @Override
     public void execute() {
         // Game starts
-        stopThread();
+        currentPlayer = players.get(turn); //
+        ActionQueue actionQueue = new ActionQueue(currentPlayer);
+
+        actionQueue.addAction(new Message(TURN)); // notify that his turn has started
+        actionQueue.executeQueue();
+
+        currentPlayer.setListener(this); // start listening this player
+
+        //wait until he rolls the dices
+      //  waitWith(diceLocker);
+
+        //roll dices
+        currentPlayer.rollDices();
+        actionQueue.addAction(new Message(currentPlayer.getDices(), DICE));
+        actionQueue.executeQueue();
+
+        currentPlayer.move(currentPlayer.getDices()[2]);
+        quickActionQueue(playersByIds, new Message(new int[]{currentPlayer.getId(), 1, currentPlayer.getPosition()}, MOVE));
+
+
+        currentPlayer.setListener(this); // start listening this player
+        currentPlayer.removeReceiverFilter();
+
+        // wait for further actions (sell houses etc)
+        waitWith(turnLocker);
+
+
+        turn = turn+1 > playersByIds.size() ? 1: turn+1; // next turn
+        //stopThread();
+    }
+
+    private void waitWith(Object locker) {
+        synchronized (locker){
+            try {
+                locker.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -44,7 +85,7 @@ public class Server extends RunnableThread {
         actionQueue.executeQueue();
 
         // 3. send names
-        actionQueue.addAction(new Message( getNamesFromPlayers(players), NAMES));
+        actionQueue.addAction(new Message(getNamesFromPlayers(players), NAMES));
         actionQueue.executeQueue();
 
         // 4. init chat
@@ -63,7 +104,6 @@ public class Server extends RunnableThread {
 
         // 8. notify start
         actionQueue.addAction(new Message(GAMEREADY));
-        actionQueue.addAction(new Message( new int[]{0, 1, 3} , MOVE));
         actionQueue.executeQueue();
     }
 
@@ -127,9 +167,8 @@ public class Server extends RunnableThread {
         if(players.size() == 1){
             this.players.put(turn.getAndIncrement(), players.get(0));
             System.out.println("Se le asigna el turno a : " +  players.get(0).getName()+ " " +  (turn.get()-1));
-            ActionQueue actionTurn = new ActionQueue(players.get(0));
-            actionTurn.addAction(new Message((turn.get()-1), TURNRS));
-            actionTurn.executeQueue();
+
+            quickActionQueue(Arrays.asList(players.get(0)), new Message((turn.get()-1), TURNRS));
             return;
         }
 
@@ -157,10 +196,8 @@ public class Server extends RunnableThread {
         }
 
         //le informamos a todos:
-        ActionQueue actionQueueAll = new ActionQueue(new ArrayList<>(all));
-        actionQueueAll.addAction(new Message(results, getNamesFromPlayers(players), DICES));
-        actionQueueAll.executeQueue();
-        
+        quickActionQueue(all, new Message(results, getNamesFromPlayers(players), DICES));
+
 
         //1. tiramos los dados de todos
         for (Player player : players) {
@@ -182,6 +219,33 @@ public class Server extends RunnableThread {
         }
     }
 
+    private void quickActionQueue(List<Player> all, Message message) {
+        ActionQueue actionQueueAll = new ActionQueue(new ArrayList<>(all));
+        actionQueueAll.addAction(message);
+        actionQueueAll.executeQueue();
+    }
+
+    @Override
+    public void action(Message message) {
+        switch (message.getIdMessage()){
+            case FINISHEDTURN -> {
+                synchronized (turnLocker){
+                    turnLocker.notify();
+                }
+            }
+            case ROLLDICES -> {
+                synchronized (diceLocker){
+                    diceLocker.notify();
+                }
+            }
+
+            case BUYPROPERTY -> {
+                System.out.println("Se intenta comprar una carta: " + message.getNumber());
+            }
+
+            default -> System.out.println("Not supported: "+ message.getIdMessage());
+        }
+    }
 
     /**
      * tira los dados de todos los jugadores

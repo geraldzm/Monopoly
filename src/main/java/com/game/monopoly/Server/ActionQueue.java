@@ -81,8 +81,12 @@ public class ActionQueue {
             // SEND
             for (int i = 0; i < recipients.size(); i++) {
                 Connection connection = recipients.get(i);
-                connection.setReceiverFilter(filter);
-                connection.sendMessage(messages.get(i));
+                connection.setReceiverFilter(filter); // set filter before sending the message
+                Message message = messages.get(i);
+                message.setPlayer((Player) connection);
+                connection.sendMessage(message);
+
+                LogMessageFactory.sendLogBookMessage(message);// bitacora
             }
 
             // WAIT
