@@ -131,7 +131,9 @@ public class GameListener {
                         if (ID == player.getID()) continue;
 
                         System.out.println("Adding ID#" + ID + ", Name: " + playerNames[ID]);
+                        
                         Players currentPlayer = new Players();
+                        
                         currentPlayer.setID(ID);
                         currentPlayer.setName(playerNames[ID]);
 

@@ -1,8 +1,7 @@
 package com.game.monopoly.Client.model;
 
+import com.game.monopoly.Client.controller.*;
 import static com.game.monopoly.Client.model.Constant.*;
-
-import com.game.monopoly.Client.controller.GameListener;
 import com.game.monopoly.Client.model.Handler.*;
 import com.game.monopoly.Client.model.Interfaces.*;
 import com.game.monopoly.Client.model.Objects.*;
@@ -156,8 +155,11 @@ public class Game extends Canvas implements Runnable, Clickable {
                 } else{
                     new CardWindow(selectedCard, CardWindowType.ENEMY).setVisible(true);
                 }
+                
+                break;
             } else{
                 new CardWindow(selectedCard, CardWindowType.BANk).setVisible(true);
+                break;
             }
         }
     }

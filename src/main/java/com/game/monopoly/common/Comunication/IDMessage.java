@@ -1,6 +1,6 @@
 package com.game.monopoly.common.Comunication;
 
-import java.io.Serializable;
+import java.io.*;
 
 public enum IDMessage implements Serializable {
     //main.java.Server->client
@@ -30,6 +30,7 @@ public enum IDMessage implements Serializable {
     LOSSER(true),
     //######main.java.Client -> main.java.Server######
     BUYPROPERTY,
+    SELLPROPERTY,
     FINISHEDTURN,
     ROLLDICES,
     RESPONSE,

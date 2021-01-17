@@ -1,5 +1,7 @@
 package com.game.monopoly.Client.controller;
 
+import com.game.monopoly.Client.model.*;
+import com.game.monopoly.Client.model.Objects.*;
 import com.game.monopoly.Client.view.*;
 import java.util.*;
 
@@ -40,6 +42,17 @@ public class FrameController {
         windows.get(frame).start();
         
         currentWindow = windows.get(frame);
+    }
+    
+    // Abre las cartas de un jugador
+    public void openCardsFromPlayer(Players player){
+        int[] cards = player.getCardsArray();
+        
+        CardWindowType type = (player.getID() == Player.getInstance().getID()) ? CardWindowType.FRIEND : CardWindowType.ENEMY;
+        
+        CardsScrollWindow window = new CardsScrollWindow(cards, type);
+        
+        window.setVisible(true);
     }
     
     // Abre una nueva ventana sin sustituir a la principal

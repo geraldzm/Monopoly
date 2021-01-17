@@ -56,7 +56,7 @@ public class GameObject implements IRenderable, ITick {
     }
     
     // Determina si el objeto se puede renderizar o hacer algo
-    private boolean canStart(){
+    protected boolean canStart(){
         return img != null && pos != null && vel != null;
     }
 

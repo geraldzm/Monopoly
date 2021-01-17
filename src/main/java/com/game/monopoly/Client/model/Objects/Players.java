@@ -68,5 +68,18 @@ public class Players extends Token {
         this.cards = cards;
     }
     
-    
+    public int[] getCardsArray(){
+        ArrayList<Integer> arr = new ArrayList<>();
+        
+        for (int i = 0; i < 39; i++) if (cards.contains(i)){
+            arr.add(i);
+        }
+        int [] intArr = new int[arr.size()];
+        
+        for (int i = 0; i < arr.size(); i++){
+            intArr[i] = arr.get(i);
+        }
+        
+        return intArr;
+    }
 }
