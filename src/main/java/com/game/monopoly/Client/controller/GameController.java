@@ -42,12 +42,14 @@ public class GameController implements IController, MouseListener{
             window.btnSend.addMouseListener(this);
             window.btnCards.addMouseListener(this);
             window.btnTurn.addMouseListener(this);
+            window.btnDice.addMouseListener(this);
             
             window.background.setIcon(Utils.getComponentIcon("AppBG.png", window.background.getWidth(), window.background.getHeight()));
             window.btnCards.setIcon(Utils.getComponentIcon("ButtonsBG.png", window.btnCards.getWidth(), window.btnCards.getHeight()));
             window.btnSend.setIcon(Utils.getComponentIcon("ButtonsBG.png", window.btnSend.getWidth(), window.btnSend.getHeight()));
             window.btnTurn.setIcon(Utils.getComponentIcon("ButtonsBG.png", window.btnTurn.getWidth(), window.btnTurn.getHeight()));
-        
+            window.btnDice.setIcon(Utils.getComponentIcon("ButtonsBG.png", window.btnDice.getWidth(), window.btnDice.getHeight()));
+                    
             // Activamos el chat y el log
             GameListener.getInstance().setChatListener();
             GameListener.getInstance().setLogListener();
