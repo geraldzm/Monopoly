@@ -1,7 +1,6 @@
 package com.game.monopoly.Client.model.Objects;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class Players extends Token {
     private String name;
@@ -11,12 +10,14 @@ public class Players extends Token {
 
     private ArrayList<Houses> houses;
     private ArrayList<Houses> hotel;
+    private HashSet<Integer> cards;
 
     public Players(){
         super();
 
         houses = new ArrayList<>();
         hotel = new ArrayList<>();
+        cards = new HashSet<>();
     }
 
     public String getName() {
@@ -42,4 +43,30 @@ public class Players extends Token {
     public void setToken(int token) {
         this.token = token;
     }
+
+    public ArrayList<Houses> getHouses() {
+        return houses;
+    }
+
+    public void setHouses(ArrayList<Houses> houses) {
+        this.houses = houses;
+    }
+
+    public ArrayList<Houses> getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(ArrayList<Houses> hotel) {
+        this.hotel = hotel;
+    }
+
+    public HashSet<Integer> getCards() {
+        return cards;
+    }
+
+    public void setCards(HashSet<Integer> cards) {
+        this.cards = cards;
+    }
+    
+    
 }

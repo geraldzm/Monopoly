@@ -88,6 +88,8 @@ public class GameListener {
         server.removeReceiverFilter();
 
         Player player = Player.getInstance();
+        
+        GameController gameController = (GameController) FrameController.getInstance().getWindow(FramesID.GAME);
 
         Listener gameListener = msg -> {
             switch(msg.getIdMessage()){
@@ -150,10 +152,6 @@ public class GameListener {
                 }
 
                 case MOVE -> {
-
-                    FrameController controller = FrameController.getInstance();
-                    GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
-
                     Players cPlayer = players.get(msg.getNumbers()[0]);
                     int pos = msg.getNumbers()[2];
                     boolean dir = msg.getNumbers()[1] == 0; // 0 atras, 1 hacia adelante
@@ -163,15 +161,10 @@ public class GameListener {
                 }
 
                 case GAMEREADY -> {
-                    FrameController controller = FrameController.getInstance();
-                    GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
                     gameController.addPlayers(players);
                     server.sendDone();
                 }
                 case DICE -> {
-                    FrameController controller = FrameController.getInstance();
-                    GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
-
                     gameController.triggerDiceAnimation(msg.getNumbers());
                     gameController.triggerGlobalMsg("Se han tirado los dados!");
                 }
@@ -205,7 +198,6 @@ public class GameListener {
                 case GIVEMONEY -> {
                     // trae un mensaje en el string con la razon por la que se le da la plata
                     // tiene la cantidad de plata que se le esta dando en el numero
-                    GameController gameController = (GameController) FrameController.getInstance().getWindow(FramesID.GAME);
 
                     gameController.setPlayerMoney(msg.getNumber());
                     gameController.triggerGlobalMsg(String.format("%s: %s", msg.getString(), player.getName()));
@@ -233,26 +225,35 @@ public class GameListener {
                     server.sendDone();
                 }
 
-                case ADDCARD -> {
+                case ADDCARD -> {                    
                     System.out.println("Se intenta agregar una card con el id: " + msg.getNumber());
+                    player.getCards().add(msg.getNumber());
                     server.sendDone();
                 }
 
                 case REMOVECARD -> {
                     System.out.println("Se intenta quitar una card con el id: " + msg.getNumber());
+                    
+                    if (player.getCards().contains(msg.getNumber()))
+                        player.getCards().remove(msg.getNumber());
+                    else
+                        System.out.println("El jugador no posee esa carta");
+                    
                     server.sendDone();
                 }
                 case REJECTEDBUYATTEND -> {
-                    System.out.println("No se pudo comprar la carta con el id: " + msg.getNumber());
-                    System.out.println("Por la razon: " + msg.getString());
+                    JOptionPane.showMessageDialog(window, "No se pudo comprar la carta con el id: " + msg.getNumber());
+                    JOptionPane.showMessageDialog(window, "Por la razon: " + msg.getString());
                     server.sendDone();
                 }
                 case TAKEMONEY -> {
-                    System.out.println("El nuevo saldo del cliente " + players.get(msg.getNumber()).getName() + " es: " + msg.getNumber());
+                    gameController.setPlayerMoney(msg.getNumber());
+                    gameController.triggerGlobalMsg("Usted ha recibido dinero...");
                     server.sendDone();
                 }
                 case LOSSER -> {
-                    System.out.println("Este cliente ha perdido");
+                    gameController.triggerGlobalMsg("Has perdido...");
+                    gameController.triggerUI(false);
                     server.sendDone();
                 }
 /*

@@ -2,14 +2,11 @@ package com.game.monopoly.Client.controller;
 
 
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
-import static com.game.monopoly.common.Comunication.IDMessage.FINISHEDTURN;
-
 import com.game.monopoly.Client.model.Objects.*;
 import com.game.monopoly.Client.model.*;
 import com.game.monopoly.Client.model.Objects.*;
 import com.game.monopoly.Client.view.*;
-import com.game.monopoly.Server.Server;
-
+import static com.game.monopoly.common.Comunication.IDMessage.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
@@ -18,6 +15,7 @@ public class GameController implements IController, MouseListener{
     private GameWindow window;
     private Game game;
     private final Stack<String> globalMsg;
+    private boolean isUIEnabled = true;
     
     public GameController(GameWindow window){
         this.window = window;
@@ -65,6 +63,8 @@ public class GameController implements IController, MouseListener{
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        if (!isUIEnabled) return;
+        
         if (e.getSource().equals(window.btnCards)){
             onBtnCardsClicked();
         
@@ -73,6 +73,26 @@ public class GameController implements IController, MouseListener{
             
         } else if (e.getSource().equals(window.btnTurn)){
             onBtnTurn();
+        
+        } else if (e.getSource().equals(window.btnDice)){
+            onBtnDice();
+        }
+    }
+    
+    public void triggerUI(boolean turnOn){
+        isUIEnabled = turnOn;
+        game.triggerMouse(turnOn);
+        
+        if (!turnOn){
+            window.btnCards.removeMouseListener(this);
+            window.btnDice.removeMouseListener(this);
+            window.btnSend.removeMouseListener(this);
+            window.btnTurn.removeMouseListener(this);
+        } else{
+            window.btnCards.addMouseListener(this);
+            window.btnDice.addMouseListener(this);
+            window.btnSend.addMouseListener(this);
+            window.btnTurn.addMouseListener(this);
         }
     }
 
@@ -173,6 +193,15 @@ public class GameController implements IController, MouseListener{
         
         controller.init();
         controller.start();
+    }
+    
+    // Aqui se envian los 
+    private void onBtnDice(){
+        try {
+            getServerCommunication().sendMessage(ROLLDICES);
+        } catch (IOException ex) {
+            System.out.println("Erro: " + ex.getMessage());
+        }
     }
     
     // Evento para enviar mensajes
