@@ -6,8 +6,14 @@
 package com.game.monopoly.Client.controller;
 
 import com.game.monopoly.Client.view.PropertyCard;
+import com.game.monopoly.common.Comunication.IDMessage;
+import com.game.monopoly.common.Comunication.Message;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+
+import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
 
 /**
  *
@@ -53,7 +59,11 @@ public class PropertyCardController implements IController, MouseListener {
             
         }
         if (e.getSource().equals(property.buy)){
-        
+            try {
+                getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.BUYPROPERTY));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
         if (e.getSource().equals(property.mortgage)){
         

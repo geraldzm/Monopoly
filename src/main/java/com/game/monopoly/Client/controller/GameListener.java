@@ -274,4 +274,12 @@ public class GameListener {
     public void setWindow(JFrame window) {
         this.window = window;
     }
+
+    public HashMap<Integer, Players> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(HashMap<Integer, Players> players) {
+        this.players = players;
+    }
 }

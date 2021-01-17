@@ -1,6 +1,8 @@
 package com.game.monopoly.Client.model;
 
 import static com.game.monopoly.Client.model.Constant.*;
+
+import com.game.monopoly.Client.controller.GameListener;
 import com.game.monopoly.Client.model.Handler.*;
 import com.game.monopoly.Client.model.Interfaces.*;
 import com.game.monopoly.Client.model.Objects.*;
@@ -143,8 +145,20 @@ public class Game extends Canvas implements Runnable, Clickable {
         int selectedCard = matrix.getCardClicked(e.getX(), e.getY());
         
         if (selectedCard != -1){
-            // TODO: GENERAR JSON & VALIDAR SI ES ENEMIGO
-            new CardWindow(selectedCard, CardWindowType.ENEMY).setVisible(true);
+            GameListener listener = GameListener.getInstance();
+
+            HashMap<Integer, Players> players = listener.getPlayers();
+
+            for (int i = 0; i < 6; i++) if (players.get(i).getCards().contains(selectedCard)){
+
+                if (i == Player.getInstance().getID()){
+                    new CardWindow(selectedCard, CardWindowType.FRIEND).setVisible(true);
+                } else{
+                    new CardWindow(selectedCard, CardWindowType.ENEMY).setVisible(true);
+                }
+            } else{
+                new CardWindow(selectedCard, CardWindowType.BANk).setVisible(true);
+            }
         }
     }
     
