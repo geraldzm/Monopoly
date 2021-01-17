@@ -5,9 +5,11 @@
  */
 package com.game.monopoly.Client.controller;
 
-import com.game.monopoly.Client.view.PropertyCard;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
+import com.game.monopoly.Client.view.*;
+import com.game.monopoly.common.Comunication.*;
+import java.awt.event.*;
+import java.io.*;
 
 /**
  *
@@ -49,14 +51,20 @@ public class PropertyCardController implements IController, MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (e.getSource().equals(property.sell)){
-            
-        }
-        if (e.getSource().equals(property.buy)){
-        
-        }
-        if (e.getSource().equals(property.mortgage)){
-        
+        try {
+            if (e.getSource().equals(property.sell)){
+                System.out.println("Vendiendo propiedad");
+                getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.SELLPROPERTY));
+
+            } else if (e.getSource().equals(property.buy)){          
+                System.out.println("Comprando propiedad");  
+                getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.BUYPROPERTY));
+                
+            } else if (e.getSource().equals(property.mortgage)){
+
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 

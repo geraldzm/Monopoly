@@ -12,6 +12,8 @@ public class GameWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel6 = new javax.swing.JLabel();
+        btnDice = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnTurn = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -37,6 +39,19 @@ public class GameWindow extends javax.swing.JFrame {
         setResizable(false);
         setSize(new java.awt.Dimension(1550, 1035));
         getContentPane().setLayout(null);
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Tirar dados");
+        getContentPane().add(jLabel6);
+        jLabel6.setBounds(360, 950, 110, 40);
+
+        btnDice.setBackground(new java.awt.Color(0, 0, 0));
+        btnDice.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDice.setForeground(new java.awt.Color(0, 0, 0));
+        getContentPane().add(btnDice);
+        btnDice.setBounds(350, 950, 130, 40);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -135,6 +150,7 @@ public class GameWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JLabel background;
     public javax.swing.JLabel btnCards;
+    public javax.swing.JLabel btnDice;
     public javax.swing.JLabel btnSend;
     public javax.swing.JLabel btnTurn;
     public javax.swing.JPanel gameContainer;
@@ -143,6 +159,7 @@ public class GameWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     public javax.swing.JLabel lbGeneralInfo;

@@ -1,9 +1,8 @@
 package com.game.monopoly.Client.view;
 
-import com.game.monopoly.Client.model.Utils;
-
+import com.game.monopoly.Client.model.*;
+import java.io.*;
 import javax.swing.*;
-import java.io.IOException;
 
 
 public class PropertyCard extends Card {
@@ -11,7 +10,7 @@ public class PropertyCard extends Card {
     public static enum Type {
         BUY,SELL,NONE;
     }
-
+    
     public JLabel sell, buy, mortgage;
 
     public PropertyCard(ImageIcon image, int id, Type type) {

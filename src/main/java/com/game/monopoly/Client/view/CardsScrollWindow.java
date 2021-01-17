@@ -1,12 +1,10 @@
 package com.game.monopoly.Client.view;
 
-import com.game.monopoly.Client.controller.CardsScrollLayout;
-import com.game.monopoly.Client.model.CardFactory;
-import com.game.monopoly.Client.model.CardWindowType;
-import com.game.monopoly.Client.model.Utils;
-
+import com.game.monopoly.Client.controller.*;
+import com.game.monopoly.Client.model.*;
+import java.io.*;
+import java.util.*;
 import javax.swing.*;
-import java.io.IOException;
 
 
 public class CardsScrollWindow extends JFrame {
@@ -23,9 +21,15 @@ public class CardsScrollWindow extends JFrame {
         panel.setLocation(0, 0);
         panel.setSize(1004, 350);
         panel.setLayout(new CardsScrollLayout());
+        
+        ArrayList<PropertyCardController> controllers = new ArrayList<>();
 
         for (int cardValue : cards) {
-            panel.add(CardFactory.getCard(cardValue, type.getCardType()));
+            PropertyCard card = CardFactory.getCard(cardValue, type.getCardType());
+            PropertyCardController controller = new PropertyCardController(card);
+            panel.add(card);
+            
+            controllers.add(controller);
         }
 
         try {
@@ -41,6 +45,10 @@ public class CardsScrollWindow extends JFrame {
         scrollPane.setLocation(0, 0);
 
         add(scrollPane);
+        
+        this.pack();
+        
+        controllers.forEach(controller->controller.init());
     }
 
 }

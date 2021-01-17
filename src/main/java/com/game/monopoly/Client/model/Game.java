@@ -1,5 +1,6 @@
 package com.game.monopoly.Client.model;
 
+import com.game.monopoly.Client.controller.*;
 import static com.game.monopoly.Client.model.Constant.*;
 import com.game.monopoly.Client.model.Handler.*;
 import com.game.monopoly.Client.model.Interfaces.*;
@@ -23,6 +24,7 @@ public class Game extends Canvas implements Runnable, Clickable {
     );
     
     public Dice dice1, dice2;
+    private Mouse mouse;
 
     public Game(){
         matrix = new GameMatrix(11, 11, CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -35,8 +37,7 @@ public class Game extends Canvas implements Runnable, Clickable {
         
         handlerGameObjects.addObject(dice1);
         handlerGameObjects.addObject(dice2);
-        
-        Mouse mouse = new Mouse(this);
+        mouse = new Mouse(this);
         this.addMouseListener(mouse);
     }
 
@@ -143,8 +144,31 @@ public class Game extends Canvas implements Runnable, Clickable {
         int selectedCard = matrix.getCardClicked(e.getX(), e.getY());
         
         if (selectedCard != -1){
-            // TODO: GENERAR JSON & VALIDAR SI ES ENEMIGO
-            new CardWindow(selectedCard, CardWindowType.ENEMY).setVisible(true);
+            GameListener listener = GameListener.getInstance();
+
+            HashMap<Integer, Players> players = listener.getPlayers();
+
+            for (int i = 0; i < 6; i++) if (players.get(i).getCards().contains(selectedCard)){
+
+                if (i == Player.getInstance().getID()){
+                    new CardWindow(selectedCard, CardWindowType.FRIEND).setVisible(true);
+                } else{
+                    new CardWindow(selectedCard, CardWindowType.ENEMY).setVisible(true);
+                }
+                
+                break;
+            } else{
+                new CardWindow(selectedCard, CardWindowType.BANk).setVisible(true);
+                break;
+            }
+        }
+    }
+    
+    public void triggerMouse(boolean turnOn){
+        if (!turnOn){
+            this.removeMouseListener(mouse);
+        } else {
+            this.addMouseListener(mouse);
         }
     }
 }
