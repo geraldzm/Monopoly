@@ -5,6 +5,7 @@ public class CardsWindow extends javax.swing.JFrame {
 
     public CardsWindow() {
         initComponents();
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
 
     @SuppressWarnings("unchecked")

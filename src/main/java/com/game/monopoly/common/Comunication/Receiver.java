@@ -30,7 +30,10 @@ public class Receiver extends RunnableThread {
     public void execute() {
         try {
             Message message = (Message) reader.readObject();
-            if(listener != null && filter.test(message)) listener.action(message);
+            if(listener != null && filter.test(message)){
+                System.out.println("--->se recibe : " + message.getIdMessage());
+                listener.action(message);
+            }
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Reading interrupted");
             super.stopThread();

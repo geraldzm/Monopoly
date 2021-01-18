@@ -21,12 +21,8 @@ public class CardFactory {
             if (i < 40){
                 if (i == 0 || i == 10 || i == 20 || i == 30) continue;
 
-                int price;
-                if(i % 2 == 0) price = 200;
-                else price = 100;
-
-                cards.put(i, new PropertyCard(new ImageIcon(Utils.getIcon.apply(i+".png").getScaledInstance(300, 400, 300)), i, price, PropertyCard.Type.NONE));
-
+                int price = 200;
+                cards.put(i, new PropertyCard(null, i, price, PropertyCard.Type.NONE));
 
             } else {
                 if (i == 40 || i == 41) continue;
@@ -69,7 +65,7 @@ public class CardFactory {
                 }
                 int idCard = 40;
                 if (i > 57) idCard = 41;
-                cards.put(i, new CasualCard(new ImageIcon(Utils.getIcon.apply(idCard+".png").getScaledInstance(400, 300, 400)), i, text));
+                cards.put(i, new CasualCard(null, i, text));
             }
         }
     }
@@ -81,11 +77,23 @@ public class CardFactory {
         Card c = cards.get(value);
 
         if (c instanceof PropertyCard){
+
+            c.setImage(new ImageIcon(Utils.getIcon.apply(c.getId()+".png").getScaledInstance(300, 400, Image.SCALE_SMOOTH)));
             PropertyCard propertyCard = new PropertyCard(c.getImage(), c.getId(), ((PropertyCard) c).getPrice(),type);
             new PropertyCardController(propertyCard).init();
+
             return propertyCard;
         }
+
+        c.setImage(new ImageIcon(Utils.getIcon.apply(c.getId()+".png").getScaledInstance(400, 300, Image.SCALE_SMOOTH)));
         return new CasualCard(c.getImage(), c.getId(),((CasualCard)c).getText());
+    }
+
+    public static Card getCard(int value){
+        if(cards == null) {
+            initCardFactory();
+        }
+        return cards.get(value);
     }
 
 }

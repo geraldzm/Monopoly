@@ -216,6 +216,11 @@ public class Game extends Canvas implements Runnable, Clickable {
 
     @Override
     public void clicked(MouseEvent e) {
+    }
+
+    @Override
+    public void clickReleased(MouseEvent e) {
+
         int selectedCard = matrix.getCardClicked(e.getX(), e.getY());
 
         if (selectedCard != -1) {
@@ -236,11 +241,6 @@ public class Game extends Canvas implements Runnable, Clickable {
             }
 
         }
-    }
-
-    @Override
-    public void clickReleased(MouseEvent e) {
-
     }
     
     public void triggerMouse(boolean turnOn){

@@ -26,10 +26,6 @@ public class PropertyCardController implements IController, MouseListener {
     
     @Override
     public void init() {
-        System.out.println(property.sell);
-        System.out.println(property.buy);
-        System.out.println(property.mortgage);
-
         if (property.sell != null)
             property.sell.addMouseListener(this);
 

@@ -1,9 +1,13 @@
 package com.game.monopoly.Server;
 
+import com.game.monopoly.Client.model.CardFactory;
+import com.game.monopoly.Client.view.PropertyCard;
 import com.game.monopoly.common.Comunication.*;
 import com.game.monopoly.common.*;
 import com.game.monopoly.common.Comunication.*;
 import static com.game.monopoly.common.Comunication.IDMessage.*;
+
+import java.net.http.WebSocket;
 import java.util.*;
 import java.util.concurrent.atomic.*;
 import java.util.stream.*;
@@ -40,14 +44,6 @@ public class Server extends RunnableThread implements Listener{
         currentPlayer.setListener(this); // start listening this player
         currentPlayer.removeReceiverFilter();
 
-/*
-
-        actionQueue.addAction(new Message(new int[]{21, 3, 0}, PUTHOUSE));
-        actionQueue.addAction(new Message(new int[]{21, 1, 0}, REMOVEHOUSE));
-        actionQueue.addAction(new Message(new int[]{24, 1, 0}, PUTHOTEL));
-        actionQueue.addAction(new Message(new int[]{26, 3, 0}, PUTHOTEL));
-        actionQueue.addAction(new Message(new int[]{26, 2, 0}, REMOVEHOTEL));
-        actionQueue.executeQueue();*/
 
         //wait until he rolls the dices
         waitWith(diceLocker);
@@ -257,6 +253,47 @@ public class Server extends RunnableThread implements Listener{
             case BUYPROPERTY -> {
                 System.out.println("Se intenta comprar una carta: " + message.getNumber());
 
+                ActionQueue actionQueueAll = new ActionQueue(new ArrayList<>(playersByIds));
+                ActionQueue actionQueue = new ActionQueue(currentPlayer);
+
+                PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
+
+                if(currentPlayer.getCash() >= propertyCard.getPrice()) {
+                    System.out.println("Tiene plata suficiente");
+                    currentPlayer.reduceMoney(propertyCard.getPrice());
+                    currentPlayer.addCard(propertyCard.getId());
+
+                    System.out.println("El nuevo saldo del cliente sera" + currentPlayer.getCash());
+                    actionQueue.addAction(new Message(currentPlayer.getCash(), TAKEMONEY));
+                    actionQueue.executeQueue();
+
+                    System.out.println("Se le va a notificar a todo el mundo : ID:" + currentPlayer.getId() + " card:" + propertyCard.getId());
+                    actionQueueAll.addAction(new Message(new int[]{currentPlayer.getId(), propertyCard.getId()}, ADDCARD));
+                    actionQueueAll.executeQueue();
+
+                }else{
+                    System.out.println("no tiene plata suficiente");
+                    actionQueue.addAction(new Message(CANTBUY));
+                    actionQueue.executeQueue();
+                }
+
+                System.out.println("Validamos que el cliente no se haya quedado pobre");
+                if(currentPlayer.getCash() <= 0) {
+                    System.out.println("Se quedo pobre");
+                    System.out.println("Le notificamos que perdio");
+                    actionQueue.addAction(new Message(LOOSER));
+                    actionQueue.executeQueue();
+
+                    System.out.println("Le notificamos a tooodos que un jugador perdio");
+                    actionQueueAll.addAction(new Message("EL jugador "+currentPlayer.getName() + " ha perdido" , LOOSERS));
+                    actionQueueAll.executeQueue();
+                }
+
+                System.out.println("Volvemos a escuchar a ese jugador con este server");
+                currentPlayer.setListener(this);
+                currentPlayer.removeReceiverFilter();
+
+                System.out.println("fin BUYPROPERTY");
             }
 
             case SELLPROPERTY ->{
@@ -312,6 +349,7 @@ public class Server extends RunnableThread implements Listener{
 
 
     public static void main(String[] args) {
+        CardFactory.getCard(2, PropertyCard.Type.NONE);
         new Server().startThread();
     }
 

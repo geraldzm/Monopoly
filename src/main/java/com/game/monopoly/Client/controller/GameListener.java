@@ -185,7 +185,20 @@ public class GameListener {
                     order.init();
                     order.start();
                 }
+                case CANTBUY -> {
+                    gameController.triggerGlobalMsg("No tienes dinero suficiente.");
+                    server.sendDone();
+                }
+                case LOOSERS -> {
+                    gameController.triggerGlobalMsg(msg.getString());
+                    server.sendDone();
+                }
+                case LOOSER -> {
 
+                    JOptionPane.showMessageDialog(window, "Haz perdido: " + player.getName());
+                    gameController.triggerUI(false);
+                    server.sendDone();
+                }
                 case TURNRS -> {
                     //* TURNRS (turn results): se envia cuando se esta eliguiendo el orden de turno, lleva un int que representa el turno del cliente
                     JOptionPane.showMessageDialog(window, "Mi turno será: " + msg.getNumber()+"  : " + player.getName());
@@ -203,7 +216,7 @@ public class GameListener {
 
                     gameController.setPlayerMoney(msg.getNumber());
                     gameController.triggerGlobalMsg(String.format("%s: %s", msg.getString(), player.getName()));
-                    server.sendMessage(DONE);
+                    server.sendDone();
                 }
 
                 case TOKENS -> {
@@ -229,9 +242,10 @@ public class GameListener {
                     server.sendDone();
                 }
 
+
                 case ADDCARD -> {                    
-                    System.out.println("Se intenta agregar una card con el id: " + msg.getNumber());
-                    player.getCards().add(msg.getNumber());
+                    System.out.println("Se intenta agregar una card con el id: " + msg.getNumbers()[1]);
+                    players.get(msg.getNumbers()[0]).getCards().add(msg.getNumbers()[1]);
                     server.sendDone();
                 }
 
@@ -252,15 +266,10 @@ public class GameListener {
                 }
                 case TAKEMONEY -> {
                     gameController.setPlayerMoney(msg.getNumber());
-                    gameController.triggerGlobalMsg("Usted ha recibido dinero...");
+                    gameController.triggerGlobalMsg("Nuevo saldo...");
+                    System.out.println("Se va a enviar el done");
                     server.sendDone();
                 }
-                case LOSSER -> {
-                    gameController.triggerGlobalMsg("Has perdido...");
-                    gameController.triggerUI(false);
-                    server.sendDone();
-                }
-                
                 case PUTHOUSE ->{
                     System.out.println("Agregando casas...");
                     int position = msg.getNumbers()[0];

@@ -27,6 +27,7 @@ public class Player extends ChatConnection {
         super(socket, null);
         id = count++;
         position = 0;
+        cards = new HashSet<>();
     }
 
 
@@ -126,4 +127,7 @@ public class Player extends ChatConnection {
         this.position = position;
     }
 
+    public void reduceMoney(int amount){
+        cash -= amount;
+    }
 }

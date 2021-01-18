@@ -46,8 +46,7 @@ public class FrameController {
     
     // Abre las cartas de un jugador
     public void openCardsFromPlayer(Players player){
-        //int[] cards = player.getCardsArray();
-        int[] cards = {5, 3};
+        int[] cards = player.getCardsArray();
 
         CardWindowType type = (player.getID() == Player.getInstance().getID()) ? CardWindowType.FRIEND : CardWindowType.ENEMY;
         CardsScrollWindow window = new CardsScrollWindow(cards, type);
