@@ -25,7 +25,7 @@ public class CardsScrollWindow extends JFrame {
         ArrayList<PropertyCardController> controllers = new ArrayList<>();
 
         for (int cardValue : cards) {
-            PropertyCard card = CardFactory.getCard(cardValue, type.getCardType());
+            PropertyCard card = (PropertyCard) CardFactory.getCard(cardValue, type.getCardType());
             PropertyCardController controller = new PropertyCardController(card);
             panel.add(card);
             

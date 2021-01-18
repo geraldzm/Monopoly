@@ -129,7 +129,7 @@ public class Game extends Canvas implements Runnable, Clickable {
 
     // Permite agregar una casa
     public void addHouse(int ID, int position){
-        Houses house = new Houses();
+        Houses house = new Houses(false);
 
         matrix.addPlayer(house, position);
     }

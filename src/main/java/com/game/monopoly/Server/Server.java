@@ -39,7 +39,7 @@ public class Server extends RunnableThread implements Listener{
         currentPlayer.setListener(this); // start listening this player
 
         //wait until he rolls the dices
-      //  waitWith(diceLocker);
+        waitWith(diceLocker);
 
         //roll dices
         currentPlayer.rollDices();
