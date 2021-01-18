@@ -34,7 +34,7 @@ public class LogMessageFactory {
             case REMOVECARD -> logMessage.append(String.format("Se removio una carta a: %s", playerName));
             case REJECTEDBUYATTEND -> logMessage.append(String.format("Se denego la compra a: %s", playerName));
             case LOOSER -> logMessage.append(String.format("%s ha perdido...", playerName));
-            case PUTHOUSE -> logMessage.append(String.format("Se agrego una casa en: %d", message.getNumbers()[0]));
+            case PUTHOUSE -> logMessage.append(String.format("Se agrego una casa en: %d", message.getNumber()));
             case REMOVEHOUSE -> logMessage.append(String.format("Se removio una casa en: %d", message.getNumbers()[0]));
             case PUTHOTEL -> logMessage.append(String.format("Se agrego un hotel en: %d", message.getNumbers()[0]));
             case REMOVEHOTEL -> logMessage.append(String.format("Se removio un hotel en: %d", message.getNumbers()[0]));

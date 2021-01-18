@@ -47,9 +47,11 @@ public class Server extends RunnableThread implements Listener{
         currentPlayer.setListener(this); // start listening this player
         currentPlayer.removeReceiverFilter();
 
-
         //wait until he rolls the dices
         waitWith(diceLocker);
+
+        gameRequests.addAction(new Message(2, PUTHOUSE));
+        gameRequests.executeQueue();
 
         //roll dices
         currentPlayer.rollDices();
@@ -295,6 +297,30 @@ public class Server extends RunnableThread implements Listener{
                 synchronized (turnLocker){
                     turnLocker.notify();
                 }
+            }
+
+            case BUYHOUSE -> {
+
+                PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
+
+                if(currentPlayer.getCash() >= propertyCard.getPrice()) {
+                    currentPlayer.reduceMoney(propertyCard.getPrice());
+                    currentPlayer.addCard(propertyCard.getId());
+
+                    gameRequests.addAction(new Message(new int[]{currentPlayer.getId(), propertyCard.getId()}, ADDCARD));
+
+                }else{
+                    currentPlayer.sendMessage(new Message(CANTBUY));
+                }
+
+                if(currentPlayer.getCash() <= 0) {
+                    gameRequests.addAction(new Message(currentPlayer.getId(), LOOSER));
+                }
+
+                synchronized (turnLocker){
+                    turnLocker.notify();
+                }
+
             }
 
             default -> System.out.println("Not supported: "+ message.getIdMessage());

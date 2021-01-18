@@ -135,8 +135,10 @@ public class Game extends Canvas implements Runnable, Clickable {
     }
 
     // Permite agregar una casa
-    public void addHouse(int ID, int position, int amount){
+    public void addHouse(int position){
         Houses house;
+        int amount = 1;
+        int ID = 0;
         
         GameListener listener = GameListener.getInstance();
 

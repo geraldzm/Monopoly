@@ -257,14 +257,10 @@ public class GameListener {
                     gameController.setPlayerMoney(msg.getNumber());
                     gameController.triggerGlobalMsg("Nuevo saldo...");
                 }
+
                 case PUTHOUSE ->{
                     System.out.println("Agregando casas...");
-                    int position = msg.getNumbers()[0];
-                    int amount = msg.getNumbers()[1];
-                    int ID = msg.getNumbers()[2];
-                    
-                    gameController.getGame().addHouse(ID, position, amount);
-
+                    gameController.getGame().addHouse(msg.getNumber());
                     server.sendDone();
                 }
                 

@@ -14,6 +14,8 @@ public class CardFactory {
     private static Hashtable <Integer, Card> cards;
 
     private CardFactory() {}
+
+
     
     private static void initCardFactory() {
         int price = 0;
