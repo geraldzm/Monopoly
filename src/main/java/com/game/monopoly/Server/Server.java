@@ -29,7 +29,16 @@ public class Server extends RunnableThread implements Listener{
 
     @Override
     public void execute() {
-        // Game starts
+
+        ActionQueue actionQueue = new ActionQueue(players);
+        actionQueue.addAction(new Message(new int[]{21, 3}, PUTHOUSE));
+        actionQueue.addAction(new Message(new int[]{21, 1}, REMOVEHOUSE));
+        actionQueue.addAction(new Message(new int[]{24, 1}, PUTHOTEL));
+        actionQueue.addAction(new Message(new int[]{26, 3}, PUTHOTEL));
+        actionQueue.addAction(new Message(new int[]{26, 2}, REMOVEHOTEL));
+        actionQueue.executeQueue();
+
+       /* // Game starts
         currentPlayer = players.get(turn); //
         ActionQueue actionQueue = new ActionQueue(currentPlayer);
 
@@ -58,7 +67,7 @@ public class Server extends RunnableThread implements Listener{
 
 
         turn = turn+1 > playersByIds.size() ? 1: turn+1; // next turn
-        //stopThread();
+        //stopThread();*/
     }
 
     private void waitWith(Object locker) {
