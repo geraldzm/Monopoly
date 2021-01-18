@@ -30,7 +30,7 @@ public class LogMessageFactory {
             case GETTOKEN -> logMessage.append("Se le solicita el token a: ").append(playerName);
             case TURN -> logMessage.append(String.format("Comienza el turno de: %s", playerName));
             case TOKENS -> logMessage.append("Se enviaron todos los tokens a los clientes...");
-            case ADDCARD -> logMessage.append(String.format("Se agrego una carta a: %s", playerName));
+            case ADDCARD -> logMessage.append(String.format("Se agrego una carta a: %s", allPlayers.get(message.getNumbers()[0]).getName()));
             case REMOVECARD -> logMessage.append(String.format("Se removio una carta a: %s", playerName));
             case REJECTEDBUYATTEND -> logMessage.append(String.format("Se denego la compra a: %s", playerName));
             case LOOSER -> logMessage.append(String.format("%s ha perdido...", playerName));

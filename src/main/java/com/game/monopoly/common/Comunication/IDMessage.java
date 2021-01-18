@@ -28,7 +28,6 @@ public enum IDMessage implements Serializable {
     REMOVECARD(true),
     REJECTEDBUYATTEND(true),
     LOOSER(true),
-    LOOSERS(true),
     CANTBUY(true),
     PUTHOUSE(true),
     REMOVEHOUSE(true),

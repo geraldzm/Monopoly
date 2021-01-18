@@ -19,8 +19,10 @@ public class Server extends RunnableThread implements Listener{
     private Hashtable<Integer, Player> players; // Integer = turn; 0-n
     private ArrayList<Player> playersByIds; // order = id; 0-n
     private int turn;
+    private boolean turnFinished;
     private Player currentPlayer;
     private final Object diceLocker, turnLocker;
+    private ActionQueue buySell;
 
     public Server() {
         players = new Hashtable<>();
@@ -30,11 +32,13 @@ public class Server extends RunnableThread implements Listener{
         turn = 1;
         diceLocker = new Object();
         turnLocker = new Object();
+        buySell = new ActionQueue(players);
     }
 
     @Override
     public void execute() {
          // Game starts
+        turnFinished = false;
         currentPlayer = players.get(turn); //
         ActionQueue actionQueue = new ActionQueue(currentPlayer);
 
@@ -56,13 +60,22 @@ public class Server extends RunnableThread implements Listener{
         currentPlayer.move(currentPlayer.getDices()[2]);
         quickActionQueue(playersByIds, new Message(new int[]{currentPlayer.getId(), 1, currentPlayer.getPosition()}, MOVE));
 
-
         currentPlayer.setListener(this); // start listening this player
         currentPlayer.removeReceiverFilter();
 
         // wait for further actions (sell houses etc)
-        waitWith(turnLocker);
-
+        synchronized (turnLocker){
+            try {
+                while (!turnFinished){
+                    turnLocker.wait();
+                    buySell.executeQueue();
+                    currentPlayer.setListener(this);
+                    currentPlayer.removeReceiverFilter();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
         turn = turn+1 > playersByIds.size() ? 1: turn+1; // next turn
 
@@ -241,6 +254,7 @@ public class Server extends RunnableThread implements Listener{
             case FINISHEDTURN -> {
                 synchronized (turnLocker){
                     turnLocker.notify();
+                    turnFinished = true;
                 }
             }
             case ROLLDICES -> {
@@ -249,51 +263,26 @@ public class Server extends RunnableThread implements Listener{
                     diceLocker.notify();
                 }
             }
-
             case BUYPROPERTY -> {
-                System.out.println("Se intenta comprar una carta: " + message.getNumber());
-
-                ActionQueue actionQueueAll = new ActionQueue(new ArrayList<>(playersByIds));
-                ActionQueue actionQueue = new ActionQueue(currentPlayer);
-
                 PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
 
                 if(currentPlayer.getCash() >= propertyCard.getPrice()) {
-                    System.out.println("Tiene plata suficiente");
                     currentPlayer.reduceMoney(propertyCard.getPrice());
                     currentPlayer.addCard(propertyCard.getId());
 
-                    System.out.println("El nuevo saldo del cliente sera" + currentPlayer.getCash());
-                    actionQueue.addAction(new Message(currentPlayer.getCash(), TAKEMONEY));
-                    actionQueue.executeQueue();
-
-                    System.out.println("Se le va a notificar a todo el mundo : ID:" + currentPlayer.getId() + " card:" + propertyCard.getId());
-                    actionQueueAll.addAction(new Message(new int[]{currentPlayer.getId(), propertyCard.getId()}, ADDCARD));
-                    actionQueueAll.executeQueue();
+                    buySell.addAction(new Message(new int[]{currentPlayer.getId(), propertyCard.getId()}, ADDCARD));
 
                 }else{
-                    System.out.println("no tiene plata suficiente");
-                    actionQueue.addAction(new Message(CANTBUY));
-                    actionQueue.executeQueue();
+                    currentPlayer.sendMessage(new Message(CANTBUY));
                 }
 
-                System.out.println("Validamos que el cliente no se haya quedado pobre");
                 if(currentPlayer.getCash() <= 0) {
-                    System.out.println("Se quedo pobre");
-                    System.out.println("Le notificamos que perdio");
-                    actionQueue.addAction(new Message(LOOSER));
-                    actionQueue.executeQueue();
-
-                    System.out.println("Le notificamos a tooodos que un jugador perdio");
-                    actionQueueAll.addAction(new Message("EL jugador "+currentPlayer.getName() + " ha perdido" , LOOSERS));
-                    actionQueueAll.executeQueue();
+                    buySell.addAction(new Message(currentPlayer.getId(), LOOSER));
                 }
 
-                System.out.println("Volvemos a escuchar a ese jugador con este server");
-                currentPlayer.setListener(this);
-                currentPlayer.removeReceiverFilter();
-
-                System.out.println("fin BUYPROPERTY");
+                synchronized (turnLocker){
+                    turnLocker.notify();
+                }
             }
 
             case SELLPROPERTY ->{
