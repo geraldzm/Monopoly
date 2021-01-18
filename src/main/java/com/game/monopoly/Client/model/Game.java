@@ -216,39 +216,31 @@ public class Game extends Canvas implements Runnable, Clickable {
 
     @Override
     public void clicked(MouseEvent e) {
+        int selectedCard = matrix.getCardClicked(e.getX(), e.getY());
 
+        if (selectedCard != -1) {
+
+            HashMap<Integer, Players> players = GameListener.getInstance().getPlayers();
+
+            Player current = Player.getInstance();
+
+            boolean contain = current.getCards().contains(selectedCard);
+
+
+            if(current.isTurn() && current.getCurrentPos() == selectedCard && !current.getCards().contains(selectedCard)){
+                new CardWindow(selectedCard, CardWindowType.BANk).setVisible(true);
+            }else if(current.isTurn() && contain){
+                new CardWindow(selectedCard, CardWindowType.FRIEND).setVisible(true);
+            }else{
+                new CardWindow(selectedCard, CardWindowType.ENEMY).setVisible(true);
+            }
+
+        }
     }
 
     @Override
     public void clickReleased(MouseEvent e) {
-        int selectedCard = matrix.getCardClicked(e.getX(), e.getY());
-        
-        if (selectedCard != -1){
-            GameListener listener = GameListener.getInstance();
 
-            HashMap<Integer, Players> players = listener.getPlayers();
-
-            PropertyCardController controller;
-            PropertyCard card = null;
-
-            for (int i = 0; i < 6; i++) if (players.get(i).getCards().contains(selectedCard)){
-
-                if (i == Player.getInstance().getID()){
-                    card = (PropertyCard) CardFactory.getCard(selectedCard, PropertyCard.Type.SELL);
-                } else{
-                    card = (PropertyCard) CardFactory.getCard(selectedCard, PropertyCard.Type.NONE);
-                }
-                
-                break;
-            } else{
-                card = (PropertyCard) CardFactory.getCard(selectedCard, PropertyCard.Type.BUY);
-                break;
-            }
-
-            if (card != null){
-                System.out.println("Carta abierta: " + selectedCard);
-            }
-        }
     }
     
     public void triggerMouse(boolean turnOn){

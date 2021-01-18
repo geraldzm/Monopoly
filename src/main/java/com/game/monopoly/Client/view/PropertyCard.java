@@ -1,6 +1,5 @@
 package com.game.monopoly.Client.view;
 
-import com.game.monopoly.Client.controller.PropertyCardController;
 import com.game.monopoly.Client.model.*;
 import java.io.*;
 import javax.swing.*;
@@ -13,26 +12,27 @@ public class PropertyCard extends Card {
     }
     
     public JLabel sell, buy, mortgage;
+    private int price;
 
-    public PropertyCard(ImageIcon image, int id, Type type) {
+    public PropertyCard(ImageIcon image, int id, int price, Type type) {
         super(image, id);
 
-        PropertyCardController controller = new PropertyCardController(this);
+        this.price = price;
 
         switch (type) {
-            case BUY -> initJLabel("Comprar", 15, 310, 85, 20, buy, 2);
+            case BUY -> buy = initJLabel("Comprar", 15, 310, 85, 20, 2);
 
             case SELL -> {
-                initJLabel("Vender", 15, 310, 75, 20, sell, 2);
-                initJLabel("Hipotecar", 140, 310, 90, 20, mortgage, 2);
+                sell = initJLabel("Vender", 15, 310, 75, 20, 2);
+                mortgage = initJLabel("Hipotecar", 160, 310, 90, 20, 2);
             }
         }
-
-        controller.init();
     }
 
-    private void initJLabel(String text, int x, int y, int w, int h, JLabel label, int layer){
-        label = new JLabel(text);
+
+
+    private JLabel initJLabel(String text, int x, int y, int w, int h, int layer){
+        JLabel label = new JLabel(text);
         label.setBounds(x+5, y, w, h);
         label.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         label.setForeground(new java.awt.Color(255, 255, 255));
@@ -47,7 +47,16 @@ public class PropertyCard extends Card {
 
         add(label, layer+1,0);
         add(backGround, layer,0);
+
+        return label;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
 }
 

@@ -16,8 +16,6 @@ public class CardsController implements IController, MouseListener{
         this.window = window;
         
         IDs = new ArrayList<>();
-        
-        init();
     }
     
     @Override

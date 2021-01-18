@@ -26,6 +26,10 @@ public class PropertyCardController implements IController, MouseListener {
     
     @Override
     public void init() {
+        System.out.println(property.sell);
+        System.out.println(property.buy);
+        System.out.println(property.mortgage);
+
         if (property.sell != null)
             property.sell.addMouseListener(this);
 
@@ -56,6 +60,8 @@ public class PropertyCardController implements IController, MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        System.out.println("Boton de carta");
+
         try {
             if (e.getSource().equals(property.sell)){
                 System.out.println("Vendiendo propiedad");
@@ -66,7 +72,7 @@ public class PropertyCardController implements IController, MouseListener {
                 getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.BUYPROPERTY));
                 
             } else if (e.getSource().equals(property.mortgage)){
-
+                System.out.println("Comprando mortgage");
             }
         } catch (IOException ex) {
             ex.printStackTrace();

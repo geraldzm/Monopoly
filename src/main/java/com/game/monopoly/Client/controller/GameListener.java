@@ -224,6 +224,8 @@ public class GameListener {
                 case TURN -> {
                     // hago un JOptionPane en vez del mensaje de abajo porque hay que hacer mas que un simple mensaje, solo como recordatorio
                     JOptionPane.showMessageDialog(window, "Comienza mi turno" + player.getName());
+                    Player.getInstance().setTurn(true);
+                    gameController.triggerUI(true);
                     server.sendDone();
                 }
 

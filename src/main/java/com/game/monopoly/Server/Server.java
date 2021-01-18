@@ -30,17 +30,7 @@ public class Server extends RunnableThread implements Listener{
 
     @Override
     public void execute() {
-
-        ActionQueue actionQueue = new ActionQueue(players);
-        // Necesito que me diga de quien es la casa/hotel (tomemolo como el tercer parametro)
-        actionQueue.addAction(new Message(new int[]{21, 3, 0}, PUTHOUSE));
-        actionQueue.addAction(new Message(new int[]{21, 1, 0}, REMOVEHOUSE));
-        actionQueue.addAction(new Message(new int[]{24, 1, 0}, PUTHOTEL));
-        actionQueue.addAction(new Message(new int[]{26, 3, 0}, PUTHOTEL));
-        actionQueue.addAction(new Message(new int[]{26, 2, 0}, REMOVEHOTEL));
-        actionQueue.executeQueue();
-
-       /* // Game starts
+         // Game starts
         currentPlayer = players.get(turn); //
         ActionQueue actionQueue = new ActionQueue(currentPlayer);
 
@@ -48,6 +38,16 @@ public class Server extends RunnableThread implements Listener{
         actionQueue.executeQueue();
 
         currentPlayer.setListener(this); // start listening this player
+        currentPlayer.removeReceiverFilter();
+
+/*
+
+        actionQueue.addAction(new Message(new int[]{21, 3, 0}, PUTHOUSE));
+        actionQueue.addAction(new Message(new int[]{21, 1, 0}, REMOVEHOUSE));
+        actionQueue.addAction(new Message(new int[]{24, 1, 0}, PUTHOTEL));
+        actionQueue.addAction(new Message(new int[]{26, 3, 0}, PUTHOTEL));
+        actionQueue.addAction(new Message(new int[]{26, 2, 0}, REMOVEHOTEL));
+        actionQueue.executeQueue();*/
 
         //wait until he rolls the dices
         waitWith(diceLocker);
@@ -69,7 +69,8 @@ public class Server extends RunnableThread implements Listener{
 
 
         turn = turn+1 > playersByIds.size() ? 1: turn+1; // next turn
-        //stopThread();*/
+
+        //stopThread();
     }
 
     private void waitWith(Object locker) {
@@ -238,6 +239,8 @@ public class Server extends RunnableThread implements Listener{
 
     @Override
     public void action(Message message) {
+        System.out.println("Se recibe el mensaje: " + message.getIdMessage());
+
         switch (message.getIdMessage()){
             case FINISHEDTURN -> {
                 synchronized (turnLocker){
@@ -245,6 +248,7 @@ public class Server extends RunnableThread implements Listener{
                 }
             }
             case ROLLDICES -> {
+                System.out.println("Se intenta tirar los dados");
                 synchronized (diceLocker){
                     diceLocker.notify();
                 }
@@ -252,6 +256,7 @@ public class Server extends RunnableThread implements Listener{
 
             case BUYPROPERTY -> {
                 System.out.println("Se intenta comprar una carta: " + message.getNumber());
+
             }
 
             case SELLPROPERTY ->{

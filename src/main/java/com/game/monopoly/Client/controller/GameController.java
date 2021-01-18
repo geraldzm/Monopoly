@@ -67,6 +67,7 @@ public class GameController implements IController, MouseListener{
         if (!isUIEnabled) return;
         
         if (e.getSource().equals(window.btnCards)){
+            System.out.println("Found it");
             onBtnCardsClicked();
         
         } else if (e.getSource().equals(window.btnSend)){
@@ -101,6 +102,8 @@ public class GameController implements IController, MouseListener{
         triggerGlobalMsg("Cliente: el turno ha terminado");
         try {
             ServerCommunication serverCommunication = getServerCommunication();
+            Player.getInstance().setTurn(false);
+            triggerUI(false);
             serverCommunication.sendMessage(FINISHEDTURN);
         } catch (IOException e) {
             e.printStackTrace();

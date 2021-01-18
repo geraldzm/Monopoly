@@ -1,5 +1,6 @@
 package com.game.monopoly.Client.model;
 
+import com.game.monopoly.Client.controller.PropertyCardController;
 import com.game.monopoly.Client.view.Card;
 import com.game.monopoly.Client.view.CasualCard;
 import com.game.monopoly.Client.view.PropertyCard;
@@ -19,8 +20,15 @@ public class CardFactory {
         for (int i = 0; i < 73; i++) {
             if (i < 40){
                 if (i == 0 || i == 10 || i == 20 || i == 30) continue;
-                cards.put(i, new PropertyCard(new ImageIcon(Utils.getIcon.apply(i+".png").getScaledInstance(300, 400, 300)), i, PropertyCard.Type.NONE));
-            }else{
+
+                int price;
+                if(i % 2 == 0) price = 200;
+                else price = 100;
+
+                cards.put(i, new PropertyCard(new ImageIcon(Utils.getIcon.apply(i+".png").getScaledInstance(300, 400, 300)), i, price, PropertyCard.Type.NONE));
+
+
+            } else {
                 if (i == 40 || i == 41) continue;
                 String text = "";
                 switch(i){
@@ -67,9 +75,16 @@ public class CardFactory {
     }
 
     public static Card getCard(int value, PropertyCard.Type type){
-        if(cards == null) initCardFactory();
+        if(cards == null) {
+            initCardFactory();
+        }
         Card c = cards.get(value);
-        if (c instanceof PropertyCard) return new PropertyCard(c.getImage(), c.getId(), type);
+
+        if (c instanceof PropertyCard){
+            PropertyCard propertyCard = new PropertyCard(c.getImage(), c.getId(), ((PropertyCard) c).getPrice(),type);
+            new PropertyCardController(propertyCard).init();
+            return propertyCard;
+        }
         return new CasualCard(c.getImage(), c.getId(),((CasualCard)c).getText());
     }
 

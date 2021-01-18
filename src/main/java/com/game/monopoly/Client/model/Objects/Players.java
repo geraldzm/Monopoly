@@ -5,6 +5,7 @@ import java.util.*;
 public class Players extends Token {
     private String name;
     private int token;
+    private boolean turn;
 
     private int ID;
 
@@ -15,6 +16,7 @@ public class Players extends Token {
     public Players(){
         super();
 
+        turn = false;
         houses = new HashMap<>();
         hotel = new HashMap<>();
         cards = new HashSet<>();
@@ -82,6 +84,12 @@ public class Players extends Token {
     public void setHotel(HashMap<Integer, Houses> hotel) {
         this.hotel = hotel;
     }
-    
-    
+
+    public boolean isTurn() {
+        return turn;
+    }
+
+    public void setTurn(boolean turn) {
+        this.turn = turn;
+    }
 }

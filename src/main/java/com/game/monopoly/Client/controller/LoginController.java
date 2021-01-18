@@ -4,11 +4,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 
+import com.game.monopoly.Client.model.CardFactory;
 import com.game.monopoly.Client.model.Utils;
 import com.game.monopoly.Client.view.LoginWindow;
 import javax.swing.*;
 
 import com.game.monopoly.Client.model.Objects.Player;
+import com.game.monopoly.Client.view.PropertyCard;
 
 public class LoginController implements IController, MouseListener {
     private LoginWindow window;
@@ -71,6 +73,7 @@ public class LoginController implements IController, MouseListener {
         
         try {
             listener.setListener();
+            CardFactory.getCard(1, PropertyCard.Type.NONE);
         } catch (IOException ex) {
             System.out.println("LISTENER ERROR: " + ex.getMessage());
         }
