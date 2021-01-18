@@ -36,6 +36,19 @@ public class PropertyCardController implements IController, MouseListener {
 
         if (property.mortgage != null)
             property.mortgage.addMouseListener(this);
+
+        if (property.sellHotel != null)
+            property.sellHotel.addMouseListener(this);
+
+        if (property.sellHouse != null)
+            property.sellHouse.addMouseListener(this);
+
+        if (property.buyHotel != null)
+            property.buyHotel.addMouseListener(this);
+
+        if (property.buyHouse != null)
+            property.buyHouse.addMouseListener(this);
+
     }
 
     @Override
@@ -65,13 +78,31 @@ public class PropertyCardController implements IController, MouseListener {
                 System.out.println("Vendiendo propiedad");
                 getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.SELLPROPERTY));
 
-            } else if (e.getSource().equals(property.buy)){          
-                System.out.println("Comprando propiedad");  
+            } else if (e.getSource().equals(property.buy)){
+                System.out.println("Comprando propiedad");
                 getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.BUYPROPERTY));
                 
             } else if (e.getSource().equals(property.mortgage)){
                 System.out.println("Comprando mortgage");
+
+            } else if (e.getSource().equals(property.buyHotel)){
+                System.out.println("Comprando hotel");
+                getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.BUYHOTEL));
+
+            } else if (e.getSource().equals(property.sellHotel)){
+                System.out.println("vendiendo hotel");
+                getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.SELLHOTEL));
+
+            } else if (e.getSource().equals(property.buyHouse)){
+                System.out.println("Comprando casa");
+                getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.BUYHOUSE));
+
+            } else if (e.getSource().equals(property.sellHouse)){
+                System.out.println("vendiendo casa");
+                getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.SELLHOUSE));
+
             }
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }
