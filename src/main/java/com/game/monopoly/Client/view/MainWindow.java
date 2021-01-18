@@ -1,6 +1,8 @@
 package com.game.monopoly.Client.view;
 
 import com.game.monopoly.Client.controller.*;
+import com.game.monopoly.Client.model.CardWindowType;
+
 import java.io.*;
 import javax.swing.*;
 

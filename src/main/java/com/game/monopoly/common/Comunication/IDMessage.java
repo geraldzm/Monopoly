@@ -28,6 +28,10 @@ public enum IDMessage implements Serializable {
     REMOVECARD(true),
     REJECTEDBUYATTEND(true),
     LOSSER(true),
+    PUTHOUSE(true),
+    REMOVEHOUSE(true),
+    PUTHOTEL(true),
+    REMOVEHOTEL(true),
     //######main.java.Client -> main.java.Server######
     BUYPROPERTY,
     SELLPROPERTY,
