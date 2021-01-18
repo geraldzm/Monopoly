@@ -37,7 +37,9 @@ public class Game extends Canvas implements Runnable, Clickable {
         
         handlerGameObjects.addObject(dice1);
         handlerGameObjects.addObject(dice2);
+        
         mouse = new Mouse(this);
+        
         this.addMouseListener(mouse);
     }
 

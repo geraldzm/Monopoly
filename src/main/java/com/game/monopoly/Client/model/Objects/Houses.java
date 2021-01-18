@@ -35,6 +35,7 @@ public class Houses extends Token{
             g.setColor(Color.white);
             g.fillOval(pos.x + 10, pos.y - 10, 10, 10);
             
+            g.drawString(String.valueOf(amountHouse), pos.x + 10, pos.y - 10);
             g.setColor(color);
             
             g.drawImage(super.getImg().getImage(), pos.x, pos.y, null);
