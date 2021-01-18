@@ -84,18 +84,6 @@ public class GameController implements IController, MouseListener{
     public void triggerUI(boolean turnOn){
         isUIEnabled = turnOn;
         game.triggerMouse(turnOn);
-        
-        if (!turnOn){
-            window.btnCards.removeMouseListener(this);
-            window.btnDice.removeMouseListener(this);
-            window.btnSend.removeMouseListener(this);
-            window.btnTurn.removeMouseListener(this);
-        } else{
-            window.btnCards.addMouseListener(this);
-            window.btnDice.addMouseListener(this);
-            window.btnSend.addMouseListener(this);
-            window.btnTurn.addMouseListener(this);
-        }
     }
 
     private void onBtnTurn(){
