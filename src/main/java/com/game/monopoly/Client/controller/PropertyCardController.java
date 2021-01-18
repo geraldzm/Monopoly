@@ -86,18 +86,22 @@ public class PropertyCardController implements IController, MouseListener {
             } else if (e.getSource().equals(property.buyHotel)){
                 System.out.println("Comprando hotel");
                 getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.BUYHOTEL));
+                close();
 
             } else if (e.getSource().equals(property.sellHotel)){
                 System.out.println("vendiendo hotel");
                 getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.SELLHOTEL));
+                close();
 
             } else if (e.getSource().equals(property.buyHouse)){
                 System.out.println("Comprando casa");
                 getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.BUYHOUSE));
+                close();
 
             } else if (e.getSource().equals(property.sellHouse)){
                 System.out.println("vendiendo casa");
                 getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.SELLHOUSE));
+                close();
 
             }
 

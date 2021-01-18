@@ -64,8 +64,6 @@ public class GameController implements IController, MouseListener{
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (!isUIEnabled) return;
-        
         if (e.getSource().equals(window.btnCards)){
             System.out.println("Found it");
             onBtnCardsClicked();
@@ -73,10 +71,10 @@ public class GameController implements IController, MouseListener{
         } else if (e.getSource().equals(window.btnSend)){
             onBtnSendClicked();
             
-        } else if (e.getSource().equals(window.btnTurn)){
+        } else if (e.getSource().equals(window.btnTurn) && isUIEnabled){
             onBtnTurn();
         
-        } else if (e.getSource().equals(window.btnDice)){
+        } else if (e.getSource().equals(window.btnDice) && isUIEnabled){
             onBtnDice();
         }
     }

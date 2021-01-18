@@ -239,10 +239,11 @@ public class Game extends Canvas implements Runnable, Clickable {
             Player current = Player.getInstance();
 
             boolean contain = current.getCards().contains(selectedCard);
+            boolean completedRound = current.isHasCompletedRound();
 
-            if(current.isTurn() && current.getCurrentPos() == selectedCard && !contain){
+            if(current.isTurn() && current.getCurrentPos() == selectedCard && !contain && completedRound){
                 new CardWindow(selectedCard, CardWindowType.BANk).setVisible(true);
-            }else if(current.isTurn() && contain){
+            }else if(current.isTurn() && contain && completedRound){
                 new CardWindow(selectedCard, CardWindowType.FRIEND).setVisible(true);
             }else{
                 new CardWindow(selectedCard, CardWindowType.ENEMY).setVisible(true);

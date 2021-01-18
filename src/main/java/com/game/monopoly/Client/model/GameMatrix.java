@@ -1,5 +1,6 @@
 package com.game.monopoly.Client.model;
 
+import com.game.monopoly.Client.model.Objects.Players;
 import com.game.monopoly.Client.model.Objects.Token;
 import java.awt.*;
 import java.util.*;
@@ -99,7 +100,12 @@ public class GameMatrix {
 
             // Evitamos que salga de los indices
             index = (index < 0) ? 39 : index;
-            index = (index >= 40) ? 0 : index;
+
+            if (index >= 40){
+                index = 0;
+
+                ((Players) token).setHasCompletedRound(true);
+            }
 
             isAtPosition = index == card;
             setPlayer(token, index);

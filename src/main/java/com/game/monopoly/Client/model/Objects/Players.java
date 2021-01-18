@@ -6,6 +6,7 @@ public class Players extends Token {
     private String name;
     private int token;
     private boolean turn;
+    private boolean hasCompletedRound;
 
     private int ID;
 
@@ -17,6 +18,7 @@ public class Players extends Token {
         super();
 
         turn = false;
+        hasCompletedRound = false;
         houses = new HashMap<>();
         hotel = new HashMap<>();
         cards = new HashSet<>();
@@ -91,5 +93,13 @@ public class Players extends Token {
 
     public void setTurn(boolean turn) {
         this.turn = turn;
+    }
+
+    public boolean isHasCompletedRound() {
+        return hasCompletedRound;
+    }
+
+    public void setHasCompletedRound(boolean hasCompletedRound) {
+        this.hasCompletedRound = hasCompletedRound;
     }
 }
