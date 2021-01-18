@@ -83,18 +83,6 @@ public class GameController implements IController, MouseListener{
         isUIEnabled = turnOn;
         game.triggerMouse(turnOn);
     }
-
-    private void onBtnTurn(){
-        triggerGlobalMsg("Cliente: el turno ha terminado");
-        try {
-            ServerCommunication serverCommunication = getServerCommunication();
-            Player.getInstance().setTurn(false);
-            triggerUI(false);
-            serverCommunication.sendMessage(FINISHEDTURN);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
     
     // Permite agregar un mensaje a la ventana de chat
     public void addChatMsg(String msg){
@@ -177,6 +165,24 @@ public class GameController implements IController, MouseListener{
         game.initPlayers(players);
     }
 
+    private void onBtnTurn(){
+        if (!Player.getInstance().isRolledDices()){
+            triggerGlobalMsg("Usted no ha tirado los dados...");
+            return;
+        }
+
+        triggerGlobalMsg("Cliente: el turno ha terminado");
+
+        try {
+            ServerCommunication serverCommunication = getServerCommunication();
+            Player.getInstance().setTurn(false);
+            triggerUI(false);
+            serverCommunication.sendMessage(FINISHEDTURN);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Evento cuando se clickea el boton de abrir propiedades
     private void onBtnCardsClicked(){
         var controller = new CardsController(new CardsWindow());
@@ -187,10 +193,16 @@ public class GameController implements IController, MouseListener{
     
     // Aqui se envian los 
     private void onBtnDice(){
+        if (Player.getInstance().isRolledDices()){
+            triggerGlobalMsg("Usted ya tiro los dados...");
+            return;
+        }
+
         try {
+            Player.getInstance().setRolledDices(true);
             getServerCommunication().sendMessage(ROLLDICES);
         } catch (IOException ex) {
-            System.out.println("Erro: " + ex.getMessage());
+            System.out.println("Error: " + ex.getMessage());
         }
     }
     
