@@ -6,8 +6,12 @@
 package com.game.monopoly.Client.controller;
 
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
+
+import com.game.monopoly.Client.model.Objects.Player;
 import com.game.monopoly.Client.view.*;
 import com.game.monopoly.common.Comunication.*;
+
+import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
 
@@ -84,30 +88,79 @@ public class PropertyCardController implements IController, MouseListener {
                 System.out.println("Comprando mortgage");
 
             } else if (e.getSource().equals(property.buyHotel)){
-                System.out.println("Comprando hotel");
-                getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.BUYHOTEL));
-                close();
-
+                buyHotel();
             } else if (e.getSource().equals(property.sellHotel)){
-                System.out.println("vendiendo hotel");
-                getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.SELLHOTEL));
-                close();
-
+                sellHotel();
             } else if (e.getSource().equals(property.buyHouse)){
-                System.out.println("Comprando casa");
-                getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.BUYHOUSE));
-                close();
-
+                buyHouse();
             } else if (e.getSource().equals(property.sellHouse)){
-                System.out.println("vendiendo casa");
-                getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.SELLHOUSE));
-                close();
-
+                sellHouse();
             }
 
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    // Metodo para vender hotel
+    private void sellHotel() throws IOException {
+        System.out.println("vendiendo hotel");
+        getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.SELLHOTEL));
+        close();
+    }
+
+    // Metodo para comprar hotel
+    private void buyHotel() throws IOException {
+        if (Player.getInstance().getHouses().get(property.getId()).getAmountHouse() != 4){
+            JOptionPane.showMessageDialog(property, "Usted aun no tiene 4 casas...");
+            return;
+        }
+
+        if (Player.getInstance().getHotel().get(property.getId()) != null && Player.getInstance().getHotel().get(property.getId()).getAmountHouse() == 1){
+            JOptionPane.showMessageDialog(property, "Usted ya tiene un hotel en esta propiedad");
+            return;
+        }
+
+        System.out.println("Comprando hotel");
+        getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.BUYHOTEL));
+        close();
+    }
+
+    // Metodo para vender casa
+    private void sellHouse() throws IOException {
+        if (!Player.getInstance().getCards().contains(property.getId())){
+            JOptionPane.showMessageDialog(property, "Esta carta aun no es tuya...");
+            return;
+        }
+
+        if (!Player.getInstance().getHouses().containsKey(property.getId())){
+            JOptionPane.showMessageDialog(property, "No tienes casas en esta propiedad...");
+            return;
+        }
+
+        System.out.println("vendiendo casa");
+
+        getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.SELLHOUSE));
+
+        close();
+    }
+
+    // Metodo para comprar casa
+    private void buyHouse() throws IOException {
+        if (!Player.getInstance().getCards().contains(property.getId())){
+            JOptionPane.showMessageDialog(property, "Esta carta aun no es tuya...");
+            return;
+        }
+
+        if (Player.getInstance().getHouses().get(property.getId()) != null && Player.getInstance().getHouses().get(property.getId()).getAmountHouse() == 4){
+            JOptionPane.showMessageDialog(property, "Ya tienes 4 casas en esta propiedad...");
+            return;
+        }
+
+        System.out.println("Comprando casa");
+        getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.BUYHOUSE));
+        close();
+
     }
 
     @Override
