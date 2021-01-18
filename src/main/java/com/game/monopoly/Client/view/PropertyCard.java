@@ -23,8 +23,8 @@ public class PropertyCard extends Card {
             case BUY -> buy = initJLabel("Comprar", 15, 310, 85, 20, 2);
 
             case SELL -> {
-                sell = initJLabel("Vender", 15, 310, 75, 20, 2);
-                mortgage = initJLabel("Hipotecar", 160, 310, 90, 20, 2);
+                sell = initJLabel("Vender", 15, 325, 75, 20, 2);
+                mortgage = initJLabel("Hipotecar", 170, 325, 90, 20, 2);
             }
         }
     }

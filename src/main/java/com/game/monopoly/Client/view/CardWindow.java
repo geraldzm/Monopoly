@@ -17,7 +17,7 @@ public class CardWindow extends JFrame{
         setLayout(null);
         setResizable(false);
         setLocationRelativeTo(null);
-
+        
         add(card);
     }
 

@@ -12,14 +12,14 @@ public class CardsScrollWindow extends JFrame {
     public CardsScrollWindow(int [] cards, CardWindowType type) {
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(1004, 410);
+        setSize(1004, 450);
         setLocation(430, 600);
         setLayout(null);
         setResizable(false);
 
         JPanel panel = new JPanel();
         panel.setLocation(0, 0);
-        panel.setSize(1004, 350);
+        panel.setSize(1004, 390);
         panel.setLayout(new CardsScrollLayout());
 
         for (int cardValue : cards) {
@@ -36,7 +36,7 @@ public class CardsScrollWindow extends JFrame {
         }
 
         JScrollPane scrollPane = new JScrollPane(panel);
-        scrollPane.setSize(1004, 370); // same size as panel
+        scrollPane.setSize(1004, 410); // same size as panel
         scrollPane.setLocation(0, 0);
 
         add(scrollPane);
