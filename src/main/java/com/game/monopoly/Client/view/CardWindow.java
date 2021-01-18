@@ -13,11 +13,11 @@ public class CardWindow extends JFrame{
         Card card = CardFactory.getCard(cardValue, type.getCardType());
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(card.getWidth(), card.getHeight() + 40);
+        setSize(card.getWidth()+17, card.getHeight() + 40);
         setLayout(null);
         setResizable(false);
         setLocationRelativeTo(null);
-
+        
         add(card);
     }
 

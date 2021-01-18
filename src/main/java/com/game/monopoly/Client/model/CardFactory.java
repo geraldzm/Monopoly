@@ -14,19 +14,31 @@ public class CardFactory {
     private static Hashtable <Integer, Card> cards;
 
     private CardFactory() {}
-
+    
     private static void initCardFactory() {
+        int price = 0;
         cards = new Hashtable<>();
         for (int i = 0; i < 73; i++) {
             if (i < 40){
-                if (i == 0 || i == 10 || i == 20 || i == 30) continue;
-
-                int price;
-                if(i % 2 == 0) price = 200;
-                else price = 100;
-
-                cards.put(i, new PropertyCard(new ImageIcon(Utils.getIcon.apply(i+".png").getScaledInstance(300, 400, 300)), i, price, PropertyCard.Type.NONE));
-
+                if (i == 0 || i == 10 || i == 20 || i == 30) continue;   
+                else if(i == 5 || i == 15 || i == 25 || i == 35 || i == 19) price = 200;//Casas y 19 Naranja
+                else if(i == 12 || i == 28 ) price = 150 ;//Servicios
+                else if(i == 1 || i == 3 ) price = 60 ;//Cafes
+                else if(i == 6 || i == 8 ) price = 100;//celeste
+                else if(i == 9) price  = 120;
+                else if(i == 11 || i == 13 ) price = 140;//Rosadas
+                else if(i == 14) price = 160;
+                else if(i == 16 || i == 18 ) price = 180;//Naranajas
+                else if(i == 21 || i == 23 ) price = 220;//Rojas
+                else if(i == 24) price = 240;
+                else if(i == 26 || i == 27 ) price = 260;//Amarillas
+                else if(i == 29) price = 280;
+                else if(i == 31 || i == 32 ) price = 300;//Verdes
+                else if(i == 34) price = 320;
+                else if(i == 37) price = 350;//Azules
+                else if(i == 39) price = 400;
+                
+                cards.put(i, new PropertyCard(new ImageIcon(Utils.getIcon.apply(i+".png").getScaledInstance(280, 392, 300)), i, price, PropertyCard.Type.NONE));
 
             } else {
                 if (i == 40 || i == 41) continue;
