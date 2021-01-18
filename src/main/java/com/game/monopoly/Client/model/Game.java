@@ -25,6 +25,8 @@ public class Game extends Canvas implements Runnable, Clickable {
     
     public Dice dice1, dice2;
     private Mouse mouse;
+    private boolean isClickTriggered = false;
+    private boolean isUIDisabled = false;
 
     public Game(){
         matrix = new GameMatrix(11, 11, CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -218,8 +220,15 @@ public class Game extends Canvas implements Runnable, Clickable {
     public void clicked(MouseEvent e) {
     }
 
+    private int clicksAmount;
+
     @Override
     public void clickReleased(MouseEvent e) {
+        if (isClickTriggered || isUIDisabled){
+            return;
+        }
+        clicksAmount = 0;
+        isClickTriggered = true;
 
         int selectedCard = matrix.getCardClicked(e.getX(), e.getY());
 
@@ -241,13 +250,15 @@ public class Game extends Canvas implements Runnable, Clickable {
             }
 
         }
+        new java.util.Timer().schedule(new java.util.TimerTask() {
+            @Override
+            public void run() {
+                isClickTriggered = false;
+            }
+        },100);
     }
     
     public void triggerMouse(boolean turnOn){
-        if (!turnOn){
-            this.removeMouseListener(mouse);
-        } else {
-            this.addMouseListener(mouse);
-        }
+        isUIDisabled = !turnOn;
     }
 }
