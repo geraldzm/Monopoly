@@ -187,16 +187,11 @@ public class GameListener {
                 }
                 case CANTBUY -> {
                     gameController.triggerGlobalMsg("No tienes dinero suficiente.");
-                    server.sendDone();
-                }
-                case LOOSERS -> {
-                    gameController.triggerGlobalMsg(msg.getString());
-                    server.sendDone();
                 }
                 case LOOSER -> {
 
-                    JOptionPane.showMessageDialog(window, "Haz perdido: " + player.getName());
-                    gameController.triggerUI(false);
+                    JOptionPane.showMessageDialog(window, "Haz perdido: " + players.get(msg.getNumber()).getName());
+                    if(msg.getNumber() == player.getID()) gameController.triggerUI(false);
                     server.sendDone();
                 }
                 case TURNRS -> {
@@ -267,8 +262,6 @@ public class GameListener {
                 case TAKEMONEY -> {
                     gameController.setPlayerMoney(msg.getNumber());
                     gameController.triggerGlobalMsg("Nuevo saldo...");
-                    System.out.println("Se va a enviar el done");
-                    server.sendDone();
                 }
                 case PUTHOUSE ->{
                     System.out.println("Agregando casas...");

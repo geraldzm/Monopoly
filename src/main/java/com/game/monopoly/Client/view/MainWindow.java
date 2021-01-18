@@ -9,7 +9,7 @@ import javax.swing.*;
 public class MainWindow extends JFrame {
     public static void main(String args[]) throws IOException {
         FrameController controller = FrameController.getInstance();
-        controller.openWindow(FramesID.GAME);
+        controller.openWindow(FramesID.LOGIN);
 
     }
 }

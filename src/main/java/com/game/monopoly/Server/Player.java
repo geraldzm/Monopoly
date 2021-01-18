@@ -3,12 +3,15 @@ package com.game.monopoly.Server;
 
 
 import com.game.monopoly.common.Comunication.ChatConnection;
+import com.game.monopoly.common.Comunication.IDMessage;
 import com.game.monopoly.common.Comunication.Message;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.HashSet;
 import java.util.Random;
+
+import static com.game.monopoly.common.Comunication.IDMessage.*;
 
 /**
  * <h1>ClientServer</h1>
@@ -129,5 +132,6 @@ public class Player extends ChatConnection {
 
     public void reduceMoney(int amount){
         cash -= amount;
+        sendMessage(new Message(cash, TAKEMONEY));
     }
 }
