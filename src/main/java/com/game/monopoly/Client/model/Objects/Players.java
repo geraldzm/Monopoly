@@ -8,15 +8,15 @@ public class Players extends Token {
 
     private int ID;
 
-    private ArrayList<Houses> houses;
-    private ArrayList<Houses> hotel;
+    private HashMap<Integer, Houses> houses;
+    private HashMap<Integer, Houses> hotel;
     private HashSet<Integer> cards;
 
     public Players(){
         super();
 
-        houses = new ArrayList<>();
-        hotel = new ArrayList<>();
+        houses = new HashMap<>();
+        hotel = new HashMap<>();
         cards = new HashSet<>();
     }
 
@@ -44,22 +44,6 @@ public class Players extends Token {
         this.token = token;
     }
 
-    public ArrayList<Houses> getHouses() {
-        return houses;
-    }
-
-    public void setHouses(ArrayList<Houses> houses) {
-        this.houses = houses;
-    }
-
-    public ArrayList<Houses> getHotel() {
-        return hotel;
-    }
-
-    public void setHotel(ArrayList<Houses> hotel) {
-        this.hotel = hotel;
-    }
-
     public HashSet<Integer> getCards() {
         return cards;
     }
@@ -82,4 +66,22 @@ public class Players extends Token {
         
         return intArr;
     }
+
+    public HashMap<Integer, Houses> getHouses() {
+        return houses;
+    }
+
+    public void setHouses(HashMap<Integer, Houses> houses) {
+        this.houses = houses;
+    }
+
+    public HashMap<Integer, Houses> getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(HashMap<Integer, Houses> hotel) {
+        this.hotel = hotel;
+    }
+    
+    
 }

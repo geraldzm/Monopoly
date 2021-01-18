@@ -4,7 +4,6 @@ package com.game.monopoly.Client.controller;
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
 import com.game.monopoly.Client.model.Objects.*;
 import com.game.monopoly.Client.model.*;
-import com.game.monopoly.Client.model.Objects.*;
 import com.game.monopoly.Client.view.*;
 import static com.game.monopoly.common.Comunication.IDMessage.*;
 import java.awt.event.*;
@@ -244,6 +243,8 @@ public class GameController implements IController, MouseListener{
     public GameWindow getWindow() {
         return window;
     }
-    
-    
+
+    public Game getGame() {
+        return game;
+    }
 }

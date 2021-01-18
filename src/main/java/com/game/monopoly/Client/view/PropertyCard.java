@@ -1,5 +1,6 @@
 package com.game.monopoly.Client.view;
 
+import com.game.monopoly.Client.controller.PropertyCardController;
 import com.game.monopoly.Client.model.*;
 import java.io.*;
 import javax.swing.*;
@@ -16,6 +17,8 @@ public class PropertyCard extends Card {
     public PropertyCard(ImageIcon image, int id, Type type) {
         super(image, id);
 
+        PropertyCardController controller = new PropertyCardController(this);
+
         switch (type) {
             case BUY -> initJLabel("Comprar", 15, 310, 85, 20, buy, 2);
 
@@ -24,6 +27,8 @@ public class PropertyCard extends Card {
                 initJLabel("Hipotecar", 140, 310, 90, 20, mortgage, 2);
             }
         }
+
+        controller.init();
     }
 
     private void initJLabel(String text, int x, int y, int w, int h, JLabel label, int layer){

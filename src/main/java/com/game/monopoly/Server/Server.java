@@ -2,6 +2,7 @@ package com.game.monopoly.Server;
 
 import com.game.monopoly.common.Comunication.*;
 import com.game.monopoly.common.*;
+import com.game.monopoly.common.Comunication.*;
 import static com.game.monopoly.common.Comunication.IDMessage.*;
 import java.util.*;
 import java.util.concurrent.atomic.*;
@@ -31,11 +32,12 @@ public class Server extends RunnableThread implements Listener{
     public void execute() {
 
         ActionQueue actionQueue = new ActionQueue(players);
-        actionQueue.addAction(new Message(new int[]{21, 3}, PUTHOUSE));
-        actionQueue.addAction(new Message(new int[]{21, 1}, REMOVEHOUSE));
-        actionQueue.addAction(new Message(new int[]{24, 1}, PUTHOTEL));
-        actionQueue.addAction(new Message(new int[]{26, 3}, PUTHOTEL));
-        actionQueue.addAction(new Message(new int[]{26, 2}, REMOVEHOTEL));
+        // Necesito que me diga de quien es la casa/hotel (tomemolo como el tercer parametro)
+        actionQueue.addAction(new Message(new int[]{21, 3, 0}, PUTHOUSE));
+        actionQueue.addAction(new Message(new int[]{21, 1, 0}, REMOVEHOUSE));
+        actionQueue.addAction(new Message(new int[]{24, 1, 0}, PUTHOTEL));
+        actionQueue.addAction(new Message(new int[]{26, 3, 0}, PUTHOTEL));
+        actionQueue.addAction(new Message(new int[]{26, 2, 0}, REMOVEHOTEL));
         actionQueue.executeQueue();
 
        /* // Game starts
@@ -250,6 +252,10 @@ public class Server extends RunnableThread implements Listener{
 
             case BUYPROPERTY -> {
                 System.out.println("Se intenta comprar una carta: " + message.getNumber());
+            }
+
+            case SELLPROPERTY ->{
+                System.out.println("Se intenta vender una carta: " + message.getNumber());
             }
 
             default -> System.out.println("Not supported: "+ message.getIdMessage());

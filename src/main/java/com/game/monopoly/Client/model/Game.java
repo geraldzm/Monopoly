@@ -38,6 +38,9 @@ public class Game extends Canvas implements Runnable, Clickable {
         handlerGameObjects.addObject(dice1);
         handlerGameObjects.addObject(dice2);
         
+        Houses x1 = new Houses(true);
+        Houses x2 = new Houses(true);
+        
         mouse = new Mouse(this);
         
         this.addMouseListener(mouse);
@@ -130,10 +133,85 @@ public class Game extends Canvas implements Runnable, Clickable {
     }
 
     // Permite agregar una casa
-    public void addHouse(int ID, int position){
-        Houses house = new Houses(false);
+    public void addHouse(int ID, int position, int amount){
+        Houses house;
+        
+        GameListener listener = GameListener.getInstance();
 
-        matrix.addPlayer(house, position);
+        HashMap<Integer, Players> players = listener.getPlayers();
+        
+        if (players.get(ID).getHouses().containsKey(position)){
+            house = players.get(ID).getHouses().get(position);
+            
+            house.addHouse(amount);
+        }else{
+            house = new Houses(true);
+            
+            house.addHouse(amount);
+            
+            players.get(ID).getHouses().put(position, house);
+            
+            matrix.addPlayer(house, position);
+            
+            handlerGameObjects.addObject(house);
+        }
+    }
+
+    // Permite agregar una casa
+    public void addHotel(int ID, int position, int amount){
+        Houses house;
+        
+        GameListener listener = GameListener.getInstance();
+
+        HashMap<Integer, Players> players = listener.getPlayers();
+        
+        if (players.get(ID).getHotel().containsKey(position)){
+            house = players.get(ID).getHotel().get(position);
+            
+            house.addHouse(amount);
+        }else{
+            house = new Houses(false);
+            
+            house.addHouse(amount);
+            
+            players.get(ID).getHotel().put(position, house);
+            
+            matrix.addPlayer(house, position);
+            
+            handlerGameObjects.addObject(house);
+        }
+    }
+    
+    public void removeHouse(int ID, int position, int amount){
+        GameListener listener = GameListener.getInstance();
+
+        HashMap<Integer, Players> players = listener.getPlayers();
+        
+        Houses house = players.get(ID).getHouses().get(position);
+        
+        house.subHouse(amount);
+        
+        if (house.getAmountHouse() <= 0){
+            matrix.removePlayer(house);
+
+            handlerGameObjects.removeObject(house);
+        }
+    }
+    
+    public void removeHotel(int ID, int position, int amount){
+        GameListener listener = GameListener.getInstance();
+
+        HashMap<Integer, Players> players = listener.getPlayers();
+        
+        Houses house = players.get(ID).getHotel().get(position);
+        
+        house.subHouse(amount);
+        
+        if (house.getAmountHouse() <= 0){
+            matrix.removePlayer(house);
+
+            handlerGameObjects.removeObject(house);
+        }
     }
 
     @Override
@@ -150,18 +228,25 @@ public class Game extends Canvas implements Runnable, Clickable {
 
             HashMap<Integer, Players> players = listener.getPlayers();
 
+            PropertyCardController controller;
+            PropertyCard card = null;
+
             for (int i = 0; i < 6; i++) if (players.get(i).getCards().contains(selectedCard)){
 
                 if (i == Player.getInstance().getID()){
-                    new CardWindow(selectedCard, CardWindowType.FRIEND).setVisible(true);
+                    card = (PropertyCard) CardFactory.getCard(selectedCard, PropertyCard.Type.SELL);
                 } else{
-                    new CardWindow(selectedCard, CardWindowType.ENEMY).setVisible(true);
+                    card = (PropertyCard) CardFactory.getCard(selectedCard, PropertyCard.Type.NONE);
                 }
                 
                 break;
             } else{
-                new CardWindow(selectedCard, CardWindowType.BANk).setVisible(true);
+                card = (PropertyCard) CardFactory.getCard(selectedCard, PropertyCard.Type.BUY);
                 break;
+            }
+
+            if (card != null){
+                System.out.println("Carta abierta: " + selectedCard);
             }
         }
     }

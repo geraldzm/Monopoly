@@ -21,15 +21,10 @@ public class CardsScrollWindow extends JFrame {
         panel.setLocation(0, 0);
         panel.setSize(1004, 350);
         panel.setLayout(new CardsScrollLayout());
-        
-        ArrayList<PropertyCardController> controllers = new ArrayList<>();
 
         for (int cardValue : cards) {
             PropertyCard card = (PropertyCard) CardFactory.getCard(cardValue, type.getCardType());
-            PropertyCardController controller = new PropertyCardController(card);
             panel.add(card);
-            
-            controllers.add(controller);
         }
 
         try {
@@ -45,10 +40,6 @@ public class CardsScrollWindow extends JFrame {
         scrollPane.setLocation(0, 0);
 
         add(scrollPane);
-        
-        this.pack();
-        
-        controllers.forEach(controller->controller.init());
     }
 
 }

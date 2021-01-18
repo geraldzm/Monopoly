@@ -133,7 +133,7 @@ public class GameListener {
                         System.out.println("Adding ID#" + ID + ", Name: " + playerNames[ID]);
                         
                         Players currentPlayer = new Players();
-                        
+
                         currentPlayer.setID(ID);
                         currentPlayer.setName(playerNames[ID]);
 
@@ -258,8 +258,51 @@ public class GameListener {
                     gameController.triggerUI(false);
                     server.sendDone();
                 }
-/*
-3. Cliente solicita vender
+                
+                case PUTHOUSE ->{
+                    System.out.println("Agregando casas...");
+                    int position = msg.getNumbers()[0];
+                    int amount = msg.getNumbers()[1];
+                    int ID = msg.getNumbers()[2];
+                    
+                    gameController.getGame().addHouse(ID, position, amount);
+
+                    server.sendDone();
+                }
+                
+                case REMOVEHOUSE ->{
+                    System.out.println("Quitando casas...");
+                    int position = msg.getNumbers()[0];
+                    int amount = msg.getNumbers()[1];
+                    int ID = msg.getNumbers()[2];
+                    
+                    gameController.getGame().removeHouse(ID, position, amount);
+
+                    server.sendDone();
+                }
+                
+                case PUTHOTEL ->{
+                    System.out.println("Agregando hoteles...");
+                    int position = msg.getNumbers()[0];
+                    int amount = msg.getNumbers()[1];
+                    int ID = msg.getNumbers()[2];
+                    
+                    gameController.getGame().addHotel(ID, position, amount);
+
+                    server.sendDone();
+                }
+                
+                case REMOVEHOTEL ->{
+                    System.out.println("Removiendo hoteles...");
+                    int position = msg.getNumbers()[0];
+                    int amount = msg.getNumbers()[1];
+                    int ID = msg.getNumbers()[2];
+                    
+                    gameController.getGame().removeHotel(ID, position, amount);
+
+                    server.sendDone();
+                }
+/*3. Cliente solicita vender
 4. Cliente solicita hipotecar
 8. Server le puede notificar al cliente que muestre cartas
 10.

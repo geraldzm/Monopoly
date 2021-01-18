@@ -33,16 +33,27 @@ public class Houses extends Token{
         if (canStart()){
             Color color = g.getColor();
             g.setColor(Color.white);
-            g.fillOval(pos.x + 10, pos.y - 10, 10, 10);
+            g.fillOval(pos.x + 4, pos.y - 25, 20, 20);
             
+            g.setColor(Color.BLACK);
             g.drawString(String.valueOf(amountHouse), pos.x + 10, pos.y - 10);
+            
             g.setColor(color);
             
             g.drawImage(super.getImg().getImage(), pos.x, pos.y, null);
         }
     }
     
-    public void addHouse(){
-        amountHouse++;
+    public void addHouse(int amount){
+        amountHouse += amount;
     }
+    
+    public void subHouse(int amount){
+        amountHouse -= amount;
+    }
+
+    public int getAmountHouse() {
+        return amountHouse;
+    }
+    
 }

@@ -80,6 +80,13 @@ public class GameMatrix {
         token.setPos(getPosition(indexToPos(initialPos), pos.x, pos.y));
     }
     
+    public void removePlayer(Token token){
+        int index = token.getCurrentPos();
+        Point matrixPos = token.getMatrixPos();
+        
+        gameMatrix[token.getCurrentPos()][token.getMatrixPos().y][token.getMatrixPos().x] = null;
+    }
+    
     public void movePlayer(Token token, int card, boolean isBackwards){
         boolean isAtPosition = false;
         int index = token.getCurrentPos();
