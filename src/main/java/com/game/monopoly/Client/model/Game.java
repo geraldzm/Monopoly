@@ -234,6 +234,8 @@ public class Game extends Canvas implements Runnable, Clickable {
 
         if (selectedCard != -1) {
 
+            if(10 % selectedCard == 0) return;
+
             HashMap<Integer, Players> players = GameListener.getInstance().getPlayers();
 
             Player current = Player.getInstance();

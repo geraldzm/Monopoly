@@ -4,10 +4,9 @@ import com.game.monopoly.Client.model.CardFactory;
 import com.game.monopoly.Client.view.PropertyCard;
 import com.game.monopoly.common.Comunication.*;
 import com.game.monopoly.common.*;
-import com.game.monopoly.common.Comunication.*;
+
 import static com.game.monopoly.common.Comunication.IDMessage.*;
 
-import java.net.http.WebSocket;
 import java.util.*;
 import java.util.concurrent.atomic.*;
 import java.util.stream.*;
@@ -22,7 +21,7 @@ public class Server extends RunnableThread implements Listener{
     private boolean turnFinished;
     private Player currentPlayer;
     private final Object diceLocker, turnLocker;
-    private ActionQueue buySell;
+    private final ActionQueue gameRequests; //
 
     public Server() {
         players = new Hashtable<>();
@@ -32,7 +31,7 @@ public class Server extends RunnableThread implements Listener{
         turn = 1;
         diceLocker = new Object();
         turnLocker = new Object();
-        buySell = new ActionQueue(players);
+        gameRequests = new ActionQueue(players);
     }
 
     @Override
@@ -68,7 +67,7 @@ public class Server extends RunnableThread implements Listener{
             try {
                 while (!turnFinished){
                     turnLocker.wait();
-                    buySell.executeQueue();
+                    gameRequests.executeQueue();
                     currentPlayer.setListener(this);
                     currentPlayer.removeReceiverFilter();
                 }
@@ -168,8 +167,6 @@ public class Server extends RunnableThread implements Listener{
 
         actionQueue.addAction(messages, null, DONE);
         actionQueue.executeQueue();
-
-        System.out.println("Se asignan los IDs");
     }
 
     private String getNamesFromPlayers(ArrayList<Player> players) {
@@ -270,14 +267,14 @@ public class Server extends RunnableThread implements Listener{
                     currentPlayer.reduceMoney(propertyCard.getPrice());
                     currentPlayer.addCard(propertyCard.getId());
 
-                    buySell.addAction(new Message(new int[]{currentPlayer.getId(), propertyCard.getId()}, ADDCARD));
+                    gameRequests.addAction(new Message(new int[]{currentPlayer.getId(), propertyCard.getId()}, ADDCARD));
 
                 }else{
                     currentPlayer.sendMessage(new Message(CANTBUY));
                 }
 
                 if(currentPlayer.getCash() <= 0) {
-                    buySell.addAction(new Message(currentPlayer.getId(), LOOSER));
+                    gameRequests.addAction(new Message(currentPlayer.getId(), LOOSER));
                 }
 
                 synchronized (turnLocker){
@@ -285,8 +282,19 @@ public class Server extends RunnableThread implements Listener{
                 }
             }
 
-            case SELLPROPERTY ->{
-                System.out.println("Se intenta vender una carta: " + message.getNumber());
+            case SELLPROPERTY -> {
+
+                PropertyCard propertyCard = (PropertyCard) CardFactory.getCard(message.getNumber());
+
+                currentPlayer.getCards().remove(propertyCard.getId()); // delete property
+
+                gameRequests.addAction(new Message(new int[]{currentPlayer.getId(), propertyCard.getId()}, REMOVECARD));
+
+                currentPlayer.addCash(propertyCard.getPrice(), "Ha recibido $" + propertyCard.getPrice()+" por la venta de una propiedad" );
+
+                synchronized (turnLocker){
+                    turnLocker.notify();
+                }
             }
 
             default -> System.out.println("Not supported: "+ message.getIdMessage());

@@ -206,11 +206,8 @@ public class GameListener {
                 }
 
                 case GIVEMONEY -> {
-                    // trae un mensaje en el string con la razon por la que se le da la plata
-                    // tiene la cantidad de plata que se le esta dando en el numero
-
                     gameController.setPlayerMoney(msg.getNumber());
-                    gameController.triggerGlobalMsg(String.format("%s: %s", msg.getString(), player.getName()));
+                    gameController.triggerGlobalMsg(msg.getString());
                     server.sendDone();
                 }
 
@@ -245,12 +242,9 @@ public class GameListener {
                 }
 
                 case REMOVECARD -> {
-                    System.out.println("Se intenta quitar una card con el id: " + msg.getNumber());
-                    
-                    if (player.getCards().contains(msg.getNumber()))
-                        player.getCards().remove(msg.getNumber());
-                    else
-                        System.out.println("El jugador no posee esa carta");
+                    System.out.println("Se intenta quitar una card con el id: " + msg.getNumbers()[1]);
+
+                    players.get(msg.getNumbers()[0]).getCards().remove(msg.getNumbers()[1]);
                     
                     server.sendDone();
                 }

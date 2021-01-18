@@ -6,6 +6,8 @@
 package com.game.monopoly.Client.controller;
 
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
+
+import com.game.monopoly.Client.model.Objects.Player;
 import com.game.monopoly.Client.view.*;
 import com.game.monopoly.common.Comunication.*;
 import java.awt.event.*;
