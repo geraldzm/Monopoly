@@ -8,10 +8,10 @@ import javax.swing.*;
 public class PropertyCard extends Card {
 
     public static enum Type {
-        BUY,SELL,NONE;
+        BUY,SELL,NONE, HOUSES;
     }
     
-    public JLabel sell, buy, mortgage;
+    public JLabel sell, buy, mortgage, sellHouse, buyHouse, sellHotel, buyHotel;
     private int price;
 
     public PropertyCard(ImageIcon image, int id, int price, Type type) {
@@ -23,8 +23,14 @@ public class PropertyCard extends Card {
             case BUY -> buy = initJLabel("Comprar", 15, 310, 85, 20, 2);
 
             case SELL -> {
-                sell = initJLabel("Vender", 15, 325, 75, 20, 2);
-                mortgage = initJLabel("Hipotecar", 170, 325, 90, 20, 2);
+                sell = initJLabel("Vender", 20, 280, 100, 25, 2);
+                mortgage = initJLabel("Hipotecar", 150, 280, 100, 25, 2);
+
+                sellHouse = initJLabel("Vender casas", 20, 310, 100, 25, 2);
+                buyHouse = initJLabel("Comprar casas", 150, 310, 100, 25, 2);
+
+                sellHotel = initJLabel("Vender casas", 20, 340, 100, 25, 2);
+                buyHotel = initJLabel("Comprar casas", 150, 340, 100, 25, 2);
             }
         }
     }

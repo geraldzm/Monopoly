@@ -36,6 +36,10 @@ public enum IDMessage implements Serializable {
     //######main.java.Client -> main.java.Server######
     BUYPROPERTY,
     SELLPROPERTY,
+    BUYHOTEL,
+    SELLHOTEL,
+    BUYHOUSE,
+    SELLHOUSE,
     FINISHEDTURN,
     ROLLDICES,
     RESPONSE,

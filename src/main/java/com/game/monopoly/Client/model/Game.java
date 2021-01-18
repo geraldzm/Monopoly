@@ -240,8 +240,7 @@ public class Game extends Canvas implements Runnable, Clickable {
 
             boolean contain = current.getCards().contains(selectedCard);
 
-
-            if(current.isTurn() && current.getCurrentPos() == selectedCard && !current.getCards().contains(selectedCard)){
+            if(current.isTurn() && current.getCurrentPos() == selectedCard && !contain){
                 new CardWindow(selectedCard, CardWindowType.BANk).setVisible(true);
             }else if(current.isTurn() && contain){
                 new CardWindow(selectedCard, CardWindowType.FRIEND).setVisible(true);
