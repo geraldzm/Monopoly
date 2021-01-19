@@ -7,6 +7,7 @@ package com.game.monopoly.Client.controller;
 
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
 
+import com.game.monopoly.Client.model.CardFactory;
 import com.game.monopoly.Client.model.Objects.Player;
 import com.game.monopoly.Client.view.*;
 import com.game.monopoly.common.Comunication.*;
@@ -111,7 +112,7 @@ public class PropertyCardController implements IController, MouseListener {
 
     // Metodo para comprar hotel
     private void buyHotel() throws IOException {
-        if (Player.getInstance().getHouses().get(property.getId()).getAmountHouse() != 4){
+        if (((PropertyCard) CardFactory.getCard(property.getId()) ).getHouseAmount() != 4){
             JOptionPane.showMessageDialog(property, "Usted aun no tiene 4 casas...");
             return;
         }

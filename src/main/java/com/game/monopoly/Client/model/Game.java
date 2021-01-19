@@ -143,7 +143,7 @@ public class Game extends Canvas implements Runnable, Clickable {
         GameListener listener = GameListener.getInstance();
 
         HashMap<Integer, Players> players = listener.getPlayers();
-        
+
         if (players.get(ID).getHouses().containsKey(position)){
             house = players.get(ID).getHouses().get(position);
             
@@ -160,8 +160,10 @@ public class Game extends Canvas implements Runnable, Clickable {
     }
 
     // Permite agregar una casa
-    public void addHotel(int ID, int position, int amount){
+    public void addHotel(int position){
         Houses house;
+        int amount = 1;
+        int ID = 0;
         
         GameListener listener = GameListener.getInstance();
 
@@ -237,7 +239,8 @@ public class Game extends Canvas implements Runnable, Clickable {
             Player current = Player.getInstance();
 
             boolean contain = current.getCards().contains(selectedCard);
-            boolean canOperate = current.isHasCompletedRound() && Player.getInstance().isRolledDices();
+            // boolean canOperate = current.isHasCompletedRound() && Player.getInstance().isRolledDices();
+            boolean canOperate = Player.getInstance().isRolledDices();
 
             if(current.isTurn() && current.getCurrentPos() == selectedCard && !contain && canOperate){
                 isClickTriggered = true;

@@ -114,4 +114,13 @@ public class CardFactory {
         return cards.get(value);
     }
 
+    public static PropertyCard getPropertyCard(int value) {
+        if(cards == null) {
+            initCardFactory();
+        }
+        if(cards.get(value) instanceof PropertyCard)
+            return (PropertyCard) cards.get(value);
+        return null;
+    }
+
 }

@@ -20,7 +20,7 @@ public class PropertyCard extends Card {
     "cafe" : [1, 3],
     "celeste" : [6,8,9],
     "rosa" : [11, 13, 14],
-    "naranja" : [16,18, 19],
+    "naranja" : [16, 18, 19],
     "rojo" : [21, 23, 24],
     "amarillo" : [26, 27, 29],
     "verde" : [31, 32, 34],
@@ -96,11 +96,19 @@ public class PropertyCard extends Card {
     }
 
     public int getPriceToPay() { // lo que paga si alguien cae en esa posicion
-        return 100;
+        return 100 + 100 * houseAmount + 200 * hotelAmount;
     }
 
     public int getMortgagePrice(){
         return 100;
+    }
+
+    public void decreaseHouseAmount(){
+        houseAmount--;
+    }
+
+    public void decreaseHotelAmount(){
+        houseAmount--;
     }
 
     public void increaseHouseAmount(){

@@ -131,8 +131,8 @@ public class Player extends ChatConnection {
         this.position = position;
     }
 
-    public void reduceMoney(int amount){
+    public void reduceMoney(int amount, String message){
         cash -= amount;
-        sendMessage(new Message(cash, TAKEMONEY));
+        sendMessage(new Message(cash, message, TAKEMONEY));
     }
 }

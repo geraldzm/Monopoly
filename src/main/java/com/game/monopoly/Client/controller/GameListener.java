@@ -2,6 +2,8 @@
 package com.game.monopoly.Client.controller;
 
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
+
+import com.game.monopoly.Client.model.CardFactory;
 import com.game.monopoly.Client.model.Objects.*;
 import com.game.monopoly.Client.view.*;
 import com.game.monopoly.common.Comunication.*;
@@ -98,12 +100,10 @@ public class GameListener {
                     server.sendInt(amountPlayers, RESPONSE);
                     System.out.println("Servidor: Este usuario ahora es administrador");
                 }
-                case REJECTED -> {
-                    JOptionPane.showMessageDialog(null, "Se ha rechazado tu peticion...");
-                }
-                case ACCEPTED -> {
-                    JOptionPane.showMessageDialog(null, "Se ha aceptado tu peticion!");
-                }
+
+                case REJECTED -> JOptionPane.showMessageDialog(null, "Se ha rechazado tu peticion...");
+                case ACCEPTED -> JOptionPane.showMessageDialog(null, "Se ha aceptado tu peticion!");
+
                 case ID -> {
                     System.out.println("Servidor: Se ha recibido la ID: " + msg.getNumber());
 
@@ -145,8 +145,7 @@ public class GameListener {
                     FrameController controller = FrameController.getInstance();
 
                     controller.openWindow(FramesID.GAME);
-                    
-                    
+
                     window = ((GameController) controller.getWindow(FramesID.GAME)).getWindow();
                     server.sendMessage(DONE);
                 }
@@ -170,9 +169,6 @@ public class GameListener {
                 }
 
                 case DICES -> {
-                    System.out.println("Dices: ");
-                    System.out.println(msg.getString());
-                    System.out.println(Arrays.toString(msg.getNumbers()));
 
                     FrameController controller = FrameController.getInstance();
                     OrderController order = (OrderController) controller.generateWindow(FramesID.DICEORDER);
@@ -255,6 +251,9 @@ public class GameListener {
                 case PUTHOUSE ->{
                     System.out.println("Agregando casas...");
                     gameController.getGame().addHouse(msg.getNumber());
+
+                    ((PropertyCard) CardFactory.getCard(msg.getNumber())).increaseHouseAmount();
+
                     server.sendDone();
                 }
                 
@@ -265,20 +264,22 @@ public class GameListener {
                     int ID = msg.getNumbers()[2];
                     
                     gameController.getGame().removeHouse(ID, position, amount);
+                    ((PropertyCard) CardFactory.getCard(msg.getNumber())).decreaseHouseAmount();
 
                     server.sendDone();
                 }
                 
                 case PUTHOTEL ->{
-                    System.out.println("Agregando hoteles...");
-                    int position = msg.getNumbers()[0];
-                    int amount = msg.getNumbers()[1];
-                    int ID = msg.getNumbers()[2];
-                    
-                    gameController.getGame().addHotel(ID, position, amount);
+
+                    System.out.println("Agregando hotel...");
+                    gameController.getGame().addHotel(msg.getNumber());
+
+                    ((PropertyCard) CardFactory.getCard(msg.getNumber())).increaseHotelAmount();
 
                     server.sendDone();
                 }
+
+                case NOAVAILABE -> gameController.triggerGlobalMsg(msg.getString());
                 
                 case REMOVEHOTEL ->{
                     System.out.println("Removiendo hoteles...");
@@ -287,14 +288,11 @@ public class GameListener {
                     int ID = msg.getNumbers()[2];
                     
                     gameController.getGame().removeHotel(ID, position, amount);
+                    ((PropertyCard) CardFactory.getCard(msg.getNumber())).decreaseHotelAmount();
 
                     server.sendDone();
                 }
-/*3. Cliente solicita vender
-4. Cliente solicita hipotecar
-8. Server le puede notificar al cliente que muestre cartas
-10.
-* */
+
             }
         };
 

@@ -23,6 +23,8 @@ public class Server extends RunnableThread implements Listener{
     private final Object diceLocker, turnLocker;
     private final ActionQueue gameRequests; //
 
+    private final Bank bank;
+
     public Server() {
         players = new Hashtable<>();
         playersByIds = connectPlayers();
@@ -32,6 +34,7 @@ public class Server extends RunnableThread implements Listener{
         diceLocker = new Object();
         turnLocker = new Object();
         gameRequests = new ActionQueue(players);
+        bank = new Bank();
     }
 
     @Override
@@ -58,6 +61,9 @@ public class Server extends RunnableThread implements Listener{
         currentPlayer.move(currentPlayer.getDices()[2]);
         quickActionQueue(playersByIds, new Message(new int[]{currentPlayer.getId(), 1, currentPlayer.getPosition()}, MOVE));
 
+        //if the player moves to an enemy property
+        validateLandLord();
+
         currentPlayer.setListener(this); // start listening this player
         currentPlayer.removeReceiverFilter();
 
@@ -78,6 +84,25 @@ public class Server extends RunnableThread implements Listener{
         turn = turn+1 > playersByIds.size() ? 1: turn+1; // next turn
 
         //stopThread();
+    }
+
+    private void validateLandLord() {
+
+        Player landLord = playersByIds.stream()
+                .filter(p -> p.getCards().contains(currentPlayer.getPosition()))
+                .findFirst()
+                .orElse(null);
+
+        if(landLord != null && landLord != currentPlayer) { // if it was an enemy property
+            int toPay = ((PropertyCard) CardFactory.getCard(currentPlayer.getPosition())).getPriceToPay();
+
+            System.out.println(currentPlayer.getName() + " ha caido en la propiedad de: "  + landLord.getName());
+            System.out.println("Debera pagar: " + toPay);
+
+            currentPlayer.reduceMoney(toPay, "Le ha pagado " + toPay + " a " + landLord.getName());
+            landLord.addCash(toPay, "Se le ha pagado " + toPay + " por " + landLord.getName());
+        }
+
     }
 
     private void waitWith(Object locker) {
@@ -259,11 +284,12 @@ public class Server extends RunnableThread implements Listener{
                     diceLocker.notify();
                 }
             }
+
             case BUYPROPERTY -> {
                 PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
 
                 if(currentPlayer.getCash() >= propertyCard.getPrice()) {
-                    currentPlayer.reduceMoney(propertyCard.getPrice());
+                    currentPlayer.reduceMoney(propertyCard.getPrice(), "Se ha comprado la propiedad");
                     currentPlayer.addCard(propertyCard.getId());
 
                     gameRequests.addAction(new Message(new int[]{currentPlayer.getId(), propertyCard.getId()}, ADDCARD));
@@ -281,6 +307,82 @@ public class Server extends RunnableThread implements Listener{
                 }
             }
 
+            case SELLHOTEL -> {
+                PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
+
+                currentPlayer.addCash(propertyCard.getHotelPrice(), "Se le ha acreditado el dinero por la venta de un hotel");
+                propertyCard.decreaseHotelAmount();
+                bank.hotel++;
+
+            }
+
+            case BUYHOTEL -> {
+                if(bank.hotel <= 0) { // no hay casas
+                    currentPlayer.sendMessage(new Message("No hay hoteles disponibles para comprar", NOAVAILABE));
+                    return;
+                }
+
+                PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
+
+                if(currentPlayer.getCash() >= propertyCard.getHotelPrice()) {
+
+                    currentPlayer.reduceMoney(propertyCard.getHotelPrice(), "Se ha comprado el hotel");
+                    gameRequests.addAction(new Message(propertyCard.getId(), PUTHOTEL));
+                    propertyCard.decreaseHotelAmount();
+                    bank.hotel--;
+
+                }else{
+                    currentPlayer.sendMessage(new Message(CANTBUY));
+                }
+
+                if(currentPlayer.getCash() <= 0) {
+                    gameRequests.addAction(new Message(currentPlayer.getId(), LOOSER));
+                }
+
+                synchronized (turnLocker){
+                    turnLocker.notify();
+                }
+            }
+
+            case BUYHOUSE -> {
+
+                if(bank.house <= 0) { // no hay casas
+                    currentPlayer.sendMessage(new Message("No hay casas disponibles para comprar", NOAVAILABE));
+                    return;
+                }
+
+                PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
+
+                if(currentPlayer.getCash() >= propertyCard.getHousePrice()) {
+
+                    currentPlayer.reduceMoney(propertyCard.getHousePrice(), "Se ha comprado la casa");
+                    gameRequests.addAction(new Message(propertyCard.getId(), PUTHOUSE));
+                    propertyCard.increaseHouseAmount();
+                    bank.house--;
+
+                }else{
+                    currentPlayer.sendMessage(new Message(CANTBUY));
+                }
+
+                if(currentPlayer.getCash() <= 0) {
+                    gameRequests.addAction(new Message(currentPlayer.getId(), LOOSER));
+                }
+
+                synchronized (turnLocker){
+                    turnLocker.notify();
+                }
+
+            }
+
+            case SELLHOUSE -> {
+                PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
+
+                currentPlayer.addCash(propertyCard.getHousePrice(), "Se le ha acreditado el dinero por la venta de una casa");
+                propertyCard.decreaseHouseAmount();
+                bank.house++;
+
+            }
+
             case SELLPROPERTY -> {
 
                 PropertyCard propertyCard = (PropertyCard) CardFactory.getCard(message.getNumber());
@@ -296,29 +398,6 @@ public class Server extends RunnableThread implements Listener{
                 }
             }
 
-            case BUYHOUSE -> {
-
-                PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
-
-                if(currentPlayer.getCash() >= propertyCard.getHousePrice()) {
-
-                    currentPlayer.reduceMoney(propertyCard.getPrice());
-                    gameRequests.addAction(new Message(propertyCard.getId(), PUTHOUSE));
-                    propertyCard.increaseHouseAmount();
-
-                }else{
-                    currentPlayer.sendMessage(new Message(CANTBUY));
-                }
-
-                if(currentPlayer.getCash() <= 0) {
-                    gameRequests.addAction(new Message(currentPlayer.getId(), LOOSER));
-                }
-
-                synchronized (turnLocker){
-                    turnLocker.notify();
-                }
-
-            }
 
             default -> System.out.println("Not supported: "+ message.getIdMessage());
         }
