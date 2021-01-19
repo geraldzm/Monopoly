@@ -33,6 +33,7 @@ public enum IDMessage implements Serializable {
     REMOVEHOUSE(true),
     PUTHOTEL(true),
     REMOVEHOTEL(true),
+    NOAVAILABE(true), // dice que algo no esta disponible, comprar casa, hotel etc
     //######main.java.Client -> main.java.Server######
     BUYPROPERTY,
     SELLPROPERTY,

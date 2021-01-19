@@ -1,6 +1,11 @@
 package com.game.monopoly.Client.model.Objects;
 
+import com.game.monopoly.Client.view.PropertyCard;
+
 import java.util.*;
+
+import static com.game.monopoly.Client.model.Constant.*;
+import static com.game.monopoly.Client.model.Utils.contains;
 
 public class Players extends Token {
     private String name;
@@ -69,6 +74,40 @@ public class Players extends Token {
         }
         
         return intArr;
+    }
+
+    // Retorna true si un jugador ha comprado un set de cartas
+    public boolean hasBoughtSet(PropertyCard.Colors colors){
+        if (isDebug) return true;
+
+        switch (colors){
+            case BROWN -> {
+                return contains(getCardsArray(), cafe);
+            }
+            case LIGHTBLUE -> {
+                return contains(getCardsArray(), celeste);
+            }
+            case PINK -> {
+                return contains(getCardsArray(), rosa);
+            }
+            case ORANGE -> {
+                return contains(getCardsArray(), naranja);
+            }
+            case RED -> {
+                return contains(getCardsArray(), rojo);
+            }
+            case YELLOW -> {
+                return contains(getCardsArray(), amarillo);
+            }
+            case GREEN -> {
+                return contains(getCardsArray(), verde);
+            }
+            case BLUE -> {
+                return contains(getCardsArray(), azul);
+            }
+        }
+
+        return false;
     }
 
     public HashMap<Integer, Houses> getHouses() {

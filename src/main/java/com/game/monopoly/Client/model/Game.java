@@ -143,7 +143,7 @@ public class Game extends Canvas implements Runnable, Clickable {
         GameListener listener = GameListener.getInstance();
 
         HashMap<Integer, Players> players = listener.getPlayers();
-        
+
         if (players.get(ID).getHouses().containsKey(position)){
             house = players.get(ID).getHouses().get(position);
             
@@ -160,60 +160,66 @@ public class Game extends Canvas implements Runnable, Clickable {
     }
 
     // Permite agregar una casa
-    public void addHotel(int ID, int position, int amount){
-        Houses house;
+    public void addHotel(int position){
+        Houses hotel;
+        int amount = 1;
+        int ID = 0;
         
         GameListener listener = GameListener.getInstance();
 
         HashMap<Integer, Players> players = listener.getPlayers();
-        
+
         if (players.get(ID).getHotel().containsKey(position)){
-            house = players.get(ID).getHotel().get(position);
+            hotel = players.get(ID).getHotel().get(position);
             
-            house.addHouse(amount);
+            hotel.addHouse(amount);
         }else{
-            house = new Houses(false);
+            hotel = new Houses(false);
+
+            Houses house = players.get(ID).getHouses().get(position);
+            house.subHouse(house.getAmountHouse());
+
+            handlerGameObjects.removeObject(house);
+            players.get(ID).getHotel().put(position, hotel);
             
-            house.addHouse(amount);
+            matrix.addPlayer(hotel, position);
             
-            players.get(ID).getHotel().put(position, house);
-            
-            matrix.addPlayer(house, position);
-            
-            handlerGameObjects.addObject(house);
+            handlerGameObjects.addObject(hotel);
         }
     }
-    
-    public void removeHouse(int ID, int position, int amount){
+
+    // Permite remover una casa del tablero
+    public void removeHouse(int position){
         GameListener listener = GameListener.getInstance();
 
         HashMap<Integer, Players> players = listener.getPlayers();
         
-        Houses house = players.get(ID).getHouses().get(position);
+        Houses house = players.get(0).getHouses().get(position);
         
-        house.subHouse(amount);
-        
-        if (house.getAmountHouse() <= 0){
-            matrix.removePlayer(house);
-
-            handlerGameObjects.removeObject(house);
-        }
+        removePropertyToken(house, 1);
     }
-    
-    public void removeHotel(int ID, int position, int amount){
+
+    // Permite remover un hotel del tablero
+    public void removeHotel(int position){
         GameListener listener = GameListener.getInstance();
 
         HashMap<Integer, Players> players = listener.getPlayers();
         
-        Houses house = players.get(ID).getHotel().get(position);
-        
-        house.subHouse(amount);
-        
-        if (house.getAmountHouse() <= 0){
-            matrix.removePlayer(house);
+        Houses hotel = players.get(0).getHotel().get(position);
 
-            handlerGameObjects.removeObject(house);
+        removePropertyToken(hotel, hotel.getAmountHouse());
+    }
+
+    // Funcion que permite eliminar un token de casa u hotel del tablero
+    private void removePropertyToken(Houses token, int amount){
+        token.subHouse(amount);
+
+        if (token.getAmountHouse() <= 0){
+            matrix.removePlayer(token);
+
+            handlerGameObjects.removeObject(token);
         }
+
     }
 
     @Override
@@ -237,8 +243,11 @@ public class Game extends Canvas implements Runnable, Clickable {
             Player current = Player.getInstance();
 
             boolean contain = current.getCards().contains(selectedCard);
+
             boolean canOperate = current.isHasCompletedRound() && Player.getInstance().isRolledDices();
-            canOperate = true;
+
+            if (isDebug) // Si quiere dejar esto en true, vaya a constants, ahi esta esa variable
+                canOperate = true;
 
             if(current.isTurn() && current.getCurrentPos() == selectedCard && !contain && canOperate){
                 isClickTriggered = true;

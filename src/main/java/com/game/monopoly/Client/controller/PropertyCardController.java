@@ -7,6 +7,7 @@ package com.game.monopoly.Client.controller;
 
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
 
+import com.game.monopoly.Client.model.CardFactory;
 import com.game.monopoly.Client.model.Objects.Player;
 import com.game.monopoly.Client.model.Objects.Players;
 import com.game.monopoly.Client.view.*;
@@ -81,18 +82,16 @@ public class PropertyCardController implements IController, MouseListener {
                 System.out.println("Vendiendo propiedad");
                 getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.SELLPROPERTY));
 
-                close();
+                property.sell.setVisible(false);
             } else if (e.getSource().equals(property.buy)){
                 System.out.println("Comprando propiedad");
                 getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.BUYPROPERTY));
 
-                close();
-                
+                property.buy.setVisible(false);
             } else if (e.getSource().equals(property.mortgage)){
                 System.out.println("Comprando mortgage");
 
                 close();
-
             } else if (e.getSource().equals(property.buyHotel)){
                 buyHotel();
             } else if (e.getSource().equals(property.sellHotel)){
@@ -118,7 +117,7 @@ public class PropertyCardController implements IController, MouseListener {
     private void buyHotel() throws IOException {
         Players tmp = GameListener.getInstance().getPlayers().get(0);
 
-        if (tmp.getHouses().get(property.getId()).getAmountHouse() != 4){
+        if (((PropertyCard) CardFactory.getCard(property.getId())).getHouseAmount() != 4){
             JOptionPane.showMessageDialog(property, "Usted aun no tiene 4 casas...");
             return;
         }
@@ -157,6 +156,12 @@ public class PropertyCardController implements IController, MouseListener {
 
         if (!Player.getInstance().getCards().contains(property.getId())){
             JOptionPane.showMessageDialog(property, "Esta carta aun no es tuya...");
+            return;
+        }
+
+        if (!Player.getInstance().hasBoughtSet(property.getColor())){
+            JOptionPane.showMessageDialog(property, "Tienes que comprar todo el set de color para comprar casas...");
+
             return;
         }
 

@@ -211,6 +211,11 @@ public class GameController implements IController, MouseListener{
         String msg = window.tfChat.getText();
         
         if (!msg.isEmpty() && !msg.startsWith(" ")){
+            if (msg.startsWith("--")){
+                debugMsg(msg);
+                return;
+            }
+
             try {
                 ServerCommunication server = getServerCommunication();
                 
@@ -222,6 +227,18 @@ public class GameController implements IController, MouseListener{
             window.tfChat.setText("");
         }else {
             triggerGlobalMsg("El mensaje esta vacio...");
+        }
+    }
+
+    private void debugMsg(String msg){
+        String pos = msg.substring(2, msg.length());
+
+        try{
+            int playerPos = Integer.parseInt(pos);
+
+            game.movePlayer(Player.getInstance(), playerPos, false);
+        }catch (NumberFormatException ex){
+            addChatMsg("DEBUG: Formato de debug incorrecto...");
         }
     }
 
