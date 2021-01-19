@@ -50,9 +50,6 @@ public class Server extends RunnableThread implements Listener{
         //wait until he rolls the dices
         waitWith(diceLocker);
 
-        gameRequests.addAction(new Message(2, PUTHOUSE));
-        gameRequests.executeQueue();
-
         //roll dices
         currentPlayer.rollDices();
         actionQueue.addAction(new Message(currentPlayer.getDices(), DICE));
@@ -303,11 +300,11 @@ public class Server extends RunnableThread implements Listener{
 
                 PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
 
-                if(currentPlayer.getCash() >= propertyCard.getPrice()) {
-                    currentPlayer.reduceMoney(propertyCard.getPrice());
-                    currentPlayer.addCard(propertyCard.getId());
+                if(currentPlayer.getCash() >= propertyCard.getHousePrice()) {
 
-                    gameRequests.addAction(new Message(new int[]{currentPlayer.getId(), propertyCard.getId()}, ADDCARD));
+                    currentPlayer.reduceMoney(propertyCard.getPrice());
+                    gameRequests.addAction(new Message(propertyCard.getId(), PUTHOUSE));
+                    propertyCard.increaseHouseAmount();
 
                 }else{
                     currentPlayer.sendMessage(new Message(CANTBUY));

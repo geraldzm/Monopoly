@@ -87,18 +87,28 @@ public class PropertyCard extends Card {
     }
 
 
-
     public int getHousePrice() {
-        return 0;
-
+        return 100;
     }
 
     public int getHotelPrice() {
-        return 0;
+        return 100;
     }
 
     public int getPriceToPay() { // lo que paga si alguien cae en esa posicion
-        return 0;
+        return 100;
+    }
+
+    public int getMortgagePrice(){
+        return 100;
+    }
+
+    public void increaseHouseAmount(){
+        houseAmount++;
+    }
+
+    public void increaseHotelAmount(){
+        houseAmount++;
     }
 
     public int getPrice() {

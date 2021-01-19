@@ -185,9 +185,7 @@ public class GameListener {
                     order.init();
                     order.start();
                 }
-                case CANTBUY -> {
-                    gameController.triggerGlobalMsg("No tienes dinero suficiente.");
-                }
+                case CANTBUY -> gameController.triggerGlobalMsg("No tienes dinero suficiente.");
                 case LOOSER -> {
 
                     JOptionPane.showMessageDialog(window, "Haz perdido: " + players.get(msg.getNumber()).getName());
