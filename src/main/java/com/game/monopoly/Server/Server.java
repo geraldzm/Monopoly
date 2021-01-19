@@ -1,6 +1,7 @@
 package com.game.monopoly.Server;
 
 import com.game.monopoly.Client.model.CardFactory;
+import com.game.monopoly.Client.view.Card;
 import com.game.monopoly.Client.view.PropertyCard;
 import com.game.monopoly.common.Comunication.*;
 import com.game.monopoly.common.*;
@@ -67,22 +68,23 @@ public class Server extends RunnableThread implements Listener{
             currentPlayer.addCash(200, "A" + currentPlayer.getName()+ " se le da $200 por pasar GO");
 
         //if the player moves to an enemy property
-        validateLandLord();
+        if(!validateLandLord()) { // validamos si pierde por la casilla donde cayo
 
-        currentPlayer.setListener(this); // start listening this player
-        currentPlayer.removeReceiverFilter();
+            currentPlayer.setListener(this); // start listening this player
+            currentPlayer.removeReceiverFilter();
 
-        // wait for further actions (sell houses etc)
-        synchronized (turnLocker){
-            try {
-                while (!turnFinished){
-                    turnLocker.wait();
-                    gameRequests.executeQueue();
-                    currentPlayer.setListener(this);
-                    currentPlayer.removeReceiverFilter();
+            // wait for further actions (sell houses etc)
+            synchronized (turnLocker) {
+                try {
+                    while (!turnFinished) {
+                        turnLocker.wait();
+                        gameRequests.executeQueue();
+                        currentPlayer.setListener(this);
+                        currentPlayer.removeReceiverFilter();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
 
@@ -91,23 +93,40 @@ public class Server extends RunnableThread implements Listener{
         //stopThread();
     }
 
-    private void validateLandLord() {
+    // casilla donde cae
+    private boolean validateLandLord() {
 
-        Player landLord = playersByIds.stream()
-                .filter(p -> p.getCards().contains(currentPlayer.getPosition()))
-                .findFirst()
-                .orElse(null);
+        Card card = CardFactory.getCard(currentPlayer.getPosition());
 
-        if(landLord != null && landLord != currentPlayer) { // if it was an enemy property
-            int toPay = ((PropertyCard) CardFactory.getCard(currentPlayer.getPosition())).getPriceToPay();
+        if(card instanceof PropertyCard) {  // if it is a property
+            int toPay = ((PropertyCard) card).getPriceToPay();
 
-            System.out.println(currentPlayer.getName() + " ha caido en la propiedad de: "  + landLord.getName());
-            System.out.println("Debera pagar: " + toPay);
+            Player landLord = playersByIds.stream()
+                    .filter(p -> p.getCards().contains(currentPlayer.getPosition()))
+                    .findFirst()
+                    .orElse(null);
 
-            currentPlayer.reduceMoney(toPay, "Le ha pagado " + toPay + " a " + landLord.getName());
-            landLord.addCash(toPay, currentPlayer.getName()+" le ha pagado $" + toPay + " a " + landLord.getName() + " de renta");
+            if(landLord != null && landLord != currentPlayer) { // if it was an enemy property
+
+                System.out.println(currentPlayer.getName() + " ha caido en la propiedad de: "  + landLord.getName());
+                System.out.println("Debera pagar: " + toPay);
+
+                currentPlayer.reduceMoney(toPay, "Le ha pagado " + toPay + " a " + landLord.getName());
+                landLord.addCash(toPay, currentPlayer.getName()+" le ha pagado $" + toPay + " a " + landLord.getName() + " de renta");
+
+            } else if(currentPlayer.getPosition() == 4 || currentPlayer.getPosition() == 12 || currentPlayer.getPosition() == 28 || currentPlayer.getPosition() == 38){ // taxes
+                currentPlayer.reduceMoney(toPay, "Ha pagado " + toPay + " de impuestos ");
+            }
+
         }
 
+        if(currentPlayer.getCash() <= 0) { // validate looser
+            gameRequests.addAction(new Message(currentPlayer.getId(), LOOSER));
+            gameRequests.executeQueue();
+            return true;
+        }
+
+        return false;
     }
 
     private void waitWith(Object locker) {
@@ -274,7 +293,6 @@ public class Server extends RunnableThread implements Listener{
 
     @Override
     public void action(Message message) {
-        System.out.println("Se recibe el mensaje: " + message.getIdMessage());
 
         switch (message.getIdMessage()){
             case FINISHEDTURN -> {
@@ -333,7 +351,12 @@ public class Server extends RunnableThread implements Listener{
 
                     currentPlayer.reduceMoney(propertyCard.getHotelCost(), "A " +currentPlayer.getName() + " se le debita $"+propertyCard.getHotelCost() +" por la compra de un hotel");
                     gameRequests.addAction(new Message(propertyCard.getId(), PUTHOTEL));
+
+                    //"Se remueve una casa de " +propertyCard.getId()+ " para poner un hotel"
+
                     propertyCard.decreaseHotelAmount();
+                    propertyCard.setHouseAmount(0);
+                    bank.house += 4;
                     bank.hotel--;
 
                 }else{
@@ -383,6 +406,7 @@ public class Server extends RunnableThread implements Listener{
                 PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
 
                 currentPlayer.addCash(propertyCard.getHouseCost(), "A " + currentPlayer.getName()+ " se le acredita $"+propertyCard.getHouseCost()+ " por la venta de una casa");
+                gameRequests.addAction(new Message("Se vente una casa en " + propertyCard.getId(), REMOVEHOUSE));
                 propertyCard.decreaseHouseAmount();
                 bank.house++;
 

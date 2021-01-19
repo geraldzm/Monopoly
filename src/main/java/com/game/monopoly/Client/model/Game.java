@@ -239,6 +239,7 @@ public class Game extends Canvas implements Runnable, Clickable {
             Player current = Player.getInstance();
 
             boolean contain = current.getCards().contains(selectedCard);
+
             // boolean canOperate = current.isHasCompletedRound() && Player.getInstance().isRolledDices();
             boolean canOperate = Player.getInstance().isRolledDices();
 

@@ -1,6 +1,9 @@
 package com.game.monopoly.Client.view;
 
 import com.game.monopoly.Client.model.*;
+
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.*;
 import javax.swing.*;
 
@@ -84,6 +87,14 @@ public class PropertyCard extends Card {
 
         JLabel backGround = new JLabel();
         backGround.setBounds(x, y, w, h);
+
+        label.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentHidden(ComponentEvent e) {
+                backGround.setVisible(false);
+            }
+        });
+
         try {
             backGround.setIcon(Utils.getComponentIcon("ButtonsBG.png", w, h));
         } catch (IOException e) {
