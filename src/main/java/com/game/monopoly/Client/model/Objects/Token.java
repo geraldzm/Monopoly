@@ -50,7 +50,6 @@ public class Token extends GameObject{
             moveTo = null;
 
             try {
-                System.out.println("Se retorna DONE movimiento");
                 ServerCommunication.getServerCommunication().sendDone();
             } catch (IOException e) {
                 e.printStackTrace();

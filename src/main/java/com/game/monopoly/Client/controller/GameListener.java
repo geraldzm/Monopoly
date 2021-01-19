@@ -95,16 +95,14 @@ public class GameListener {
             switch(msg.getIdMessage()){
                 case ADMIN -> {
                     askAmountPlayers();
-
                     server.sendInt(amountPlayers, RESPONSE);
-
                     System.out.println("Servidor: Este usuario ahora es administrador");
                 }
                 case REJECTED -> {
-                    System.out.println("Servidor: Se ha rechazado tu peticion de unirse...");
+                    JOptionPane.showMessageDialog(null, "Se ha rechazado tu peticion...");
                 }
                 case ACCEPTED -> {
-                    System.out.println("Servidor: Se ha aceptado tu peticion de unirse!");
+                    JOptionPane.showMessageDialog(null, "Se ha aceptado tu peticion!");
                 }
                 case ID -> {
                     System.out.println("Servidor: Se ha recibido la ID: " + msg.getNumber());
@@ -185,9 +183,7 @@ public class GameListener {
                     order.init();
                     order.start();
                 }
-                case CANTBUY -> {
-                    gameController.triggerGlobalMsg("No tienes dinero suficiente.");
-                }
+                case CANTBUY -> gameController.triggerGlobalMsg("No tienes dinero suficiente.");
                 case LOOSER -> {
 
                     JOptionPane.showMessageDialog(window, "Haz perdido: " + players.get(msg.getNumber()).getName());
@@ -201,29 +197,21 @@ public class GameListener {
                 }
 
                 case GETTOKEN -> {
-                    System.out.println("Tokens disponibles: " + Arrays.toString(msg.getNumbers()));
                     new ComboBoxPopUp(msg.getNumbers(), window); // la respuesta al server esta en la accion del boton (en el controlador)
                 }
 
                 case GIVEMONEY -> {
-                    // trae un mensaje en el string con la razon por la que se le da la plata
-                    // tiene la cantidad de plata que se le esta dando en el numero
-
                     gameController.setPlayerMoney(msg.getNumber());
-                    gameController.triggerGlobalMsg(String.format("%s: %s", msg.getString(), player.getName()));
+                    gameController.triggerGlobalMsg(msg.getString());
                     server.sendDone();
                 }
 
                 case TOKENS -> {
-                    System.out.println("Server: se recibieron los tokens");
                     int[] rs = msg.getNumbers(); // tokens recibidos, el orden es el mismo que el ID de cada jugador 0-n
-                    System.out.println("Resultado de los tokens: ");
 
                     for (int i = 0; i < rs.length; i++) {
                         if (players.containsKey(i))
                             players.get(i).setTokenImg(rs[i]);
-
-                        System.out.println(String.format("\tEl di: %d escogió el token= %d", i, rs[i]));
                     }
 
                     server.sendMessage(DONE);
@@ -231,7 +219,7 @@ public class GameListener {
 
                 case TURN -> {
                     // hago un JOptionPane en vez del mensaje de abajo porque hay que hacer mas que un simple mensaje, solo como recordatorio
-                    JOptionPane.showMessageDialog(window, "Comienza mi turno" + player.getName());
+                    JOptionPane.showMessageDialog(window, "Turno de: " + player.getName());
 
                     player.setRolledDices(false);
                     player.setTurn(true);
@@ -248,12 +236,9 @@ public class GameListener {
                 }
 
                 case REMOVECARD -> {
-                    System.out.println("Se intenta quitar una card con el id: " + msg.getNumber());
-                    
-                    if (player.getCards().contains(msg.getNumber()))
-                        player.getCards().remove(msg.getNumber());
-                    else
-                        System.out.println("El jugador no posee esa carta");
+                    System.out.println("Se intenta quitar una card con el id: " + msg.getNumbers()[1]);
+
+                    players.get(msg.getNumbers()[0]).getCards().remove(msg.getNumbers()[1]);
                     
                     server.sendDone();
                 }
@@ -266,14 +251,10 @@ public class GameListener {
                     gameController.setPlayerMoney(msg.getNumber());
                     gameController.triggerGlobalMsg("Nuevo saldo...");
                 }
+
                 case PUTHOUSE ->{
                     System.out.println("Agregando casas...");
-                    int position = msg.getNumbers()[0];
-                    int amount = msg.getNumbers()[1];
-                    int ID = msg.getNumbers()[2];
-                    
-                    gameController.getGame().addHouse(ID, position, amount);
-
+                    gameController.getGame().addHouse(msg.getNumber());
                     server.sendDone();
                 }
                 

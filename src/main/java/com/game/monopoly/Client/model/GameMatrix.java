@@ -93,7 +93,7 @@ public class GameMatrix {
         int index = token.getCurrentPos();
 
         while (!isAtPosition){
-            System.out.println("Moviendo al jugador a: " + index);
+           // System.out.println("Moviendo al jugador a: " + index);
 
             // Lo redireccionamos
             index = (isBackwards) ? index - 1 : index + 1;

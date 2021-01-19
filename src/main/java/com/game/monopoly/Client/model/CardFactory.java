@@ -14,6 +14,8 @@ public class CardFactory {
     private static Hashtable <Integer, Card> cards;
 
     private CardFactory() {}
+
+
     
     private static void initCardFactory() {
         int price = 0;
@@ -38,7 +40,7 @@ public class CardFactory {
                 else if(i == 37) price = 350;//Azules
                 else if(i == 39) price = 400;
                 
-                cards.put(i, new PropertyCard(null, i, price, PropertyCard.Type.NONE));
+                cards.put(i, new PropertyCard(null, i, price, PropertyCard.Type.NONE, PropertyCard.Color.BLUE));
 
             } else {
                 if (i == 40 || i == 41) continue;
@@ -95,7 +97,7 @@ public class CardFactory {
         if (c instanceof PropertyCard){
 
             c.setImage(new ImageIcon(Utils.getIcon.apply(c.getId()+".png").getScaledInstance(280, 392, Image.SCALE_SMOOTH)));
-            PropertyCard propertyCard = new PropertyCard(c.getImage(), c.getId(), ((PropertyCard) c).getPrice(),type);
+            PropertyCard propertyCard = new PropertyCard(c.getImage(), c.getId(), ((PropertyCard) c).getPrice(), type, PropertyCard.Color.BLUE);
             new PropertyCardController(propertyCard).init();
 
             return propertyCard;

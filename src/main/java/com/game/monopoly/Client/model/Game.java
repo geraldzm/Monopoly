@@ -135,8 +135,10 @@ public class Game extends Canvas implements Runnable, Clickable {
     }
 
     // Permite agregar una casa
-    public void addHouse(int ID, int position, int amount){
+    public void addHouse(int position){
         Houses house;
+        int amount = 1;
+        int ID = 0;
         
         GameListener listener = GameListener.getInstance();
 
@@ -234,6 +236,8 @@ public class Game extends Canvas implements Runnable, Clickable {
 
         if (selectedCard != -1 && selectedCard % 10 != 0) {
             isClickTriggered = true;
+
+            if(10 % selectedCard == 0) return;
 
             HashMap<Integer, Players> players = GameListener.getInstance().getPlayers();
 

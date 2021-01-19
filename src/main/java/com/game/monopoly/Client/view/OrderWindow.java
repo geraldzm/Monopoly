@@ -4,6 +4,7 @@ public class OrderWindow extends javax.swing.JFrame {
 
     public OrderWindow() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
