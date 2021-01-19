@@ -110,7 +110,6 @@ public class PropertyCard extends Card {
     }
 
     public int getPriceToPay() { // lo que paga si alguien cae en esa posicion
-        
         switch (houseAmount) {
             case 1: return prices[1];
             case 2: return prices[2];
@@ -161,7 +160,6 @@ public class PropertyCard extends Card {
     public void setHotelAmount(int hotelAmount) {
         this.hotelAmount = hotelAmount;
     }
-
 
     public Colors getColor() {
         return color;
