@@ -4,6 +4,7 @@ import com.game.monopoly.Client.controller.PropertyCardController;
 import com.game.monopoly.Client.view.Card;
 import com.game.monopoly.Client.view.CasualCard;
 import com.game.monopoly.Client.view.PropertyCard;
+import com.game.monopoly.Client.view.PropertyCard.Colors;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,32 +16,145 @@ public class CardFactory {
 
     private CardFactory() {}
 
-
-    
     private static void initCardFactory() {
-        int price = 0;
+        int cost = 0;
+        Colors color = null;
         cards = new Hashtable<>();
         for (int i = 0; i < 73; i++) {
+            int[] prices = new int[6];
             if (i < 40){
                 if (i == 0 || i == 10 || i == 20 || i == 30) continue;   
-                else if(i == 5 || i == 15 || i == 25 || i == 35 || i == 19) price = 200;//Casas y 19 Naranja
-                else if(i == 12 || i == 28 ) price = 150 ;//Servicios
-                else if(i == 1 || i == 3 ) price = 60 ;//Cafes
-                else if(i == 6 || i == 8 ) price = 100;//celeste
-                else if(i == 9) price  = 120;
-                else if(i == 11 || i == 13 ) price = 140;//Rosadas
-                else if(i == 14) price = 160;
-                else if(i == 16 || i == 18 ) price = 180;//Naranajas
-                else if(i == 21 || i == 23 ) price = 220;//Rojas
-                else if(i == 24) price = 240;
-                else if(i == 26 || i == 27 ) price = 260;//Amarillas
-                else if(i == 29) price = 280;
-                else if(i == 31 || i == 32 ) price = 300;//Verdes
-                else if(i == 34) price = 320;
-                else if(i == 37) price = 350;//Azules
-                else if(i == 39) price = 400;
+                else if(i == 5 || i == 15 || i == 25 || i == 35) cost = 200; //Casas
+                else if(i == 12 || i == 28 ) cost = 150 ;//Servicios
                 
-                cards.put(i, new PropertyCard(null, i, price, PropertyCard.Type.NONE, PropertyCard.Color.BLUE));
+                else if(i == 1) {
+                    cost = 60; 
+                    color = Colors.BROWN;
+                    prices[0] = 2;
+                    prices[1] = 10;
+                    prices[2] = 30;
+                    prices[3] = 90;
+                    prices[4] = 160;
+                    prices[5] = 250;
+                }//Cafes
+                else if(i == 3) {
+                    cost = 60; 
+                    color = Colors.BROWN;
+                    prices[0] = 4;
+                    prices[1] = 20;
+                    prices[2] = 60;
+                    prices[3] = 180;
+                    prices[4] = 320;
+                    prices[5] = 450;
+                }
+                else if(i == 6 || i == 8 ) {cost = 100;color = Colors.LIGHTBLUE;
+                    prices[0] = 6;
+                    prices[1] = 30;
+                    prices[2] = 90;
+                    prices[3] = 270;
+                    prices[4] = 400;
+                    prices[5] = 550;}//celeste
+                else if(i == 9) {cost  = 120; color = Colors.LIGHTBLUE;
+                    prices[0] = 8;
+                    prices[1] = 40;
+                    prices[2] = 100;
+                    prices[3] = 300;
+                    prices[4] = 450;
+                    prices[5] = 600;}
+                
+                else if(i == 11 || i == 13 ) {cost = 140; color = Colors.PINK;
+                    prices[0] = 10;
+                    prices[1] = 50;
+                    prices[2] = 150;
+                    prices[3] = 450;
+                    prices[4] = 625;
+                    prices[5] = 750;}//Rosadas
+                else if(i == 14) {cost = 160; color = Colors.PINK;
+                    prices[0] = 12;
+                    prices[1] = 60;
+                    prices[2] = 80;
+                    prices[3] = 500;
+                    prices[4] = 700;
+                    prices[5] = 900;}
+                
+                else if(i == 16 || i == 18 ) {cost = 180; color = Colors.ORANGE;
+                    prices[0] = 14;
+                    prices[1] = 70;
+                    prices[2] = 200;
+                    prices[3] = 550;
+                    prices[4] = 750;
+                    prices[5] = 950;}//Naranajas
+                
+                else if(i == 19) {cost = 200; color = Colors.ORANGE;
+                    prices[0] = 16;
+                    prices[1] = 80;
+                    prices[2] = 220;
+                    prices[3] = 600;
+                    prices[4] = 800;
+                    prices[5] = 1000;}
+                
+                else if(i == 21 || i == 23 ) {cost = 220; color = Colors.RED;
+                    prices[0] = 18;
+                    prices[1] = 90;
+                    prices[2] = 250;
+                    prices[3] = 700;
+                    prices[4] = 875;
+                    prices[5] = 1050;}//Rojas
+                
+                else if(i == 24) {cost = 240;color = Colors.RED;
+                    prices[0] = 20;
+                    prices[1] = 100;
+                    prices[2] = 300;
+                    prices[3] = 750;
+                    prices[4] = 825;
+                    prices[5] = 1100;}
+                
+                else if(i == 26 || i == 27 ) {cost = 260;color = Colors.YELLOW;
+                    prices[0] = 22;
+                    prices[1] = 110;
+                    prices[2] = 330;
+                    prices[3] = 800;
+                    prices[4] = 975;
+                    prices[5] = 1150;}//Amarillas
+                else if(i == 29) {cost = 280;color = Colors.YELLOW;
+                    prices[0] = 24;
+                    prices[1] = 120;
+                    prices[2] = 360;
+                    prices[3] = 850;
+                    prices[4] = 1025;
+                    prices[5] = 1200;}
+                
+                else if(i == 31 || i == 32 ) {cost = 300;color = Colors.GREEN;
+                    prices[0] = 26;
+                    prices[1] = 130;
+                    prices[2] = 390;
+                    prices[3] = 900;
+                    prices[4] = 1100;
+                    prices[5] = 1275;}//Verdes
+                else if(i == 34) {cost = 320;color = Colors.GREEN;
+                    prices[0] = 28;
+                    prices[1] = 150;
+                    prices[2] = 450;
+                    prices[3] = 1000;
+                    prices[4] = 1200;
+                    prices[5] = 1400;}
+                
+                else if(i == 37) {cost = 350;color = Colors.BLUE;
+                    prices[0] = 35;
+                    prices[1] = 175;
+                    prices[2] = 500;
+                    prices[3] = 1100;
+                    prices[4] = 1300;
+                    prices[5] = 1500;}//Azules
+                else if(i == 39) {cost = 400;color = Colors.BLUE;
+                    prices[0] = 50;
+                    prices[1] = 200;
+                    prices[2] = 600;
+                    prices[3] = 1400;
+                    prices[4] = 1700;
+                    prices[5] = 2000;}
+                
+                cards.put(i, new PropertyCard(null, i, cost, PropertyCard.Type.NONE, color,prices));
 
             } else {
                 if (i == 40 || i == 41) continue;
@@ -97,7 +211,7 @@ public class CardFactory {
         if (c instanceof PropertyCard){
 
             c.setImage(new ImageIcon(Utils.getIcon.apply(c.getId()+".png").getScaledInstance(280, 392, Image.SCALE_SMOOTH)));
-            PropertyCard propertyCard = new PropertyCard(c.getImage(), c.getId(), ((PropertyCard) c).getPrice(), type, PropertyCard.Color.BLUE);
+            PropertyCard propertyCard = new PropertyCard(c.getImage(), c.getId(), ((PropertyCard) c).getPrice(), type, ((PropertyCard) c).getColor(),((PropertyCard) c).getPrices());
             new PropertyCardController(propertyCard).init();
 
             return propertyCard;

@@ -300,7 +300,7 @@ public class Server extends RunnableThread implements Listener{
 
                 PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
 
-                if(currentPlayer.getCash() >= propertyCard.getHousePrice()) {
+                if(currentPlayer.getCash() >= propertyCard.getHouseCost()) {
 
                     currentPlayer.reduceMoney(propertyCard.getPrice());
                     gameRequests.addAction(new Message(propertyCard.getId(), PUTHOUSE));
