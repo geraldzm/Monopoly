@@ -2,8 +2,10 @@ package com.game.monopoly.Client.model.Objects;
 
 public class Player extends Players{
     private static Player player;
-    
+    private boolean rolledDices;
+
     private Player(){
+        rolledDices = false;
     }
     
     public static Player getInstance(){
@@ -12,5 +14,13 @@ public class Player extends Players{
         }
         
         return player;
+    }
+
+    public boolean isRolledDices() {
+        return rolledDices;
+    }
+
+    public void setRolledDices(boolean rolledDices) {
+        this.rolledDices = rolledDices;
     }
 }

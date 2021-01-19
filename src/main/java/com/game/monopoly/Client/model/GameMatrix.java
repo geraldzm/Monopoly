@@ -1,5 +1,6 @@
 package com.game.monopoly.Client.model;
 
+import com.game.monopoly.Client.model.Objects.Players;
 import com.game.monopoly.Client.model.Objects.Token;
 import java.awt.*;
 import java.util.*;
@@ -92,14 +93,19 @@ public class GameMatrix {
         int index = token.getCurrentPos();
 
         while (!isAtPosition){
-            System.out.println("Moviendo al jugador a: " + index);
+           // System.out.println("Moviendo al jugador a: " + index);
 
             // Lo redireccionamos
             index = (isBackwards) ? index - 1 : index + 1;
 
             // Evitamos que salga de los indices
             index = (index < 0) ? 39 : index;
-            index = (index >= 40) ? 0 : index;
+
+            if (index >= 40){
+                index = 0;
+
+                ((Players) token).setHasCompletedRound(true);
+            }
 
             isAtPosition = index == card;
             setPlayer(token, index);

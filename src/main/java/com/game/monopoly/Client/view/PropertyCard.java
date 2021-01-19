@@ -60,8 +60,8 @@ public class PropertyCard extends Card {
                 sellHouse = initJLabel("Vender casas", 20, 310, 100, 25, 2);
                 buyHouse = initJLabel("Comprar casas", 150, 310, 100, 25, 2);
 
-                sellHotel = initJLabel("Vender casas", 20, 340, 100, 25, 2);
-                buyHotel = initJLabel("Comprar casas", 150, 340, 100, 25, 2);
+                sellHotel = initJLabel("Vender hotel", 20, 340, 100, 25, 2);
+                buyHotel = initJLabel("Comprar hotel", 150, 340, 100, 25, 2);
             }
         }
     }

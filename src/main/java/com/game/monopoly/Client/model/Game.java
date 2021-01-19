@@ -243,10 +243,11 @@ public class Game extends Canvas implements Runnable, Clickable {
             Player current = Player.getInstance();
 
             boolean contain = current.getCards().contains(selectedCard);
+            boolean canOperate = current.isHasCompletedRound() && Player.getInstance().isRolledDices();
 
-            if(current.isTurn() && current.getCurrentPos() == selectedCard && !contain){
+            if(current.isTurn() && current.getCurrentPos() == selectedCard && !contain && canOperate){
                 new CardWindow(selectedCard, CardWindowType.BANk).setVisible(true);
-            }else if(current.isTurn() && contain){
+            }else if(current.isTurn() && contain && canOperate){
                 new CardWindow(selectedCard, CardWindowType.FRIEND).setVisible(true);
             }else{
                 new CardWindow(selectedCard, CardWindowType.ENEMY).setVisible(true);

@@ -95,16 +95,14 @@ public class GameListener {
             switch(msg.getIdMessage()){
                 case ADMIN -> {
                     askAmountPlayers();
-
                     server.sendInt(amountPlayers, RESPONSE);
-
                     System.out.println("Servidor: Este usuario ahora es administrador");
                 }
                 case REJECTED -> {
-                    System.out.println("Servidor: Se ha rechazado tu peticion de unirse...");
+                    JOptionPane.showMessageDialog(null, "Se ha rechazado tu peticion...");
                 }
                 case ACCEPTED -> {
-                    System.out.println("Servidor: Se ha aceptado tu peticion de unirse!");
+                    JOptionPane.showMessageDialog(null, "Se ha aceptado tu peticion!");
                 }
                 case ID -> {
                     System.out.println("Servidor: Se ha recibido la ID: " + msg.getNumber());
@@ -199,7 +197,6 @@ public class GameListener {
                 }
 
                 case GETTOKEN -> {
-                    System.out.println("Tokens disponibles: " + Arrays.toString(msg.getNumbers()));
                     new ComboBoxPopUp(msg.getNumbers(), window); // la respuesta al server esta en la accion del boton (en el controlador)
                 }
 
@@ -210,15 +207,11 @@ public class GameListener {
                 }
 
                 case TOKENS -> {
-                    System.out.println("Server: se recibieron los tokens");
                     int[] rs = msg.getNumbers(); // tokens recibidos, el orden es el mismo que el ID de cada jugador 0-n
-                    System.out.println("Resultado de los tokens: ");
 
                     for (int i = 0; i < rs.length; i++) {
                         if (players.containsKey(i))
                             players.get(i).setTokenImg(rs[i]);
-
-                        System.out.println(String.format("\tEl di: %d escogió el token= %d", i, rs[i]));
                     }
 
                     server.sendMessage(DONE);
@@ -226,8 +219,11 @@ public class GameListener {
 
                 case TURN -> {
                     // hago un JOptionPane en vez del mensaje de abajo porque hay que hacer mas que un simple mensaje, solo como recordatorio
-                    JOptionPane.showMessageDialog(window, "Comienza mi turno" + player.getName());
-                    Player.getInstance().setTurn(true);
+                    JOptionPane.showMessageDialog(window, "Turno de: " + player.getName());
+
+                    player.setRolledDices(false);
+                    player.setTurn(true);
+
                     gameController.triggerUI(true);
                     server.sendDone();
                 }

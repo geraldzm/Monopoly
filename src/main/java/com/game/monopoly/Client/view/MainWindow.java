@@ -1,6 +1,5 @@
 package com.game.monopoly.Client.view;
 
-
 import com.game.monopoly.Client.controller.FrameController;
 import com.game.monopoly.Client.controller.FramesID;
 
