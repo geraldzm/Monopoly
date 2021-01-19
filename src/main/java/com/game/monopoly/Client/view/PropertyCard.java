@@ -11,16 +11,15 @@ public class PropertyCard extends Card {
         BUY,SELL,NONE, HOUSES;
     }
 
-    public static enum Color{
+    public static enum Colors{
         BROWN, LIGHTBLUE, PINK, ORANGE, RED, YELLOW, GREEN, BLUE;
-
     }
-
+    
     /*
     "cafe" : [1, 3],
     "celeste" : [6,8,9],
     "rosa" : [11, 13, 14],
-    "naranja" : [16, 18, 19],
+    "naranja" : [16,18,19],
     "rojo" : [21, 23, 24],
     "amarillo" : [26, 27, 29],
     "verde" : [31, 32, 34],
@@ -28,27 +27,31 @@ public class PropertyCard extends Card {
     * */
 
     /*
-    * PRECIO de las cuatro casas
-    * precio de hotel
-    * precio hipoteca
-    * valor de una casa
-    * valor de un hotel
+    * PRECIO de las cuatro casas getPricetoPay() 50
+    * precio de hotel  getPricetoPay() 0
+    * precio hipoteca getMortgage() 100
+    * valor de una casa gethouseCost() 0
+    * valor de un hotel gethotelCost() 0
     * */
     
     public JLabel sell, buy, mortgage, sellHouse, buyHouse, sellHotel, buyHotel;
-    private int price, houseAmount, hotelAmount;
-    private Color color;
+    private int price, houseAmount, hotelAmount, houseCost, hotelCost;
+    private Colors color;
 
     private int[] prices; // valores a pagar si alguien cae ahi, deben ser 5
 
-    public PropertyCard(ImageIcon image, int id, int price, Type type, Color color) {
+    public PropertyCard(ImageIcon image, int id, int price, Type type, Colors color, int[] prices) {
         super(image, id);
 
         this.price = price;
         this.houseAmount = 0;
         this.hotelAmount = 0;
+        
+        this.houseCost = 0;
+        this.hotelCost = 0;
+        
         this.color = color;
-
+        this.prices = prices;
 
         switch (type) {
             case BUY -> buy = initJLabel("Comprar", 15, 310, 85, 20, 2);
@@ -64,7 +67,14 @@ public class PropertyCard extends Card {
                 buyHotel = initJLabel("Comprar hotel", 150, 340, 100, 25, 2);
             }
         }
-    }
+        
+        switch (color) {
+            case BROWN, LIGHTBLUE -> {houseCost = 50; hotelCost = 50;}
+            case PINK, ORANGE -> {houseCost = 100; hotelCost = 100;}
+            case RED, YELLOW -> {houseCost = 150; hotelCost = 150;}
+            case GREEN, BLUE -> {houseCost = 200; hotelCost = 200;}
+        }
+        }
 
     private JLabel initJLabel(String text, int x, int y, int w, int h, int layer){
         JLabel label = new JLabel(text);
@@ -87,20 +97,29 @@ public class PropertyCard extends Card {
     }
 
 
-    public int getHousePrice() {
-        return 100;
+    public int getHouseCost() {
+        return houseCost;
     }
 
-    public int getHotelPrice() {
-        return 100;
+    public int getHotelCost() {
+        return hotelCost;
     }
 
     public int getPriceToPay() { // lo que paga si alguien cae en esa posicion
-        return 100 + 100 * houseAmount + 200 * hotelAmount;
+        if (hotelAmount == 1) return prices[5];
+
+        return switch (houseAmount) {
+            case 1 -> prices[1];
+            case 2 -> prices[2];
+            case 3 -> prices[3];
+            case 4 -> prices[4];
+            default -> prices[0];
+        };
+
     }
 
     public int getMortgagePrice(){
-        return 100;
+        return price/2;
     }
 
     public void decreaseHouseAmount(){
@@ -116,7 +135,7 @@ public class PropertyCard extends Card {
     }
 
     public void increaseHotelAmount(){
-        houseAmount++;
+        hotelAmount++;
     }
 
     public int getPrice() {
@@ -139,20 +158,17 @@ public class PropertyCard extends Card {
         return hotelAmount;
     }
 
-    public void setHotelAmount(int hotelAmount) {
-        this.hotelAmount = hotelAmount;
-    }
-
     public int[] getPrices() {
         return prices;
     }
 
-    public void setPrices(int[] prices) {
-        this.prices = prices;
+    public void setHotelAmount(int hotelAmount) {
+        this.hotelAmount = hotelAmount;
     }
 
-    public Color getColor() {
+    public Colors getColor() {
         return color;
     }
+
 }
 

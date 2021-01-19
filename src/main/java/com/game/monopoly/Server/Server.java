@@ -315,7 +315,7 @@ public class Server extends RunnableThread implements Listener{
             case SELLHOTEL -> {
                 PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
 
-                currentPlayer.addCash(propertyCard.getHotelPrice(), "A " + currentPlayer.getName()+ " se le acredita $"+propertyCard.getHotelPrice()+ " por la venta de un hotel");
+                currentPlayer.addCash(propertyCard.getHotelCost(), "A " + currentPlayer.getName()+ " se le acredita $"+propertyCard.getHotelCost()+ " por la venta de un hotel");
                 propertyCard.decreaseHotelAmount();
                 bank.hotel++;
 
@@ -329,9 +329,9 @@ public class Server extends RunnableThread implements Listener{
 
                 PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
 
-                if(currentPlayer.getCash() >= propertyCard.getHotelPrice()) {
+                if(currentPlayer.getCash() >= propertyCard.getHotelCost()) {
 
-                    currentPlayer.reduceMoney(propertyCard.getHotelPrice(), "A " +currentPlayer.getName() + " se le debita $"+propertyCard.getHotelPrice() +" por la compra de un hotel");
+                    currentPlayer.reduceMoney(propertyCard.getHotelCost(), "A " +currentPlayer.getName() + " se le debita $"+propertyCard.getHotelCost() +" por la compra de un hotel");
                     gameRequests.addAction(new Message(propertyCard.getId(), PUTHOTEL));
                     propertyCard.decreaseHotelAmount();
                     bank.hotel--;
@@ -358,9 +358,9 @@ public class Server extends RunnableThread implements Listener{
 
                 PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
 
-                if(currentPlayer.getCash() >= propertyCard.getHousePrice()) {
+                if(currentPlayer.getCash() >= propertyCard.getHouseCost()) {
 
-                    currentPlayer.reduceMoney(propertyCard.getHousePrice(), "A " +currentPlayer.getName() + " se le debita $"+propertyCard.getHousePrice() +" por la compra de una casa");
+                    currentPlayer.reduceMoney(propertyCard.getHouseCost(), "A " +currentPlayer.getName() + " se le debita $"+propertyCard.getHouseCost() +" por la compra de una casa");
                     gameRequests.addAction(new Message(propertyCard.getId(), PUTHOUSE));
                     propertyCard.increaseHouseAmount();
                     bank.house--;
@@ -382,7 +382,7 @@ public class Server extends RunnableThread implements Listener{
             case SELLHOUSE -> {
                 PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
 
-                currentPlayer.addCash(propertyCard.getHousePrice(), "A " + currentPlayer.getName()+ " se le acredita $"+propertyCard.getHousePrice()+ " por la venta de una casa");
+                currentPlayer.addCash(propertyCard.getHouseCost(), "A " + currentPlayer.getName()+ " se le acredita $"+propertyCard.getHouseCost()+ " por la venta de una casa");
                 propertyCard.decreaseHouseAmount();
                 bank.house++;
 

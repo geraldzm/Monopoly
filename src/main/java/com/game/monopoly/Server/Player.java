@@ -44,7 +44,7 @@ public class Player extends ChatConnection {
         dices[0] = random.nextInt(6)+1;
         dices[1] = random.nextInt(6)+1;
         dices[2] = dices[1] + dices[0];
-
+        
         return dices;
     }
 
