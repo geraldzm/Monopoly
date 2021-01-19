@@ -151,8 +151,6 @@ public class Game extends Canvas implements Runnable, Clickable {
         }else{
             house = new Houses(true);
             
-            house.addHouse(amount);
-            
             players.get(ID).getHouses().put(position, house);
             
             matrix.addPlayer(house, position);
@@ -226,7 +224,7 @@ public class Game extends Canvas implements Runnable, Clickable {
 
     @Override
     public void clickReleased(MouseEvent e) {
-        if (isClickTriggered || isUIDisabled){
+        if (isClickTriggered ){
             return;
         }
 
@@ -235,11 +233,6 @@ public class Game extends Canvas implements Runnable, Clickable {
         int selectedCard = matrix.getCardClicked(e.getX(), e.getY());
 
         if (selectedCard != -1 && selectedCard % 10 != 0) {
-            isClickTriggered = true;
-
-            if(10 % selectedCard == 0) return;
-
-            HashMap<Integer, Players> players = GameListener.getInstance().getPlayers();
 
             Player current = Player.getInstance();
 
@@ -247,14 +240,21 @@ public class Game extends Canvas implements Runnable, Clickable {
             boolean canOperate = current.isHasCompletedRound() && Player.getInstance().isRolledDices();
 
             if(current.isTurn() && current.getCurrentPos() == selectedCard && !contain && canOperate){
+                isClickTriggered = true;
+
                 new CardWindow(selectedCard, CardWindowType.BANk).setVisible(true);
             }else if(current.isTurn() && contain && canOperate){
+                isClickTriggered = true;
+
                 new CardWindow(selectedCard, CardWindowType.FRIEND).setVisible(true);
             }else{
+                isClickTriggered = true;
+
                 new CardWindow(selectedCard, CardWindowType.ENEMY).setVisible(true);
             }
 
-            new java.util.Timer().schedule(new java.util.TimerTask() {
+            if (isClickTriggered)
+                new java.util.Timer().schedule(new java.util.TimerTask() {
                 @Override
                 public void run() {
                     isClickTriggered = false;
