@@ -102,9 +102,11 @@ public class Player extends ChatConnection {
         this.cash = cash;
     }
 
-    public void addCash(int cash, String message) {
+    public void addCash(int cash, String messageS) {
         this.cash += cash;
-        sendMessage(new Message(cash, message, GIVEMONEY));
+        Message message = new Message(cash, messageS, GIVEMONEY);
+        sendMessage(message);
+        processLog(message);
     }
 
     public void setGo(boolean go) {
@@ -131,8 +133,15 @@ public class Player extends ChatConnection {
         this.position = position;
     }
 
-    public void reduceMoney(int amount, String message){
+    public void reduceMoney(int amount, String messageS){
         cash -= amount;
-        sendMessage(new Message(cash, message, TAKEMONEY));
+        Message message = new Message(cash, messageS, TAKEMONEY);
+        sendMessage(message);
+        processLog(message);
+    }
+
+    private void processLog(Message message) {
+        message.setPlayer(this);
+        LogMessageFactory.sendLogBookMessage(message);
     }
 }
