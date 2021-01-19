@@ -227,12 +227,13 @@ public class Game extends Canvas implements Runnable, Clickable {
         if (isClickTriggered || isUIDisabled){
             return;
         }
+
         clicksAmount = 0;
-        isClickTriggered = true;
 
         int selectedCard = matrix.getCardClicked(e.getX(), e.getY());
 
-        if (selectedCard != -1) {
+        if (selectedCard != -1 && selectedCard % 10 != 0) {
+            isClickTriggered = true;
 
             HashMap<Integer, Players> players = GameListener.getInstance().getPlayers();
 
@@ -249,13 +250,13 @@ public class Game extends Canvas implements Runnable, Clickable {
                 new CardWindow(selectedCard, CardWindowType.ENEMY).setVisible(true);
             }
 
+            new java.util.Timer().schedule(new java.util.TimerTask() {
+                @Override
+                public void run() {
+                    isClickTriggered = false;
+                }
+            },100);
         }
-        new java.util.Timer().schedule(new java.util.TimerTask() {
-            @Override
-            public void run() {
-                isClickTriggered = false;
-            }
-        },100);
     }
     
     public void triggerMouse(boolean turnOn){
