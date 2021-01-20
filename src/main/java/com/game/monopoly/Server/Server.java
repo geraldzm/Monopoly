@@ -65,7 +65,7 @@ public class Server extends RunnableThread implements Listener{
         quickActionQueue(playersByIds, new Message(new int[]{currentPlayer.getId(), 1, currentPlayer.getPosition()}, MOVE));
 
         if(positionBefore > currentPlayer.getPosition() && currentPlayer.getPosition() > 0) // if he went through go
-            currentPlayer.addCash(200, "A" + currentPlayer.getName()+ " se le da $200 por pasar GO");
+            currentPlayer.addCash(200, "A " + currentPlayer.getName()+ " se le da $200 por pasar GO");
 
         //if the player moves to an enemy property
         if(!validateLandLord()) { // validamos si pierde por la casilla donde cayo

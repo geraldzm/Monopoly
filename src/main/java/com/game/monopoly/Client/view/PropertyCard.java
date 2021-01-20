@@ -56,18 +56,21 @@ public class PropertyCard extends Card {
         this.color = color;
         this.prices = prices;
 
+        if (Utils.isUselessCard(id))
+            type = Type.NONE;
+
         switch (type) {
-            case BUY -> buy = initJLabel("Comprar", 15, 310, 85, 20, 2);
+            case BUY -> buy = initJLabel("Comprar", 40, 350, 85, 20, 2);
 
             case SELL -> {
-                sell = initJLabel("Vender", 20, 280, 100, 25, 2);
-                mortgage = initJLabel("Hipotecar", 150, 280, 100, 25, 2);
+                sell = initJLabel("Vender", 10, 280, 120, 25, 2);
+                mortgage = initJLabel("Hipotecar", 145, 280, 120, 25, 2);
 
-                sellHouse = initJLabel("Vender casas", 20, 310, 100, 25, 2);
-                buyHouse = initJLabel("Comprar casas", 150, 310, 100, 25, 2);
+                sellHouse = initJLabel("Vender casa", 10, 310, 120, 25, 2);
+                buyHouse = initJLabel("Comprar casa", 145, 310, 120, 25, 2);
 
-                sellHotel = initJLabel("Vender hotel", 20, 340, 100, 25, 2);
-                buyHotel = initJLabel("Comprar hotel", 150, 340, 100, 25, 2);
+                sellHotel = initJLabel("Vender hotel", 10, 340, 120, 25, 2);
+                buyHotel = initJLabel("Comprar hotel", 145, 340, 120, 25, 2);
             }
         }
         
@@ -77,7 +80,7 @@ public class PropertyCard extends Card {
             case RED, YELLOW -> {houseCost = 150; hotelCost = 150;}
             case GREEN, BLUE -> {houseCost = 200; hotelCost = 200;}
         }
-        }
+    }
 
     private JLabel initJLabel(String text, int x, int y, int w, int h, int layer){
         JLabel label = new JLabel(text);
@@ -92,6 +95,11 @@ public class PropertyCard extends Card {
             @Override
             public void componentHidden(ComponentEvent e) {
                 backGround.setVisible(false);
+            }
+
+            @Override
+            public void componentShown(ComponentEvent e) {
+                backGround.setVisible(true);
             }
         });
 

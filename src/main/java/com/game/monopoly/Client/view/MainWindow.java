@@ -12,7 +12,6 @@ public class MainWindow extends JFrame {
         FrameController controller = FrameController.getInstance();
         controller.openWindow(FramesID.LOGIN);
 
-
     }
     
 }

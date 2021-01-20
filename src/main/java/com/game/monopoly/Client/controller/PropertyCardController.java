@@ -110,10 +110,9 @@ public class PropertyCardController implements IController, MouseListener {
 
     // Metodo para comprar hotel
     private void buyHotel() throws IOException {
-
         Players tmp = GameListener.getInstance().getPlayers().get(0);
 
-        if (tmp.getHouses().get(property.getId()).getAmountHouse() != 4){
+        if (((PropertyCard) CardFactory.getCard(property.getId())).getHouseAmount() != 4){
             JOptionPane.showMessageDialog(property, "Usted aun no tiene 4 casas...");
             return;
         }
@@ -152,6 +151,12 @@ public class PropertyCardController implements IController, MouseListener {
 
         if (!Player.getInstance().getCards().contains(property.getId())){
             JOptionPane.showMessageDialog(property, "Esta carta aun no es tuya...");
+            return;
+        }
+
+        if (!Player.getInstance().hasBoughtSet(property.getColor())){
+            JOptionPane.showMessageDialog(property, "Tienes que comprar todo el set de color para comprar casas...");
+
             return;
         }
 
