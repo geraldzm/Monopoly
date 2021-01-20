@@ -169,18 +169,20 @@ public class Game extends Canvas implements Runnable, Clickable {
 
         HashMap<Integer, Players> players = listener.getPlayers();
 
-        if (players.get(ID).getHotel().containsKey(position)){
-            hotel = players.get(ID).getHotel().get(position);
+        Players tmp = players.get(0);
+
+        if (tmp.getHotel().containsKey(position)){
+            hotel = tmp.getHotel().get(position);
             
             hotel.addHouse(amount);
         }else{
             hotel = new Houses(false);
 
-            Houses house = players.get(ID).getHouses().get(position);
+            Houses house = tmp.getHouses().get(position);
             house.subHouse(house.getAmountHouse());
 
             handlerGameObjects.removeObject(house);
-            players.get(ID).getHotel().put(position, hotel);
+            tmp.getHotel().put(position, hotel);
             
             matrix.addPlayer(hotel, position);
             
