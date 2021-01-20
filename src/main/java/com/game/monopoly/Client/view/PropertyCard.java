@@ -17,25 +17,7 @@ public class PropertyCard extends Card {
     public static enum Colors{
         BROWN, LIGHTBLUE, PINK, ORANGE, RED, YELLOW, GREEN, BLUE;
     }
-    
-    /*
-    "cafe" : [1, 3],
-    "celeste" : [6,8,9],
-    "rosa" : [11, 13, 14],
-    "naranja" : [16,18,19],
-    "rojo" : [21, 23, 24],
-    "amarillo" : [26, 27, 29],
-    "verde" : [31, 32, 34],
-    "azul" : [37, 39]
-    * */
 
-    /*
-    * PRECIO de las cuatro casas getPricetoPay() 50
-    * precio de hotel  getPricetoPay() 0
-    * precio hipoteca getMortgage() 100
-    * valor de una casa gethouseCost() 0
-    * valor de un hotel gethotelCost() 0
-    * */
     
     public JLabel sell, buy, mortgage, sellHouse, buyHouse, sellHotel, buyHotel;
     private int price, houseAmount, hotelAmount, houseCost, hotelCost;

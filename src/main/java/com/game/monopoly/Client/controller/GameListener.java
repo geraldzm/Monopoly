@@ -223,8 +223,14 @@ public class GameListener {
                     gameController.triggerUI(true);
                     server.sendDone();
                 }
-
-
+                case TOJAIL -> {
+                    gameController.triggerGlobalMsg(msg.getString());
+                    server.sendDone();
+                }
+                case OUTOFJAIL -> {
+                    gameController.triggerGlobalMsg(msg.getString());
+                    server.sendDone();
+                }
                 case ADDCARD -> {                    
                     System.out.println("Se intenta agregar una card con el id: " + msg.getNumbers()[1]);
                     players.get(msg.getNumbers()[0]).getCards().add(msg.getNumbers()[1]);

@@ -21,7 +21,8 @@ public class Player extends ChatConnection {
     private int cash, id, token, position;
     private int[] dices;
     private String name;
-    private boolean go; //if he has gone through GO
+    private boolean go, inJail;
+    private int jailTurns;
     private HashSet<Integer> cards;
 
     private static int count;
@@ -31,10 +32,12 @@ public class Player extends ChatConnection {
         id = count++;
         position = 0;
         cards = new HashSet<>();
+        go = false;
+        inJail = false;
     }
 
 
-    public void sendChatMessage(Message message, Player sender){
+    public void sendChatMessage(Message message, Player sender) {
         sendMessage(new Message(sender.getName() + ": " +message.getString(), message.getIdMessage()));
     }
 
@@ -131,6 +134,36 @@ public class Player extends ChatConnection {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public void toJail(){
+        inJail = true;
+        jailTurns = 0;
+    }
+
+    public void outOfJail(){
+        inJail = false;
+        jailTurns = 0;
+    }
+
+    public boolean isInJail() {
+        return inJail;
+    }
+
+    public void setInJail(boolean inJail) {
+        this.inJail = inJail;
+    }
+
+    public int getJailTurns() {
+        return jailTurns;
+    }
+
+    public void setJailTurns(int jailTurns) {
+        this.jailTurns = jailTurns;
+    }
+
+    public void increaseJailTurns() {
+        this.jailTurns++;
     }
 
     public void reduceMoney(int amount, String messageS){

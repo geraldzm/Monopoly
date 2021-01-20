@@ -45,6 +45,18 @@ public class Server extends RunnableThread implements Listener{
         currentPlayer = players.get(turn); //
         ActionQueue actionQueue = new ActionQueue(currentPlayer);
 
+        if(currentPlayer.isInJail()){
+            if(currentPlayer.getJailTurns() == 3){
+                currentPlayer.outOfJail();
+                gameRequests.addAction(new Message("El jugador " + currentPlayer.getName()+ " ha salido de la carcel", OUTOFJAIL));
+                gameRequests.executeQueue();
+            }else {
+                currentPlayer.increaseJailTurns();
+                nextTurn();
+                return;
+            }
+        }
+
         actionQueue.addAction(new Message(TURN)); // notify that his turn has started
         actionQueue.executeQueue();
 
@@ -64,60 +76,87 @@ public class Server extends RunnableThread implements Listener{
         currentPlayer.move(currentPlayer.getDices()[2]);
         quickActionQueue(playersByIds, new Message(new int[]{currentPlayer.getId(), 1, currentPlayer.getPosition()}, MOVE));
 
-        if(positionBefore > currentPlayer.getPosition() && currentPlayer.getPosition() > 0) // if he went through go
+        if(positionBefore > currentPlayer.getPosition() && currentPlayer.getPosition() > 0) {// if he went through go
             currentPlayer.addCash(200, "A " + currentPlayer.getName()+ " se le da $200 por pasar GO");
-
-        //if the player moves to an enemy property
-        if(!validateLandLord()) { // validamos si pierde por la casilla donde cayo
-
-            currentPlayer.setListener(this); // start listening this player
-            currentPlayer.removeReceiverFilter();
-
-            // wait for further actions (sell houses etc)
-            synchronized (turnLocker) {
-                try {
-                    while (!turnFinished) {
-                        turnLocker.wait();
-                        gameRequests.executeQueue();
-                        currentPlayer.setListener(this);
-                        currentPlayer.removeReceiverFilter();
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+            currentPlayer.setGo(true);
         }
 
-        turn = turn+1 > playersByIds.size() ? 1: turn+1; // next turn
+        //if the player moves to an enemy property
+        if(currentPlayer.isGo()){
+            if(!validateLandLord()) {
+                waitForClientRequests();
+            }
+        }else { // si no ha pasado por go no se valida carcel ni impuestos.
+            waitForClientRequests();
+        }
+
+        nextTurn();
 
         //stopThread();
+    }
+
+    private void waitForClientRequests() {
+        currentPlayer.setListener(this); // start listening this player
+        currentPlayer.removeReceiverFilter();
+
+        // wait for further actions (sell houses etc)
+        synchronized (turnLocker) {
+            try {
+                while (!turnFinished) {
+                    turnLocker.wait();
+                    gameRequests.executeQueue();
+                    currentPlayer.setListener(this);
+                    currentPlayer.removeReceiverFilter();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void nextTurn(){
+        turn = turn+1 > playersByIds.size() ? 1: turn+1; // next turn
     }
 
     // casilla donde cae
     private boolean validateLandLord() {
 
-        Card card = CardFactory.getCard(currentPlayer.getPosition());
+        int position = currentPlayer.getPosition();
+        Card card = CardFactory.getCard(position);
 
         if(card instanceof PropertyCard) {  // if it is a property
             int toPay = ((PropertyCard) card).getPriceToPay();
 
             Player landLord = playersByIds.stream()
-                    .filter(p -> p.getCards().contains(currentPlayer.getPosition()))
+                    .filter(p -> p.getCards().contains(position))
                     .findFirst()
                     .orElse(null);
 
             if(landLord != null && landLord != currentPlayer) { // if it was an enemy property
 
-                System.out.println(currentPlayer.getName() + " ha caido en la propiedad de: "  + landLord.getName());
-                System.out.println("Debera pagar: " + toPay);
+                if(card.getId() == 12 || card.getId() == 28) // if it is a public service
+                    toPay = publicService();
+                else if(card.getId() == 5 || card.getId() == 15 || card.getId() == 25 || card.getId() == 35) // ferrocarril
+                    toPay = railway((PropertyCard) card);
+
 
                 currentPlayer.reduceMoney(toPay, "Le ha pagado " + toPay + " a " + landLord.getName());
                 landLord.addCash(toPay, currentPlayer.getName()+" le ha pagado $" + toPay + " a " + landLord.getName() + " de renta");
 
-            } else if(currentPlayer.getPosition() == 4 || currentPlayer.getPosition() == 12 || currentPlayer.getPosition() == 28 || currentPlayer.getPosition() == 38){ // taxes
+            } else if(position == 4 || position == 12 || position == 28 || position == 38){ // taxes
                 currentPlayer.reduceMoney(toPay, "Ha pagado " + toPay + " de impuestos ");
             }
+        }else if(currentPlayer.isGo() && ( position == 10 || position == 30)) { // carsel
+            currentPlayer.toJail();
+            gameRequests.addAction(new Message("El jugador " + currentPlayer.getName() +" se va a la carcel", TOJAIL));
+            currentPlayer.setPosition(10);
+            gameRequests.addAction(new Message(new int[]{currentPlayer.getId(), 1, 10}, MOVE));
+            gameRequests.executeQueue();
 
+            currentPlayer.setListener(this); // start listening this player
+            currentPlayer.removeReceiverFilter();
+
+            return true;
         }
 
         if(currentPlayer.getCash() <= 0) { // validate looser
@@ -127,6 +166,24 @@ public class Server extends RunnableThread implements Listener{
         }
 
         return false;
+    }
+
+    private int railway(PropertyCard card) {
+        int amountOfRailway = (int) currentPlayer.getCards()
+                .stream().filter(i -> i == 5 || i == 15 || i == 25 || i == 35) // filtramos por ferrocarril
+                .count();
+
+        return card.getPrices()[amountOfRailway-1];
+    }
+
+    private int publicService() {
+        // 1. tiramos dados
+        currentPlayer.rollDices();
+        ActionQueue actionQueue = new ActionQueue(currentPlayer);
+        actionQueue.addAction(new Message(currentPlayer.getDices(), DICE));
+        actionQueue.executeQueue();
+        // 2. sacamos lo que tiene que pagar, si tiene una carta entonces dados * 4, si tiene dos entonces 10 * dados
+        return currentPlayer.getDices()[2] * (currentPlayer.getCards().contains(12) && currentPlayer.getCards().contains(28) ? 10: 4);
     }
 
     private void waitWith(Object locker) {
@@ -336,7 +393,11 @@ public class Server extends RunnableThread implements Listener{
                 currentPlayer.addCash(propertyCard.getHotelCost(), "A " + currentPlayer.getName()+ " se le acredita $"+propertyCard.getHotelCost()+ " por la venta de un hotel");
                 propertyCard.decreaseHotelAmount();
                 bank.hotel++;
+                gameRequests.addAction(new Message(propertyCard.getId(), "Se vente un hotel en " + propertyCard.getId(), REMOVEHOTEL));
 
+                synchronized (turnLocker){
+                    turnLocker.notify();
+                }
             }
 
             case BUYHOTEL -> {
@@ -406,10 +467,13 @@ public class Server extends RunnableThread implements Listener{
                 PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
 
                 currentPlayer.addCash(propertyCard.getHouseCost(), "A " + currentPlayer.getName()+ " se le acredita $"+propertyCard.getHouseCost()+ " por la venta de una casa");
-                gameRequests.addAction(new Message("Se vente una casa en " + propertyCard.getId(), REMOVEHOUSE));
+                gameRequests.addAction(new Message(propertyCard.getId(), "Se vente una casa en " + propertyCard.getId(), REMOVEHOUSE));
                 propertyCard.decreaseHouseAmount();
                 bank.house++;
 
+                synchronized (turnLocker){
+                    turnLocker.notify();
+                }
             }
 
             case SELLPROPERTY -> {
