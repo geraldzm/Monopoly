@@ -19,9 +19,9 @@ public class Constant {
     public static final String hotelImg = "hotel.png";
     
     public static final boolean isProd = false;
-    public static final boolean isDebug = false;
+    public static final boolean isDebug = true;
 
-    public static final int[] cafe = {1, 2};
+    public static final int[] cafe = {1, 3};
     public static final int[] celeste = {6,8,9};
     public static final int[] rosa = {11, 13, 14};
     public static final int[] naranja = {16,18, 19};
@@ -50,5 +50,5 @@ public class Constant {
         "dice_6.png"
     };
 
-    public static final int uselessCards[] = {2, 4, 7, 12, 17, 22, 28, 33, 36, 38};
+    public static final int uselessCards[] = {2, 4, 7, 17, 22, 33, 36, 38};
 }

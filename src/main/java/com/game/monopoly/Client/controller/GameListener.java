@@ -7,6 +7,8 @@ import com.game.monopoly.Client.model.CardFactory;
 import com.game.monopoly.Client.model.Objects.*;
 import com.game.monopoly.Client.view.*;
 import com.game.monopoly.common.Comunication.*;
+
+import static com.game.monopoly.Client.model.Constant.isDebug;
 import static com.game.monopoly.common.Comunication.IDMessage.*;
 import java.io.*;
 import java.util.*;
@@ -81,6 +83,14 @@ public class GameListener {
         };
 
         server.setChatListener(chatListener);
+
+        if (isDebug){
+            FrameController controller = FrameController.getInstance();
+
+            GameController gameController = (GameController) controller.getWindow(FramesID.GAME);
+
+            gameController.addChatMsg("Cliente: Esta en modo debug");
+        }
 
         return chatListener;
     }
@@ -258,10 +268,11 @@ public class GameListener {
                 }
                 
                 case REMOVEHOUSE ->{
-                    System.out.println("Quitando casas...");
+                    System.out.println("Quitando casas del juego...");
                     int position = msg.getNumbers()[0];
                     
                     gameController.getGame().removeHouse(position);
+
                     ((PropertyCard) CardFactory.getCard(msg.getNumber())).decreaseHouseAmount();
 
                     server.sendDone();
@@ -279,7 +290,7 @@ public class GameListener {
                 case NOAVAILABE -> gameController.triggerGlobalMsg(msg.getString());
                 
                 case REMOVEHOTEL ->{
-                    System.out.println("Removiendo hoteles...");
+                    System.out.println("Removiendo hoteles del juego...");
                     int position = msg.getNumbers()[0];
                     
                     gameController.getGame().removeHotel(position);

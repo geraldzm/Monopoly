@@ -8,6 +8,7 @@ package com.game.monopoly.Client.controller;
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
 
 import com.game.monopoly.Client.model.CardFactory;
+import com.game.monopoly.Client.model.Objects.Houses;
 import com.game.monopoly.Client.model.Objects.Player;
 import com.game.monopoly.Client.model.Objects.Players;
 import com.game.monopoly.Client.view.*;
@@ -16,6 +17,7 @@ import com.game.monopoly.common.Comunication.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.HashMap;
 
 /**
  *
@@ -62,7 +64,7 @@ public class PropertyCardController implements IController, MouseListener {
 
     @Override
     public void close() {
-        property.setVisible(false);
+        property.getParent().getParent().setVisible(false);
     }
 
     @Override
@@ -80,14 +82,16 @@ public class PropertyCardController implements IController, MouseListener {
         try {
             if (e.getSource().equals(property.sell)){
                 System.out.println("Vendiendo propiedad");
+
+                Player.getInstance().getCards().remove(property.getId());
                 getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.SELLPROPERTY));
 
-                property.sell.setVisible(false);
+                close();
             } else if (e.getSource().equals(property.buy)){
                 System.out.println("Comprando propiedad");
                 getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.BUYPROPERTY));
 
-                property.buy.setVisible(false);
+                close();
             } else if (e.getSource().equals(property.mortgage)){
                 System.out.println("Comprando mortgage");
 
@@ -109,13 +113,36 @@ public class PropertyCardController implements IController, MouseListener {
 
     // Metodo para vender hotel
     private void sellHotel() throws IOException {
+        Players tmp = GameListener.getInstance().getPlayers().get(0);
+
         System.out.println("vendiendo hotel");
+
+        boolean esFerrocarril = property.getId() % 5 == 0;
+
+        if (esFerrocarril){
+            JOptionPane.showMessageDialog(property, "En esta propiedad no se pueden vender casas...");
+            return;
+        }
+
+        var hotel = Player.getInstance().getHotel();
+
+        if (!hotel.containsKey(property.getId()) || hotel.get(property.getId()).getAmountHouse() == 0){
+            JOptionPane.showMessageDialog(property, "Usted no tiene hoteles en esta propiedad...");
+        }
+
         getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.SELLHOTEL));
     }
 
     // Metodo para comprar hotel
     private void buyHotel() throws IOException {
         Players tmp = GameListener.getInstance().getPlayers().get(0);
+
+        boolean esFerrocarril = property.getId() % 5 == 0;
+
+        if (esFerrocarril){
+            JOptionPane.showMessageDialog(property, "En esta propiedad no se pueden vender casas...");
+            return;
+        }
 
         if (((PropertyCard) CardFactory.getCard(property.getId())).getHouseAmount() != 4){
             JOptionPane.showMessageDialog(property, "Usted aun no tiene 4 casas...");
@@ -135,12 +162,19 @@ public class PropertyCardController implements IController, MouseListener {
     private void sellHouse() throws IOException {
         Players tmp = GameListener.getInstance().getPlayers().get(0);
 
-        if (!tmp.getCards().contains(property.getId())){
+        boolean esFerrocarril = property.getId() % 5 == 0;
+
+        if (esFerrocarril){
+            JOptionPane.showMessageDialog(property, "En esta propiedad no se puede comprar casas...");
+            return;
+        }
+
+        if (!Player.getInstance().getCards().contains(property.getId())){
             JOptionPane.showMessageDialog(property, "Esta carta aun no es tuya...");
             return;
         }
 
-        if (!Player.getInstance().getHouses().containsKey(property.getId())){
+        if (!tmp.getHouses().containsKey(property.getId()) || tmp.getHouses().get(property.getId()).getAmountHouse() == 0){
             JOptionPane.showMessageDialog(property, "No tienes casas en esta propiedad...");
             return;
         }
@@ -154,6 +188,13 @@ public class PropertyCardController implements IController, MouseListener {
     private void buyHouse() throws IOException {
         Players tmp = GameListener.getInstance().getPlayers().get(0);
 
+        boolean esFerrocarril = property.getId() % 5 == 0;
+
+        if (esFerrocarril){
+            JOptionPane.showMessageDialog(property, "En esta propiedad no se pueden vender casas...");
+            return;
+        }
+
         if (!Player.getInstance().getCards().contains(property.getId())){
             JOptionPane.showMessageDialog(property, "Esta carta aun no es tuya...");
             return;
@@ -161,12 +202,16 @@ public class PropertyCardController implements IController, MouseListener {
 
         if (!Player.getInstance().hasBoughtSet(property.getColor())){
             JOptionPane.showMessageDialog(property, "Tienes que comprar todo el set de color para comprar casas...");
-
             return;
         }
 
         if (tmp.getHouses().get(property.getId()) != null && tmp.getHouses().get(property.getId()).getAmountHouse() == 4){
             JOptionPane.showMessageDialog(property, "Ya tienes 4 casas en esta propiedad...");
+            return;
+        }
+
+        if (tmp.getHotel().get(property.getId()) != null && tmp.getHotel().get(property.getId()).getAmountHouse() != 0){
+            JOptionPane.showMessageDialog(property, "Usted tiene un hotel en esta propiedad...");
             return;
         }
 
