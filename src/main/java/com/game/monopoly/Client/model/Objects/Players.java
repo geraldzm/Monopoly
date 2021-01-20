@@ -82,28 +82,28 @@ public class Players extends Token {
 
         switch (colors){
             case BROWN -> {
-                return contains(getCardsArray(), cafe);
+                return contains(getCardsArray(), brown);
             }
             case LIGHTBLUE -> {
-                return contains(getCardsArray(), celeste);
+                return contains(getCardsArray(), lightBlue);
             }
             case PINK -> {
-                return contains(getCardsArray(), rosa);
+                return contains(getCardsArray(), pink);
             }
             case ORANGE -> {
-                return contains(getCardsArray(), naranja);
+                return contains(getCardsArray(), orange);
             }
             case RED -> {
-                return contains(getCardsArray(), rojo);
+                return contains(getCardsArray(), red);
             }
             case YELLOW -> {
-                return contains(getCardsArray(), amarillo);
+                return contains(getCardsArray(), yellow);
             }
             case GREEN -> {
-                return contains(getCardsArray(), verde);
+                return contains(getCardsArray(), green);
             }
             case BLUE -> {
-                return contains(getCardsArray(), azul);
+                return contains(getCardsArray(), blue);
             }
         }
 

@@ -35,7 +35,7 @@ public class LogMessageFactory {
             case LOOSER -> logMessage.append(String.format("%s ha perdido...", playerName));
             case PUTHOUSE -> logMessage.append(String.format("Se agrego una casa en: %d", message.getNumber()));
             case REMOVEHOUSE -> logMessage.append(String.format("Se removio una casa en: %d", message.getNumbers()[0]));
-            case PUTHOTEL -> logMessage.append(String.format("Se agrego un hotel en: %d", message.getNumber()));
+            case PUTHOTEL -> logMessage.append(String.format("Se agrego un hotel en: %d y se remueven cuatro casas", message.getNumber()));
             case REMOVEHOTEL -> logMessage.append(String.format("Se removio un hotel en: %d", message.getNumbers()[0]));
             default -> logMessage.append("El server aun no soporta los mensajes de bitacora para: ").append(message.getIdMessage());
         }

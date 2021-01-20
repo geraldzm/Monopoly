@@ -104,7 +104,7 @@ public class Player extends ChatConnection {
 
     public void addCash(int cash, String messageS) {
         this.cash += cash;
-        Message message = new Message(cash, messageS, GIVEMONEY);
+        Message message = new Message(this.cash, messageS, GIVEMONEY);
         sendMessage(message);
         processLog(message);
     }

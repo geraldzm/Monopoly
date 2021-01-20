@@ -1,6 +1,9 @@
 package com.game.monopoly.Client.view;
 
 import com.game.monopoly.Client.model.*;
+
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.*;
 import javax.swing.*;
 
@@ -57,17 +60,17 @@ public class PropertyCard extends Card {
             type = Type.NONE;
 
         switch (type) {
-            case BUY -> buy = initJLabel("Comprar", 15, 310, 85, 20, 2);
+            case BUY -> buy = initJLabel("Comprar", 40, 350, 85, 20, 2);
 
             case SELL -> {
-                sell = initJLabel("Vender", 20, 280, 100, 25, 2);
-                mortgage = initJLabel("Hipotecar", 150, 280, 100, 25, 2);
+                sell = initJLabel("Vender", 10, 280, 120, 25, 2);
+                mortgage = initJLabel("Hipotecar", 145, 280, 120, 25, 2);
 
-                sellHouse = initJLabel("Vender casas", 20, 310, 100, 25, 2);
-                buyHouse = initJLabel("Comprar casas", 150, 310, 100, 25, 2);
+                sellHouse = initJLabel("Vender casa", 10, 310, 120, 25, 2);
+                buyHouse = initJLabel("Comprar casa", 145, 310, 120, 25, 2);
 
-                sellHotel = initJLabel("Vender hotel", 20, 340, 100, 25, 2);
-                buyHotel = initJLabel("Comprar hotel", 150, 340, 100, 25, 2);
+                sellHotel = initJLabel("Vender hotel", 10, 340, 120, 25, 2);
+                buyHotel = initJLabel("Comprar hotel", 145, 340, 120, 25, 2);
             }
         }
         
@@ -77,7 +80,7 @@ public class PropertyCard extends Card {
             case RED, YELLOW -> {houseCost = 150; hotelCost = 150;}
             case GREEN, BLUE -> {houseCost = 200; hotelCost = 200;}
         }
-        }
+    }
 
     private JLabel initJLabel(String text, int x, int y, int w, int h, int layer){
         JLabel label = new JLabel(text);
@@ -87,6 +90,19 @@ public class PropertyCard extends Card {
 
         JLabel backGround = new JLabel();
         backGround.setBounds(x, y, w, h);
+
+        label.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentHidden(ComponentEvent e) {
+                backGround.setVisible(false);
+            }
+
+            @Override
+            public void componentShown(ComponentEvent e) {
+                backGround.setVisible(true);
+            }
+        });
+
         try {
             backGround.setIcon(Utils.getComponentIcon("ButtonsBG.png", w, h));
         } catch (IOException e) {
@@ -110,7 +126,6 @@ public class PropertyCard extends Card {
 
     public int getPriceToPay() { // lo que paga si alguien cae en esa posicion
         if (hotelAmount == 1) return prices[5];
-
         return switch (houseAmount) {
             case 1 -> prices[1];
             case 2 -> prices[2];
@@ -118,7 +133,6 @@ public class PropertyCard extends Card {
             case 4 -> prices[4];
             default -> prices[0];
         };
-
     }
 
     public int getMortgagePrice(){

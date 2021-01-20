@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.game.monopoly.Client.controller;
 
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
@@ -19,10 +14,7 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.HashMap;
 
-/**
- *
- * @author fgm_o
- */
+
 public class PropertyCardController implements IController, MouseListener {
 
     private PropertyCard property;
@@ -95,7 +87,8 @@ public class PropertyCardController implements IController, MouseListener {
             } else if (e.getSource().equals(property.mortgage)){
                 System.out.println("Comprando mortgage");
 
-                close();
+                property.mortgage.setVisible(false);
+
             } else if (e.getSource().equals(property.buyHotel)){
                 buyHotel();
             } else if (e.getSource().equals(property.sellHotel)){
