@@ -118,7 +118,6 @@ public class PropertyCard extends Card {
 
     public int getPriceToPay() { // lo que paga si alguien cae en esa posicion
         if (hotelAmount == 1) return prices[5];
-
         return switch (houseAmount) {
             case 1 -> prices[1];
             case 2 -> prices[2];
@@ -126,7 +125,6 @@ public class PropertyCard extends Card {
             case 4 -> prices[4];
             default -> prices[0];
         };
-
     }
 
     public int getMortgagePrice(){
