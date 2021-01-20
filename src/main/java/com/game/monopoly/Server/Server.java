@@ -354,7 +354,7 @@ public class Server extends RunnableThread implements Listener{
 
                     //"Se remueve una casa de " +propertyCard.getId()+ " para poner un hotel"
 
-                    propertyCard.decreaseHotelAmount();
+                    propertyCard.increaseHotelAmount();
                     propertyCard.setHouseAmount(0);
                     bank.house += 4;
                     bank.hotel--;

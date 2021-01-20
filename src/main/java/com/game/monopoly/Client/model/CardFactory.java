@@ -24,7 +24,9 @@ public class CardFactory {
             int[] prices = new int[6];
             if (i < 40){
                 switch(i){
-                    case 0,10,20,30 -> continue;
+                    case 0, 10, 20, 30 -> {
+                        continue;
+                    }
                     case 5,15,25,35 -> { cost = 200; prices[0] = 50; prices[1] = 100;prices[2] = 150; prices[3] = 200;}//Casas
                     case 12,28 -> cost = 150;//Servicios
                     case 4 -> prices[0] = 200; // impuesto
