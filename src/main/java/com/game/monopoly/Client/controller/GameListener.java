@@ -235,10 +235,16 @@ public class GameListener {
                 }
                 case TOJAIL -> {
                     gameController.triggerGlobalMsg(msg.getString());
+
+                    Player.getInstance().setInJail(true);
+
                     server.sendDone();
                 }
                 case OUTOFJAIL -> {
                     gameController.triggerGlobalMsg(msg.getString());
+
+                    Player.getInstance().setInJail(false);
+
                     server.sendDone();
                 }
                 case ADDCARD -> {                    

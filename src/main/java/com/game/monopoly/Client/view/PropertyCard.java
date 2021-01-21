@@ -11,7 +11,7 @@ import javax.swing.*;
 public class PropertyCard extends Card {
 
     public static enum Type {
-        BUY,SELL,NONE, HOUSES;
+        BUY,SELL,NONE, JAIL;
     }
 
     public static enum Colors{
@@ -19,7 +19,7 @@ public class PropertyCard extends Card {
     }
 
     
-    public JLabel sell, buy, mortgage, sellHouse, buyHouse, sellHotel, buyHotel;
+    public JLabel sell, buy, mortgage, sellHouse, buyHouse, sellHotel, buyHotel, freeJail, payTaxes;
     private int price, houseAmount, hotelAmount, houseCost, hotelCost;
     private Colors color;
 
@@ -41,6 +41,9 @@ public class PropertyCard extends Card {
         if (Utils.isUselessCard(id))
             type = Type.NONE;
 
+        if (id == 10)
+            type = Type.JAIL;
+
         switch (type) {
             case BUY -> buy = initJLabel("Comprar", 40, 350, 85, 20, 2);
 
@@ -50,9 +53,11 @@ public class PropertyCard extends Card {
 
                 sellHouse = initJLabel("Vender casa", 10, 310, 120, 25, 2);
                 buyHouse = initJLabel("Comprar casa", 145, 310, 120, 25, 2);
+            }
 
-                sellHotel = initJLabel("Vender hotel", 10, 340, 120, 25, 2);
-                buyHotel = initJLabel("Comprar hotel", 145, 340, 120, 25, 2);
+            case JAIL -> {
+                freeJail = initJLabel("Salir de la carcel", 10, 310, 120, 25, 2);
+                payTaxes = initJLabel("Pagar multas", 145, 310, 120, 25, 2);
             }
         }
         

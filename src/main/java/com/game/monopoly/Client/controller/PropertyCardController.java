@@ -47,6 +47,11 @@ public class PropertyCardController implements IController, MouseListener {
         if (property.buyHouse != null)
             property.buyHouse.addMouseListener(this);
 
+        if (property.payTaxes != null)
+            property.payTaxes.addMouseListener(this);
+
+        if (property.freeJail != null)
+            property.payTaxes.addMouseListener(this);
     }
 
     @Override
@@ -97,11 +102,43 @@ public class PropertyCardController implements IController, MouseListener {
                 buyHouse();
             } else if (e.getSource().equals(property.sellHouse)){
                 sellHouse();
+            } else if (e.getSource().equals(property.payTaxes)){
+                payTaxes();
+            } else if (e.getSource().equals(property.freeJail)){
+                getOutJail();
             }
 
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    // Metodo si tiene la carta para salir gratis de la carcel
+    private void getOutJail() throws IOException {
+        if (!Player.getInstance().isInJail()){
+            JOptionPane.showMessageDialog(property, "Usted no esta en la carcel...");
+
+            return;
+        }
+
+        if (!Player.getInstance().isJailFree()){
+            JOptionPane.showMessageDialog(property, "Usted no tiene la carta para salir gratis de la carcel...");
+
+            return;
+        }
+
+        // Enviar al server salir gratis de la carcel
+    }
+
+    // Metodo para pagar y salir de la carcel
+    private void payTaxes() throws IOException{
+        if (!Player.getInstance().isInJail()){
+            JOptionPane.showMessageDialog(property, "Usted no esta en la carcel...");
+
+            return;
+        }
+
+        // Enviar al server la consulta para pagar los $50
     }
 
     // Metodo para vender hotel
