@@ -47,7 +47,7 @@ public class Player extends ChatConnection {
         dices[0] = random.nextInt(6)+1;
         dices[1] = random.nextInt(6)+1;
         dices[2] = dices[1] + dices[0];
-        
+
         return dices;
     }
 
@@ -139,6 +139,7 @@ public class Player extends ChatConnection {
     public void toJail(){
         inJail = true;
         jailTurns = 0;
+        this.position = 10;
     }
 
     public void outOfJail(){

@@ -2,6 +2,7 @@ package com.game.monopoly.Server;
 
 import com.game.monopoly.Client.model.CardFactory;
 import com.game.monopoly.Client.view.Card;
+import com.game.monopoly.Client.view.CasualCard;
 import com.game.monopoly.Client.view.PropertyCard;
 import com.game.monopoly.common.Comunication.*;
 import com.game.monopoly.common.*;
@@ -51,6 +52,7 @@ public class Server extends RunnableThread implements Listener{
                 gameRequests.addAction(new Message("El jugador " + currentPlayer.getName()+ " ha salido de la carcel", OUTOFJAIL));
                 gameRequests.executeQueue();
             }else {
+                System.out.println("Se pasa el turno del jugador " +currentPlayer.getName());
                 currentPlayer.increaseJailTurns();
                 nextTurn();
                 return;
@@ -76,11 +78,12 @@ public class Server extends RunnableThread implements Listener{
         currentPlayer.move(currentPlayer.getDices()[2]);
         quickActionQueue(playersByIds, new Message(new int[]{currentPlayer.getId(), 1, currentPlayer.getPosition()}, MOVE));
 
-        if(positionBefore > currentPlayer.getPosition() && currentPlayer.getPosition() > 0) {// if he went through go
+        if(positionBefore > currentPlayer.getPosition()) {// if he went through go
             currentPlayer.addCash(200, "A " + currentPlayer.getName()+ " se le da $200 por pasar GO");
             currentPlayer.setGo(true);
         }
 
+        currentPlayer.setGo(true);// momento
         //if the player moves to an enemy property
         if(currentPlayer.isGo()){
             if(!validateLandLord()) {
@@ -135,12 +138,11 @@ public class Server extends RunnableThread implements Listener{
             if(landLord != null && landLord != currentPlayer) { // if it was an enemy property
 
                 if(card.getId() == 12 || card.getId() == 28) // if it is a public service
-                    toPay = publicService();
+                    toPay = publicService(landLord);
                 else if(card.getId() == 5 || card.getId() == 15 || card.getId() == 25 || card.getId() == 35) // ferrocarril
-                    toPay = railway((PropertyCard) card);
+                    toPay = railway((PropertyCard) card, landLord);
 
-
-                currentPlayer.reduceMoney(toPay, "Le ha pagado " + toPay + " a " + landLord.getName());
+                currentPlayer.reduceMoney(toPay, "Se le reduce $" + toPay +  " de renta" + " a " + currentPlayer.getName());
                 landLord.addCash(toPay, currentPlayer.getName()+" le ha pagado $" + toPay + " a " + landLord.getName() + " de renta");
 
             } else if(position == 4 || position == 12 || position == 28 || position == 38){ // taxes
@@ -149,14 +151,14 @@ public class Server extends RunnableThread implements Listener{
         }else if(currentPlayer.isGo() && ( position == 10 || position == 30)) { // carsel
             currentPlayer.toJail();
             gameRequests.addAction(new Message("El jugador " + currentPlayer.getName() +" se va a la carcel", TOJAIL));
-            currentPlayer.setPosition(10);
-            gameRequests.addAction(new Message(new int[]{currentPlayer.getId(), 1, 10}, MOVE));
+            if(position != 10) quickActionQueue(playersByIds, new Message(new int[]{currentPlayer.getId(), 1, 10}, MOVE));
             gameRequests.executeQueue();
 
-            currentPlayer.setListener(this); // start listening this player
-            currentPlayer.removeReceiverFilter();
+        }else if(position == 2 || position == 17 || position == 33 ) { //iron throne
+            System.out.println("Iron throne");
 
-            return true;
+        }else if(position == 7 || position == 22 || position == 36 ) {//Valar
+            System.out.println("Valar");
         }
 
         if(currentPlayer.getCash() <= 0) { // validate looser
@@ -168,22 +170,22 @@ public class Server extends RunnableThread implements Listener{
         return false;
     }
 
-    private int railway(PropertyCard card) {
-        int amountOfRailway = (int) currentPlayer.getCards()
+    private int railway(PropertyCard card, Player landLord) {
+        int amountOfRailway = (int) landLord.getCards()
                 .stream().filter(i -> i == 5 || i == 15 || i == 25 || i == 35) // filtramos por ferrocarril
                 .count();
 
         return card.getPrices()[amountOfRailway-1];
     }
 
-    private int publicService() {
+    private int publicService(Player landLord) {
         // 1. tiramos dados
         currentPlayer.rollDices();
         ActionQueue actionQueue = new ActionQueue(currentPlayer);
         actionQueue.addAction(new Message(currentPlayer.getDices(), DICE));
         actionQueue.executeQueue();
         // 2. sacamos lo que tiene que pagar, si tiene una carta entonces dados * 4, si tiene dos entonces 10 * dados
-        return currentPlayer.getDices()[2] * (currentPlayer.getCards().contains(12) && currentPlayer.getCards().contains(28) ? 10: 4);
+        return currentPlayer.getDices()[2] * (landLord.getCards().contains(12) && landLord.getCards().contains(28) ? 10: 4);
     }
 
     private void waitWith(Object locker) {
@@ -359,7 +361,6 @@ public class Server extends RunnableThread implements Listener{
                 }
             }
             case ROLLDICES -> {
-                System.out.println("Se intenta tirar los dados");
                 synchronized (diceLocker){
                     diceLocker.notify();
                 }
@@ -541,7 +542,7 @@ public class Server extends RunnableThread implements Listener{
 
 
     public static void main(String[] args) {
-        CardFactory.getCard(2, PropertyCard.Type.NONE);
+        CardFactory.getCard(1, PropertyCard.Type.NONE);
         new Server().startThread();
     }
 
