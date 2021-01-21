@@ -144,14 +144,16 @@ public class Game extends Canvas implements Runnable, Clickable {
 
         HashMap<Integer, Players> players = listener.getPlayers();
 
-        if (players.get(ID).getHouses().containsKey(position)){
-            house = players.get(ID).getHouses().get(position);
+        Players tmp = players.get(0);
+
+        if (tmp.getHouses().containsKey(position)){
+            house = tmp.getHouses().get(position);
             
             house.addHouse(amount);
         }else{
             house = new Houses(true);
-            
-            players.get(ID).getHouses().put(position, house);
+
+            tmp.getHouses().put(position, house);
             
             matrix.addPlayer(house, position);
             

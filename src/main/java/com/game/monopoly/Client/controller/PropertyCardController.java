@@ -117,7 +117,12 @@ public class PropertyCardController implements IController, MouseListener {
             return;
         }
 
-        var hotel = Player.getInstance().getHotel();
+        var hotel = tmp.getHotel();
+
+        System.out.println("Contiene la key: " + hotel.containsKey(property.getId()));
+
+        if (hotel.containsKey(property.getId()))
+            System.out.println("Cantidad de hotel: " + hotel.get(property.getId()).getAmountHouse());
 
         if (!hotel.containsKey(property.getId()) || hotel.get(property.getId()).getAmountHouse() == 0){
             JOptionPane.showMessageDialog(property, "Usted no tiene hoteles en esta propiedad...");

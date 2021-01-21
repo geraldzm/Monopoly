@@ -275,7 +275,7 @@ public class GameListener {
                 
                 case REMOVEHOUSE ->{
                     System.out.println("Quitando casas del juego...");
-                    int position = msg.getNumbers()[0];
+                    int position = msg.getNumber();
                     
                     gameController.getGame().removeHouse(position);
 
@@ -297,7 +297,7 @@ public class GameListener {
                 
                 case REMOVEHOTEL ->{
                     System.out.println("Removiendo hoteles del juego...");
-                    int position = msg.getNumbers()[0];
+                    int position = msg.getNumber();
                     
                     gameController.getGame().removeHotel(position);
                     ((PropertyCard) CardFactory.getCard(msg.getNumber())).decreaseHotelAmount();
