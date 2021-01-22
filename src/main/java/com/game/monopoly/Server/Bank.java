@@ -25,7 +25,7 @@ public class Bank {
         valar = new Stack<>();
 
         // insert random cards
-        for (int i = 42; i < 49; i++) {
+        for (int i = 42; i < 58; i++) {
             throne.push(i);
         }
 
@@ -174,14 +174,14 @@ public class Bank {
         switch(card.getId()) {
             //Arca Comunal
             case 42 -> takeMoneyAbstraction(current, 150, "Hay que pagar su Contribución de $150 para las Escuelas.");
-            case 43 -> single.addAction(new Message(20, GIVEMONEY));
-            case 44 -> current.addCash(100, "");
+            case 43 -> current.addCash(20, "Cobrar $20 del banco");
+            case 44 -> current.addCash(100, "Usted hereda $100");
             case 45 -> takeMoneyAbstraction(current, 150, "Su hospital le exige un pago de $100.");
-            case 46 -> single.addAction(new Message(200, GIVEMONEY));
+            case 46 -> current.addCash(200, "Error del banco en favor de usted. Cobrar $200");
             case 47 -> {
                 // 50 de cada jugador
-                actionQueue.addAction(new Message(50, TAKEMONEY));
-                single.addAction(new Message(50*allPlayers.size(), GIVEMONEY));
+                allPlayers.forEach(p -> takeMoneyAbstraction(p, 50, "Page $50 a " +current.getName()));
+                current.addCash(50*(allPlayers.size()-1), "Cada jugador le paga $50");
             }
             case 48 -> {
                 // page 40 por casa y 115 por hotel
@@ -194,8 +194,8 @@ public class Bank {
                         .mapToInt(integer -> ((PropertyCard) CardFactory.getCard(integer)).getHotelAmount())
                         .sum();
 
-                System.out.println( current.getName()+"  Usted tiene: " + hotels + " hoteles y " + houses + " casas");
-                single.addAction(new Message(houses*40+hotels*150, TAKEMONEY));
+                System.out.println( current.getName()+"  Usted tiene: " + hotels + " hoteles y " + houses + " casas" + " va a pagar "  + houses*40+hotels*115);
+                current.reduceMoney(houses*40+hotels*115, "Pague $40 por cada casa y $115 por cada hotel.");
             }
             case 49 -> current.addCash( 25, "Le toca recibir $25 por servicios prestados.");
             case 50 -> current.addCash( 10, "Usted ha ganado el segundo premio en un certamen de belleza. Puede cobrar $10.");
@@ -219,8 +219,6 @@ public class Bank {
          }
         actionQueue.executeQueue();
         single.executeQueue();
-
-        System.out.println("Fuera del metodo throne");
     }
 
     private void takeMoneyAbstraction(Player current, int amount, String message) {
