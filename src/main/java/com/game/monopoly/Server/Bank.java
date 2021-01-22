@@ -15,7 +15,7 @@ public class Bank {
 
     private Stack<Integer> throne;
     private Stack<Integer> valar;
-    private Server server;
+    private final Server server;
 
     public Bank(Server server) {
         house = 32;
@@ -114,7 +114,7 @@ public class Bank {
 
                 int amount = current.getDices()[2] * 10;
 
-                if(landLord != null){ // due;o
+                if(landLord != null) { // due;o
                     current.reduceMoney(amount, current.getName()+ " le ha pagado $" + amount + " a " + landLord.getName());
                     landLord.addCash(amount, current.getName()+ " le ha pagado $" + amount + " a " + landLord.getName());
                 }else { // era del banco
@@ -143,7 +143,6 @@ public class Bank {
                 current.setPosition(11);
             }
         }
-
 
         actionQueue.executeQueue();
         single.executeQueue();
