@@ -243,6 +243,7 @@ public class GameListener {
                     server.sendDone();
                 }
                 case TOJAIL -> {
+                    gameController.triggerGlobalMsg("A la carcel!");
                     gameController.triggerGlobalMsg(msg.getString());
 
                     Player.getInstance().setInJail(true);
@@ -255,6 +256,7 @@ public class GameListener {
                     Player.getInstance().setInJail(false);
 
                     server.sendDone();
+                    System.out.println("OUTOFJAIL: DONE");
                 }
                 case ADDCARD -> {                    
                     System.out.println("Se intenta agregar una card con el id: " + msg.getNumbers()[1]);

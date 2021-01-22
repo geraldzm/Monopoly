@@ -134,7 +134,7 @@ public class Server extends RunnableThread implements Listener{
         int position = currentPlayer.getPosition();
         Card card = CardFactory.getCard(position);
 
-        if(card instanceof PropertyCard) {  // if it is a property
+        if(card instanceof PropertyCard && !((PropertyCard) card).isMorgaged()) {  // if it is a property
             int toPay = ((PropertyCard) card).getPriceToPay();
 
             Player landLord = playersByIds.stream()
@@ -404,8 +404,16 @@ public class Server extends RunnableThread implements Listener{
             case BUYPROPERTY -> {
                 PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
 
-                if(currentPlayer.getCash() >= propertyCard.getPrice()) {
-                    currentPlayer.reduceMoney(propertyCard.getPrice(), currentPlayer.getName()+ " ha comprado una propiedad por $"+propertyCard.getPrice());
+                int price = propertyCard.getPrice();
+
+                if(currentPlayer.getCash() >= price) {
+
+                    if(propertyCard.isMorgaged()){
+                        price += price*0.1;
+                        propertyCard.setMorgaged(false);
+                    }
+
+                    currentPlayer.reduceMoney(price, currentPlayer.getName()+ " ha comprado una propiedad por $"+ price);
                     currentPlayer.addCard(propertyCard.getId());
 
                     gameRequests.addAction(new Message(new int[]{currentPlayer.getId(), propertyCard.getId()}, ADDCARD));
@@ -495,6 +503,13 @@ public class Server extends RunnableThread implements Listener{
 
             }
 
+            case MORGAGECARD -> {
+                PropertyCard propertyCard = (PropertyCard)CardFactory.getCard(message.getNumber());
+                currentPlayer.getCards().remove(propertyCard.getId());
+                currentPlayer.addCash(propertyCard.getMortgagePrice(), "Se le da $"+propertyCard.getMortgagePrice()+ " por l hipoteca de su propiedad");
+                propertyCard.setMorgaged(true);
+            }
+
             case SELLPROPERTY -> {
 
                 PropertyCard propertyCard = (PropertyCard) CardFactory.getCard(message.getNumber());
@@ -510,14 +525,19 @@ public class Server extends RunnableThread implements Listener{
             }
 
             case PAYJAILTAXES -> { // dados
-                System.out.println("Pay taxes");
+                currentPlayer.outOfJail();
+                gameRequests.addAction(new Message("El jugador " + currentPlayer.getName()+ " ha salido de la carcel", OUTOFJAIL));
+
                 validateLooser(currentPlayer);
             }
 
             case USEJAILCARD -> {
-                System.out.println("Carta para salir de la carcel de: " + currentPlayer.getName());
                 currentPlayer.outOfJail();
-                quickActionQueue(playersByIds, new Message("El jugador " + currentPlayer.getName()+ " ha salido de la carcel", OUTOFJAIL));
+                gameRequests.addAction(new Message("El jugador " + currentPlayer.getName()+ " ha salido de la carcel", OUTOFJAIL));
+
+                synchronized (turnLocker){
+                    turnLocker.notify();
+                }
             }
 
             default -> System.out.println("Not supported: "+ message.getIdMessage());

@@ -22,6 +22,7 @@ public class PropertyCard extends Card {
     public JLabel sell, buy, mortgage, sellHouse, buyHouse, sellHotel, buyHotel, freeJail, payTaxes;
     private int price, houseAmount, hotelAmount, houseCost, hotelCost;
     private Colors color;
+    private boolean morgaged;
 
     private int[] prices; // valores a pagar si alguien cae ahi, deben ser 5
 
@@ -37,6 +38,8 @@ public class PropertyCard extends Card {
         
         this.color = color;
         this.prices = prices;
+
+        morgaged = false;
 
         if (Utils.isUselessCard(id))
             type = Type.NONE;
@@ -177,5 +180,12 @@ public class PropertyCard extends Card {
         return color;
     }
 
+    public boolean isMorgaged() {
+        return morgaged;
+    }
+
+    public void setMorgaged(boolean morgaged) {
+        this.morgaged = morgaged;
+    }
 }
 

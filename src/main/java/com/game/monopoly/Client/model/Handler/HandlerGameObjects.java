@@ -13,11 +13,15 @@ public class HandlerGameObjects extends Handler<GameObject> implements IRenderab
     
     @Override
     public void render(Graphics g) {
-        objectsList.stream().forEach(object->object.render(g));
+        for (int i = 0; i < objectsList.size(); i++){
+            objectsList.get(i).render(g);
+        }
     }
 
     @Override
     public void tick() {
-        objectsList.stream().forEach(object->object.tick());
+        for (int i = 0; i < objectsList.size(); i++){
+            objectsList.get(i).tick();
+        }
     }
 }

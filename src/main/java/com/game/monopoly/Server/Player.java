@@ -44,18 +44,12 @@ public class Player extends ChatConnection {
     private boolean momento = false;
 
     public int[] rollDices() {
-        if(!momento) {
-            Random random = new Random();
-            dices = new int[3];
-            dices[0] = random.nextInt(6) + 1;
-            dices[1] = random.nextInt(6) + 1;
-            dices[2] = dices[1] + dices[0];
-            momento = true;
-        } else{
-            dices[0] = 4;
-            dices[1] = 3;
-            dices[2] = 7;
-        }
+        Random random = new Random();
+        dices = new int[3];
+        dices[0] = random.nextInt(6) + 1;
+        dices[1] = random.nextInt(6) + 1;
+        dices[2] = dices[1] + dices[0];
+        momento = true;
 
         return dices;
     }
