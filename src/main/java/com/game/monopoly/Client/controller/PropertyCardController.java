@@ -1,6 +1,8 @@
 package com.game.monopoly.Client.controller;
 
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
+import static com.game.monopoly.common.Comunication.IDMessage.PAYJAILTAXES;
+import static com.game.monopoly.common.Comunication.IDMessage.USEJAILCARD;
 
 import com.game.monopoly.Client.model.CardFactory;
 import com.game.monopoly.Client.model.Objects.Houses;
@@ -160,6 +162,7 @@ public class PropertyCardController implements IController, MouseListener {
         }
 
         // Enviar al server salir gratis de la carcel
+        getServerCommunication().sendMessage(new Message(USEJAILCARD));
     }
 
     // Metodo para pagar y salir de la carcel
@@ -171,6 +174,7 @@ public class PropertyCardController implements IController, MouseListener {
         }
 
         // Enviar al server la consulta para pagar los $50
+        getServerCommunication().sendMessage(new Message(PAYJAILTAXES));
     }
 
     // Metodo para vender hotel

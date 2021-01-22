@@ -1,14 +1,16 @@
 package com.game.monopoly.Client.model.Objects;
 
+import java.util.ArrayList;
+
 public class Player extends Players{
     private static Player player;
     private boolean rolledDices;
-    private boolean isJailFree;
     private boolean isInJail;
+    private ArrayList<Integer> isJailFree;
 
     private Player(){
         rolledDices = false;
-        isJailFree = false;
+        isJailFree = new ArrayList<>();
         isInJail = false;
     }
     
@@ -29,11 +31,15 @@ public class Player extends Players{
     }
 
     public boolean isJailFree() {
-        return isJailFree;
+        return !isJailFree.isEmpty();
     }
 
-    public void setJailFree(boolean jailFree) {
-        isJailFree = jailFree;
+    public void setJailFree() {
+        isJailFree.add(1);
+    }
+
+    public void removeJailFree() {
+        isJailFree.remove(0);
     }
 
     public boolean isInJail() {

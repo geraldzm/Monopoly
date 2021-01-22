@@ -172,6 +172,7 @@ public class GameListener {
                 }
 
                 case OUTOFJAILCARD -> {
+                    Player.getInstance().setJailFree();
 
                     server.sendDone();
                 }

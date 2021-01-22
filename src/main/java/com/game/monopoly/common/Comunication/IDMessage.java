@@ -48,7 +48,9 @@ public enum IDMessage implements Serializable {
     FINISHEDTURN,
     ROLLDICES,
     RESPONSE,
-    DONE
+    DONE,
+    PAYJAILTAXES,
+    USEJAILCARD
     ;
 
     private boolean done; // if main.java.Server->main.java.Client ID has to return DONE

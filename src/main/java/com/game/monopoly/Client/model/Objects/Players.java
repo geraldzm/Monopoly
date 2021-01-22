@@ -94,7 +94,7 @@ public class Players extends Token {
         for (int i = 0; i < 6; i++){
             if (!players.containsKey(i) || Player.getInstance().getID() == i) continue;
 
-            if (players.get(i).getCards().contains(i)) return true;
+            if (players.get(i).getCards().contains(cardID)) return true;
         }
 
         return false;
