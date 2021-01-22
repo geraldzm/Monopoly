@@ -26,7 +26,7 @@ public class Bank {
         valar = new Stack<>();
 
         // insert random cards
-        for (int i = 42; i < 57; i++) {
+        for (int i = 42; i < 58; i++) {
             throne.push(i);
         }
 

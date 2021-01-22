@@ -1,8 +1,7 @@
 package com.game.monopoly.Client.controller;
 
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
-import static com.game.monopoly.common.Comunication.IDMessage.PAYJAILTAXES;
-import static com.game.monopoly.common.Comunication.IDMessage.USEJAILCARD;
+import static com.game.monopoly.common.Comunication.IDMessage.*;
 
 import com.game.monopoly.Client.model.CardFactory;
 import com.game.monopoly.Client.model.Objects.Houses;
@@ -54,6 +53,9 @@ public class PropertyCardController implements IController, MouseListener {
 
         if (property.freeJail != null)
             property.freeJail.addMouseListener(this);
+
+        if (property.hipoteca != null)
+            property.hipoteca.addMouseListener(this);
     }
 
     @Override
@@ -87,10 +89,7 @@ public class PropertyCardController implements IController, MouseListener {
 
                 property.buy.setVisible(false);
             } else if (e.getSource().equals(property.mortgage)){
-                System.out.println("Comprando mortgage");
-
-                property.mortgage.setVisible(false);
-
+                hipotecar();
             } else if (e.getSource().equals(property.buyHotel)){
                 buyHotel();
             } else if (e.getSource().equals(property.sellHotel)){
@@ -103,11 +102,48 @@ public class PropertyCardController implements IController, MouseListener {
                 payTaxes();
             } else if (e.getSource().equals(property.freeJail)){
                 getOutJail();
+            } else if (e.getSource().equals(property.hipoteca)){
+                pagarHipoteca();
             }
 
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void pagarHipoteca(){
+
+    }
+
+    private void hipotecar() throws IOException {
+        Players admin = GameListener.getInstance().getPlayers().get(0);
+
+        if (!Player.getInstance().getCards().contains(property.getId())){
+            JOptionPane.showMessageDialog(property, "Usted no posee la carta...");
+
+            return;
+        }
+
+        if (admin.getHouses().containsKey(property.getId()) && admin.getHouses().get(property.getId()).getAmountHouse() != 0){
+            JOptionPane.showMessageDialog(property, "Usted tiene una casa en esta propiedad...");
+
+            return;
+        }
+
+        if (admin.getHotel().containsKey(property.getId()) && admin.getHotel().get(property.getId()).getAmountHouse() != 0){
+            JOptionPane.showMessageDialog(property, "Usted tiene un hotel en esta propiedad...");
+
+            return;
+        }
+
+        System.out.println("Removiendo la propiedad de la carta");
+        Player.getInstance().getCards().remove(property.getId());
+        System.out.println("Agregando a la lista de hipotecadas");
+        Player.getInstance().getHipotecadas().add(property.getId());
+
+        getServerCommunication().sendMessage(new Message(property.getId(), MORGAGECARD));
+        property.mortgage.setVisible(false);
+        System.out.println("Propiedad hipotecada");
     }
 
     private void sellCard() throws IOException {
