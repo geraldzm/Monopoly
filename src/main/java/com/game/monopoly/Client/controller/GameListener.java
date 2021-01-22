@@ -322,6 +322,7 @@ public class GameListener {
 
                 case WINNER -> {
                     JOptionPane.showMessageDialog(window,  players.get(msg.getNumber()).getName() + " ha ganado");
+                    server.sendDone();
                 }
 
                 case THRONE -> {
