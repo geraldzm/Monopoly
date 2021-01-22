@@ -12,6 +12,8 @@ public class Player extends Players{
         rolledDices = false;
         isJailFree = new ArrayList<>();
         isInJail = false;
+
+        isJailFree.add(1);
     }
     
     public static Player getInstance(){

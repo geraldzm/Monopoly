@@ -517,6 +517,12 @@ public class Server extends RunnableThread implements Listener{
 
             case USEJAILCARD -> {
                 System.out.println("Carta para salir de la carcel de: " + currentPlayer.getName());
+                currentPlayer.outOfJail();
+                System.out.println("Despues de out of jail");
+                quickActionQueue(playersByIds, new Message("El jugador " + currentPlayer.getName()+ " ha salido de la carcel", OUTOFJAIL));
+                System.out.println("Deberia enviar lo del turno xd");
+                currentPlayer.setListener(this); // start listening this player
+                currentPlayer.removeReceiverFilter();
             }
 
             default -> System.out.println("Not supported: "+ message.getIdMessage());
