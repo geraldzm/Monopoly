@@ -252,16 +252,16 @@ public class Game extends Canvas implements Runnable, Clickable {
 
             boolean contain = current.getCards().contains(selectedCard);
 
-            boolean canOperate = current.isHasCompletedRound() && Player.getInstance().isRolledDices();
+            boolean canOperate = current.isHasCompletedRound() && Player.getInstance().isRolledDices() && !Players.enemiHasCard(selectedCard) ;
 
             if (isDebug) // Si quiere dejar esto en true, vaya a constants, ahi esta esa variable
                 canOperate = true;
 
-            if(current.isTurn() && current.getCurrentPos() == selectedCard && !contain && canOperate && !Players.enemiHasCard(selectedCard)){
+            if(current.isTurn() && current.getCurrentPos() == selectedCard && !contain && canOperate){
                 isClickTriggered = true;
 
                 new CardWindow(selectedCard, CardWindowType.BANk).setVisible(true);
-            }else if(current.isTurn() && contain && canOperate && !Players.enemiHasCard(selectedCard)){
+            }else if(current.isTurn() && contain && canOperate){
                 isClickTriggered = true;
 
                 new CardWindow(selectedCard, CardWindowType.FRIEND).setVisible(true);

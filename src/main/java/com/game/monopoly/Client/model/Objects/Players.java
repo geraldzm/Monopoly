@@ -77,10 +77,11 @@ public class Players extends Token {
         int[] colorArray = Utils.getCardArrayByColor(colors);
 
         for (int value : colorArray){
+            boolean hasCard = Player.getInstance().getCards().contains(value);
             boolean hasHouses = admin.getHouses().containsKey(value) && admin.getHouses().get(value).getAmountHouse() != 0;
             boolean hasHotels = admin.getHotel().containsKey(value) && admin.getHotel().get(value).getAmountHouse() != 0;
 
-            if (hasHouses || hasHotels)
+            if (hasCard || hasHouses || hasHotels)
                 return true;
         }
 

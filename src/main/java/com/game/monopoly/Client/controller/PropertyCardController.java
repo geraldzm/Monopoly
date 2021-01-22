@@ -190,11 +190,16 @@ public class PropertyCardController implements IController, MouseListener {
 
         System.out.println("Contiene la key: " + hotel.containsKey(property.getId()));
 
-        if (hotel.containsKey(property.getId()))
+        if (hotel.containsKey(property.getId())) {
             System.out.println("Cantidad de hotel: " + hotel.get(property.getId()).getAmountHouse());
+
+            return;
+        }
 
         if (!hotel.containsKey(property.getId()) || hotel.get(property.getId()).getAmountHouse() == 0){
             JOptionPane.showMessageDialog(property, "Usted no tiene hoteles en esta propiedad...");
+
+            return;
         }
 
         getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.SELLHOTEL));
@@ -206,18 +211,24 @@ public class PropertyCardController implements IController, MouseListener {
 
         boolean esFerrocarril = property.getId() % 5 == 0;
 
+        System.out.println(1);
         if (esFerrocarril){
             JOptionPane.showMessageDialog(property, "En esta propiedad no se pueden vender casas...");
+
             return;
         }
 
+        System.out.println(2);
         if (((PropertyCard) CardFactory.getCard(property.getId())).getHouseAmount() != 4){
             JOptionPane.showMessageDialog(property, "Usted aun no tiene 4 casas...");
+
             return;
         }
 
+        System.out.println(3);
         if (tmp.getHotel().get(property.getId()) != null && Player.getInstance().getHotel().get(property.getId()).getAmountHouse() == 1){
             JOptionPane.showMessageDialog(property, "Usted ya tiene un hotel en esta propiedad");
+
             return;
         }
 
