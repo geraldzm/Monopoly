@@ -24,7 +24,7 @@ public class LogMessageFactory {
             case DICE -> logMessage.append(String.format("%s tira los dados y obtiene %d %d", playerName, message.getNumbers()[0], message.getNumbers()[1]));
             case DICES -> logMessage.append("Mostrando resultados de la ronda de dados");
             case GAMEREADY -> logMessage.append("El juego esta listo para comenzar");
-            case GIVEMONEY, TAKEMONEY -> logMessage.append(message.getString());
+            case GIVEMONEY, TAKEMONEY, TOJAIL, OUTOFJAIL -> logMessage.append(message.getString());
             case NAMES -> logMessage.append("Se reciben los nombres: ").append(message.getString().substring(0, message.getString().length()-1));
             case GETTOKEN -> logMessage.append("Se le solicita el token a: ").append(playerName);
             case TURN -> logMessage.append(String.format("Comienza el turno de: %s", playerName));

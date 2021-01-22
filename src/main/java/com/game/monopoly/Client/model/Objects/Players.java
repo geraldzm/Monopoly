@@ -21,6 +21,7 @@ public class Players extends Token {
     private HashMap<Integer, Houses> houses;
     private HashMap<Integer, Houses> hotel;
     private HashSet<Integer> cards;
+    private HashSet<Integer> hipotecadas;
 
     public Players(){
         super();
@@ -30,6 +31,7 @@ public class Players extends Token {
         houses = new HashMap<>();
         hotel = new HashMap<>();
         cards = new HashSet<>();
+        hipotecadas = new HashSet<>();
     }
 
     @Override
@@ -162,5 +164,13 @@ public class Players extends Token {
 
     public void setHasCompletedRound(boolean hasCompletedRound) {
         this.hasCompletedRound = hasCompletedRound;
+    }
+
+    public HashSet<Integer> getHipotecadas() {
+        return hipotecadas;
+    }
+
+    public void setHipotecadas(HashSet<Integer> hipotecadas) {
+        this.hipotecadas = hipotecadas;
     }
 }
