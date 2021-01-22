@@ -400,13 +400,8 @@ public class Server extends RunnableThread implements Listener{
                     currentPlayer.sendMessage(new Message(CANTBUY));
                 }
 
-                if(currentPlayer.getCash() <= 0) {
-                    gameRequests.addAction(new Message(currentPlayer.getId(), LOOSER));
-                }
+                validateLooser(currentPlayer);
 
-                synchronized (turnLocker){
-                    turnLocker.notify();
-                }
             }
 
             case SELLHOTEL -> {
@@ -417,9 +412,8 @@ public class Server extends RunnableThread implements Listener{
                 bank.hotel++;
                 gameRequests.addAction(new Message(propertyCard.getId(), "Se vente un hotel en " + propertyCard.getId(), REMOVEHOTEL));
 
-                synchronized (turnLocker){
-                    turnLocker.notify();
-                }
+                validateLooser(currentPlayer);
+
             }
 
             case BUYHOTEL -> {
@@ -446,13 +440,8 @@ public class Server extends RunnableThread implements Listener{
                     currentPlayer.sendMessage(new Message(CANTBUY));
                 }
 
-                if(currentPlayer.getCash() <= 0) {
-                    gameRequests.addAction(new Message(currentPlayer.getId(), LOOSER));
-                }
+                validateLooser(currentPlayer);
 
-                synchronized (turnLocker){
-                    turnLocker.notify();
-                }
             }
 
             case BUYHOUSE -> {
@@ -475,13 +464,8 @@ public class Server extends RunnableThread implements Listener{
                     currentPlayer.sendMessage(new Message(CANTBUY));
                 }
 
-                if(currentPlayer.getCash() <= 0) {
-                    gameRequests.addAction(new Message(currentPlayer.getId(), LOOSER));
-                }
+                validateLooser(currentPlayer);
 
-                synchronized (turnLocker){
-                    turnLocker.notify();
-                }
 
             }
 
@@ -493,9 +477,8 @@ public class Server extends RunnableThread implements Listener{
                 propertyCard.decreaseHouseAmount();
                 bank.house++;
 
-                synchronized (turnLocker){
-                    turnLocker.notify();
-                }
+                validateLooser(currentPlayer);
+
             }
 
             case SELLPROPERTY -> {
@@ -508,9 +491,8 @@ public class Server extends RunnableThread implements Listener{
 
                 currentPlayer.addCash(propertyCard.getPrice(), "A " + currentPlayer.getName()+ " se le acredita $"+propertyCard.getPrice()+" por la venta de una propiedad" );
 
-                synchronized (turnLocker){
-                    turnLocker.notify();
-                }
+                validateLooser(currentPlayer);
+
             }
 
 

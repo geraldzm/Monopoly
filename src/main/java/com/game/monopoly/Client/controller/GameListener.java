@@ -318,6 +318,11 @@ public class GameListener {
                     server.sendDone();
                 }
 
+                case WINNER -> {
+                    JOptionPane.showMessageDialog(window,  players.get(msg.getNumber()).getName() + " ha ganado");
+
+                }
+
             }
         };
 
