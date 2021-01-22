@@ -118,7 +118,10 @@ public class Server extends RunnableThread implements Listener{
 
     private void nextTurn(){
         turn = turn+1 > playersByIds.size() ? 1: turn+1; // next turn
-        if(loosers.contains(turn)) nextTurn();
+        if(loosers.contains(turn)){
+            System.out.println("nos saltamos el turno " + turn);
+            nextTurn();
+        }
     }
 
     // casilla donde cae
@@ -165,8 +168,7 @@ public class Server extends RunnableThread implements Listener{
         }
 
         if(currentPlayer.getCash() <= 0) { // validate looser
-            gameRequests.addAction(new Message(currentPlayer.getId(), LOOSER));
-            gameRequests.executeQueue();
+            validateLooser(currentPlayer);
             return true;
         }
 
@@ -356,8 +358,18 @@ public class Server extends RunnableThread implements Listener{
     public void validateLooser(Player player){
 
         if(player.getCash() <= 0) {
-            gameRequests.addAction(new Message(currentPlayer.getId(), LOOSER));
+            System.out.println(player.getId()+ " ha perdido :" + playersByIds.get(player.getId()));
+            gameRequests.addAction(new Message(player.getId(), LOOSER));
             if(!loosers.contains(player.getId())) loosers.add(player.getId());
+
+            player.getCards().forEach(i -> { // quitando casas y hoteles
+                if(CardFactory.getCard(i) instanceof PropertyCard){
+                    bank.hotel += ((PropertyCard) CardFactory.getCard(i)).getHotelAmount();
+                    bank.house +=((PropertyCard) CardFactory.getCard(i)).getHouseAmount();
+                    ((PropertyCard) CardFactory.getCard(i)).setHouseAmount(0);
+                    ((PropertyCard) CardFactory.getCard(i)).setHotelAmount(0);
+                }
+            });
         }
 
         if(playersByIds.size()-1 == loosers.size()) { // si hay winner
@@ -495,6 +507,14 @@ public class Server extends RunnableThread implements Listener{
 
             }
 
+            case PAYJAILTAXES -> { // dados
+                System.out.println("Pay taxes");
+                validateLooser(currentPlayer);
+            }
+
+            case USEJAILCARD -> {
+                System.out.println("Carta para salir de la carcel de: " + currentPlayer.getName());
+            }
 
             default -> System.out.println("Not supported: "+ message.getIdMessage());
         }

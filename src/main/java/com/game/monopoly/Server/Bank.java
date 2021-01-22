@@ -6,6 +6,7 @@ import com.game.monopoly.Client.view.PropertyCard;
 import com.game.monopoly.common.Comunication.Message;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Stack;
 
 import static com.game.monopoly.common.Comunication.IDMessage.*;
@@ -171,6 +172,8 @@ public class Bank {
         ActionQueue actionQueue = new ActionQueue(new ArrayList<>(allPlayers));
         ActionQueue single = new ActionQueue(current);
 
+        server.quickActionQueue(new ArrayList<>(Arrays.asList(current)), new Message(card.getId(), THRONE));
+
         switch(card.getId()) {
             //Arca Comunal
             case 42 -> takeMoneyAbstraction(current, 150, "Hay que pagar su Contribución de $150 para las Escuelas.");
@@ -207,7 +210,6 @@ public class Bank {
             case 56 -> {
                 // para la carcel
                 if(current.getPosition() != 10) actionQueue.addAction(new Message(new int[]{current.getId(), 1, 10}, MOVE));
-
                 current.toJail();
                 server.quickActionQueue(new ArrayList<>(allPlayers), new Message("El jugador " + current.getName() +" se va a la carcel", TOJAIL));
             }
@@ -217,6 +219,9 @@ public class Bank {
                 current.setPosition(0);
             }
          }
+
+
+
         actionQueue.executeQueue();
         single.executeQueue();
     }

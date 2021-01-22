@@ -11,6 +11,7 @@ public class CardWindow extends JFrame{
     public CardWindow(int cardValue, CardWindowType type){
 
         Card card = CardFactory.getCard(cardValue, type.getCardType());
+        if(card instanceof CasualCard) ((CasualCard) card).setParent(this);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(card.getWidth(), card.getHeight() + 40);

@@ -53,7 +53,7 @@ public class PropertyCardController implements IController, MouseListener {
             property.payTaxes.addMouseListener(this);
 
         if (property.freeJail != null)
-            property.payTaxes.addMouseListener(this);
+            property.freeJail.addMouseListener(this);
     }
 
     @Override
@@ -162,6 +162,7 @@ public class PropertyCardController implements IController, MouseListener {
         }
 
         // Enviar al server salir gratis de la carcel
+        Player.getInstance().removeJailFree();
         getServerCommunication().sendMessage(new Message(USEJAILCARD));
     }
 

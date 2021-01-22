@@ -52,9 +52,9 @@ public class Player extends ChatConnection {
             dices[2] = dices[1] + dices[0];
             momento = true;
         } else{
-            dices[0] = 6;
-            dices[1] = 5;
-            dices[2] = 11;
+            dices[0] = 1;
+            dices[1] = 1;
+            dices[2] = 2;
         }
 
         return dices;

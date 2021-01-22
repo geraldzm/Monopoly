@@ -4,6 +4,7 @@ package com.game.monopoly.Client.controller;
 import static com.game.monopoly.Client.controller.ServerCommunication.getServerCommunication;
 
 import com.game.monopoly.Client.model.CardFactory;
+import com.game.monopoly.Client.model.CardWindowType;
 import com.game.monopoly.Client.model.Objects.*;
 import com.game.monopoly.Client.view.*;
 import com.game.monopoly.common.Comunication.*;
@@ -321,7 +322,12 @@ public class GameListener {
 
                 case WINNER -> {
                     JOptionPane.showMessageDialog(window,  players.get(msg.getNumber()).getName() + " ha ganado");
+                }
 
+                case THRONE -> {
+                    System.out.println("Throne : " + msg.getNumber());
+                    CardWindow cardWindow = new CardWindow(msg.getNumber(), CardWindowType.ENEMY);
+                    cardWindow.setVisible(true);
                 }
 
             }

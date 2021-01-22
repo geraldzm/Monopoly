@@ -110,7 +110,10 @@ public class CardFactory {
             return propertyCard;
         }
 
-        c.setImage(new ImageIcon(Utils.getIcon.apply(c.getId()+".png").getScaledInstance(400, 300, Image.SCALE_SMOOTH)));
+        if(value >= 42 && value <= 57)
+            c.setImage(new ImageIcon(Utils.getIcon.apply("40.png").getScaledInstance(400, 300, Image.SCALE_SMOOTH)));
+        else
+            c.setImage(new ImageIcon(Utils.getIcon.apply("41.png").getScaledInstance(400, 300, Image.SCALE_SMOOTH)));
         return new CasualCard(c.getImage(), c.getId(),((CasualCard)c).getText());
     }
 
