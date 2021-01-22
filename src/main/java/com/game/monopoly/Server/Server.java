@@ -39,10 +39,6 @@ public class Server extends RunnableThread implements Listener{
         gameRequests = new ActionQueue(players);
         bank = new Bank(this);
         loosers = new ArrayList<>();
-
-        /// pruebas
-        Player p = playersByIds.get(1);
-        p.addCash(5000, "De nada");
     }
 
     @Override
@@ -88,7 +84,6 @@ public class Server extends RunnableThread implements Listener{
             currentPlayer.setGo(true);
         }
 
-        currentPlayer.setGo(true);
         //if the player moves to an enemy property
         if(currentPlayer.isGo()) {
             if(!validateLandLord()) {
@@ -155,7 +150,7 @@ public class Server extends RunnableThread implements Listener{
             } else if(position == 4 || position == 12 || position == 28 || position == 38){ // taxes
                 currentPlayer.reduceMoney(toPay, "Ha pagado " + toPay + " de impuestos ");
             }
-        }else if(currentPlayer.isGo() && ( position == 10 || position == 30)) { // carsel
+        }else if(currentPlayer.isGo() && position == 30) { // carsel
             currentPlayer.toJail();
             quickActionQueue(playersByIds,new Message("El jugador " + currentPlayer.getName() +" se va a la carcel", TOJAIL));
             if(position != 10) quickActionQueue(playersByIds, new Message(new int[]{currentPlayer.getId(), 1, 10}, MOVE));
@@ -409,6 +404,7 @@ public class Server extends RunnableThread implements Listener{
                 if(currentPlayer.getCash() >= price) {
 
                     if(propertyCard.isMorgaged()){
+                        System.out.println("la carta tiene + "  +propertyCard.getHouseAmount() + " " + price);
                         price += price*0.1;
                         propertyCard.setMorgaged(false);
                     }

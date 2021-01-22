@@ -115,6 +115,7 @@ public class PropertyCardController implements IController, MouseListener {
         System.out.println("Pagando hipoteca");
         getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.BUYPROPERTY));
 
+        Player.getInstance().getHipotecadas().remove(property.getId());
         property.buy.setVisible(false);
     }
 
