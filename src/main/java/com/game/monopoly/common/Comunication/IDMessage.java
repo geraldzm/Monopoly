@@ -37,6 +37,7 @@ public enum IDMessage implements Serializable {
     TOJAIL(true),
     OUTOFJAIL(true),
     OUTOFJAILCARD(true),
+    WINNER(true),
     //######main.java.Client -> main.java.Server######
     BUYPROPERTY,
     SELLPROPERTY,

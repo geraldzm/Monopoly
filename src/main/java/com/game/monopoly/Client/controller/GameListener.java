@@ -163,12 +163,17 @@ public class GameListener {
                 }
 
                 case MOVE -> {
+                    System.out.println("Entra un moverse");
                     Players cPlayer = players.get(msg.getNumbers()[0]);
                     boolean dir = msg.getNumbers()[1] == 0; // 0 atras, 1 hacia adelante
                     int pos = msg.getNumbers()[2];
 
                     gameController.setPlayerPosition(cPlayer, dir, pos);
+                }
 
+                case OUTOFJAILCARD -> {
+
+                    server.sendDone();
                 }
 
                 case GAMEREADY -> {
