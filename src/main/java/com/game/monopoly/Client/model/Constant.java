@@ -19,7 +19,7 @@ public class Constant {
     public static final String hotelImg = "hotel.png";
     
     public static final boolean isProd = false;
-    public static final boolean isDebug = true;
+    public static final boolean isDebug = false;
 
     public static final int[] cafe = {1, 3};
     public static final int[] celeste = {6,8,9};
