@@ -44,6 +44,7 @@ public class Bank {
         ActionQueue actionQueue = new ActionQueue(new ArrayList<>(allPlayers));
         ActionQueue single = new ActionQueue(current);
 
+        server.quickActionQueue(new ArrayList<>(Arrays.asList(current)), new Message(card.getId(), THRONE));
 
         switch (card.getId()){
             case 58 -> {
@@ -134,7 +135,10 @@ public class Bank {
             }
             case 68 -> current.addCash(150, "El banco le da $150");
             case 69 -> {
-                //carcel
+                // para la carcel
+                if(current.getPosition() != 10) actionQueue.addAction(new Message(new int[]{current.getId(), 1, 10}, MOVE));
+                current.toJail();
+                server.quickActionQueue(new ArrayList<>(allPlayers), new Message("El jugador " + current.getName() +" se va a la carcel", TOJAIL));
             }
             case 70 -> {
                 ArrayList<Player> playersWithoutCurrent = new ArrayList<>(allPlayers);
@@ -219,7 +223,6 @@ public class Bank {
                 current.setPosition(0);
             }
          }
-
 
 
         actionQueue.executeQueue();

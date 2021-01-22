@@ -39,6 +39,10 @@ public class Server extends RunnableThread implements Listener{
         gameRequests = new ActionQueue(players);
         bank = new Bank(this);
         loosers = new ArrayList<>();
+
+        /// pruebas
+        Player p = playersByIds.get(1);
+        p.addCash(5000, "De nada");
     }
 
     @Override
@@ -153,9 +157,8 @@ public class Server extends RunnableThread implements Listener{
             }
         }else if(currentPlayer.isGo() && ( position == 10 || position == 30)) { // carsel
             currentPlayer.toJail();
-            gameRequests.addAction(new Message("El jugador " + currentPlayer.getName() +" se va a la carcel", TOJAIL));
+            quickActionQueue(playersByIds,new Message("El jugador " + currentPlayer.getName() +" se va a la carcel", TOJAIL));
             if(position != 10) quickActionQueue(playersByIds, new Message(new int[]{currentPlayer.getId(), 1, 10}, MOVE));
-            gameRequests.executeQueue();
 
         }else if(position == 2 || position == 17 || position == 33 ) { //iron throne
             System.out.println("Iron throne");
