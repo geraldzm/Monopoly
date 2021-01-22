@@ -36,6 +36,7 @@ public enum IDMessage implements Serializable {
     NOAVAILABE(true), // dice que algo no esta disponible, comprar casa, hotel etc
     TOJAIL(true),
     OUTOFJAIL(true),
+    OUTOFJAILCARD(true),
     //######main.java.Client -> main.java.Server######
     BUYPROPERTY,
     SELLPROPERTY,

@@ -19,6 +19,7 @@ public class Server extends RunnableThread implements Listener{
 
     private Hashtable<Integer, Player> players; // Integer = turn; 0-n
     private ArrayList<Player> playersByIds; // order = id; 0-n
+    private ArrayList<Integer> loosers;
     private int turn;
     private boolean turnFinished;
     private Player currentPlayer;
@@ -37,6 +38,7 @@ public class Server extends RunnableThread implements Listener{
         turnLocker = new Object();
         gameRequests = new ActionQueue(players);
         bank = new Bank();
+        loosers = new ArrayList<>();
     }
 
     @Override
@@ -52,7 +54,6 @@ public class Server extends RunnableThread implements Listener{
                 gameRequests.addAction(new Message("El jugador " + currentPlayer.getName()+ " ha salido de la carcel", OUTOFJAIL));
                 gameRequests.executeQueue();
             }else {
-                System.out.println("Se pasa el turno del jugador " +currentPlayer.getName());
                 currentPlayer.increaseJailTurns();
                 nextTurn();
                 return;
@@ -83,7 +84,6 @@ public class Server extends RunnableThread implements Listener{
             currentPlayer.setGo(true);
         }
 
-        currentPlayer.setGo(true);// momento
         //if the player moves to an enemy property
         if(currentPlayer.isGo()){
             if(!validateLandLord()) {
@@ -119,6 +119,7 @@ public class Server extends RunnableThread implements Listener{
 
     private void nextTurn(){
         turn = turn+1 > playersByIds.size() ? 1: turn+1; // next turn
+        if(loosers.contains(turn)) nextTurn();
     }
 
     // casilla donde cae
@@ -350,6 +351,18 @@ public class Server extends RunnableThread implements Listener{
         actionQueueAll.executeQueue();
     }
 
+    public void validateLooser(Player player){
+
+        if(player.getCash() <= 0) {
+            gameRequests.addAction(new Message(currentPlayer.getId(), LOOSER));
+
+        }
+
+        synchronized (turnLocker){
+            turnLocker.notify();
+        }
+    }
+
     @Override
     public void action(Message message) {
 
@@ -527,6 +540,13 @@ public class Server extends RunnableThread implements Listener{
         }
 
         return serverConnections.getPlayers();
+    }
+
+    // los que no han perdido
+    public ArrayList<Player> playing(){
+        Stream<Player> playerStream = playersByIds.stream().filter(p -> !loosers.contains(p.getId()));
+
+        return new ArrayList<Player>(playerStream.collect(Collectors.toList()));
     }
 
     /**

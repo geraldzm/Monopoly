@@ -72,15 +72,15 @@ public class CardFactory {
                     case 57 -> text = "Avance hasta ¨GO¨. Cobrar $200 ";
                     //Casualidad - Fortuna
                     case 58 -> text = "Avance hasta DREADFORT. ";
-                    case 59 -> text = " Pague $25 para cada casa y $100 para cada\n hotel de su propiedad. ";
+                    case 59 -> text = "Pague $25 para cada casa y $100 para cada\n hotel de su propiedad. ";
                     case 60 -> text = "¡Atrás! Retroceda su señal 3 espacios. ";
                     case 61 -> text = "Salir libre de la Cárcel. ";
-                    case 62 -> text = "Tómese un pase o por el F.C Reading.\n Si pasa sobre ¨GO¨\n Cóbrense $200 al banco. ";
+                    case 62 -> text = "Tómese un pase o por La casa Lanister.\n Si pasa sobre ¨GO¨\n Cóbrense $200 al banco. ";
                     case 63 -> text = "Avance su señal hasta la casa más cercana\n y pague a su dueño  el doble del alquiler \nque le corresponde.\n - Si la casa carece de dueño, lo puede cobrar\n al banco. ";
                     case 64 -> text = "Avance su señal hasta la casa más cercana\n y pague a su dueño  el doble del alquiler \nque le corresponde.\n - Si la casa carece de dueño, lo puede cobrar\n al banco. ";
                     case 65 -> text = "Adelante su señal hasta KING’S LANDING. ";
                     case 66 -> text = "El banco le paga un dividendo de $50. ";
-                    case 67 -> text = "Mueva su señal hasta la utilidad más cercana.\n - Si no tiene dueño, la puede comprar al banco.\n - Si tiene propietario, lance los dados y pague\n al propietario diez veces la suma lanzada. ";
+                    case 67 -> text = "Mueva su señal hasta la utilidad más cercana.\n - Si no tiene dueño, la puede cobrar al banco.\n - Si tiene propietario, lance los dados y pague\n al propietario diez veces la suma lanzada. ";
                     case 68 -> text = "Cóbrense $150 al banco. ";
                     case 69 -> text = "¡Váyase directamente a la cárcel!\n No se pasa por GO ni se cobran los $200. ";
                     case 70 -> text = "Pague $50 a cada uno de los jugadores. ";
