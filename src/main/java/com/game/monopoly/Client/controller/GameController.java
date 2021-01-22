@@ -125,33 +125,36 @@ public class GameController implements IController, MouseListener{
 
     // Agregamos un mensaje momentaneo
     public void triggerGlobalMsg(String msg){
-        String fullMsg = "";
+        StringBuilder fullMsg = new StringBuilder();
         
         globalMsg.add(msg);
         
         for (int i = 0; i < globalMsg.size(); i++){
             if (i != globalMsg.size() - 1)
-                fullMsg += globalMsg.get(i) + ", ";
+                fullMsg.append(globalMsg.get(i)).append(", ");
             else
-                fullMsg += globalMsg.get(i);
+                fullMsg.append(globalMsg.get(i));
         }
         
-        window.lbGeneralInfo.setText(fullMsg);
+        window.lbGeneralInfo.setText(fullMsg.toString());
         
         // Borramos el ultimo mensaje recibido
         new java.util.Timer().schedule( 
         new java.util.TimerTask() {
             @Override
             public void run() {
-                String fullMsg = "";
+                StringBuilder fullMsg = new StringBuilder();
 
                 globalMsg.pop();
 
                 for (int i = 0; i < globalMsg.size(); i++){
-                    fullMsg += globalMsg.get(i);
+                    if (i != globalMsg.size() - 1)
+                        fullMsg.append(globalMsg.get(i)).append(", ");
+                    else
+                        fullMsg.append(globalMsg.get(i));
                 }
 
-                window.lbGeneralInfo.setText(fullMsg);
+                window.lbGeneralInfo.setText(fullMsg.toString());
             }
         }, 
         5000);

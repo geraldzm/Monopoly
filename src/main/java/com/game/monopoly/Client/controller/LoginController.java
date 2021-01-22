@@ -65,6 +65,12 @@ public class LoginController implements IController, MouseListener {
             return;
         }
 
+        if (window.tfUserName.getText().length() > 8){
+            JOptionPane.showMessageDialog(window, "El nombre supera los 8 caracteres");
+
+            return;
+        }
+
         GameListener listener = GameListener.getInstance();
         Player player = Player.getInstance();
         
