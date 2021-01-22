@@ -84,6 +84,7 @@ public class Server extends RunnableThread implements Listener{
             currentPlayer.setGo(true);
         }
 
+        currentPlayer.setGo(true);
         //if the player moves to an enemy property
         if(currentPlayer.isGo()) {
             if(!validateLandLord()) {
@@ -155,9 +156,12 @@ public class Server extends RunnableThread implements Listener{
 
         }else if(position == 2 || position == 17 || position == 33 ) { //iron throne
             System.out.println("Iron throne");
+            bank.actionThrone(currentPlayer, playersByIds);
 
         }else if(position == 7 || position == 22 || position == 36 ) {//Valar
             System.out.println("Valar");
+            //bank.actionValar(currentPlayer, playersByIds);
+
         }
 
         if(currentPlayer.getCash() <= 0) { // validate looser
@@ -343,7 +347,7 @@ public class Server extends RunnableThread implements Listener{
         }
     }
 
-    private void quickActionQueue(List<Player> all, Message message) {
+    public void quickActionQueue(List<Player> all, Message message) {
         ActionQueue actionQueueAll = new ActionQueue(new ArrayList<>(all));
         actionQueueAll.addAction(message);
         actionQueueAll.executeQueue();

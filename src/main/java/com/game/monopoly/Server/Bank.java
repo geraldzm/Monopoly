@@ -21,7 +21,18 @@ public class Bank {
         house = 32;
         hotel = 12;
         this.server = server;
+        throne = new Stack<>();
+        valar = new Stack<>();
+
         // insert random cards
+        for (int i = 42; i < 49; i++) {
+            throne.push(i);
+        }
+
+        for (int i = 58; i < 73; i++) {
+            valar.push(i);
+        }
+
     }
 
     public void actionValar(Player current, ArrayList<Player> allPlayers){
@@ -49,9 +60,7 @@ public class Bank {
                         .stream()
                         .mapToInt(integer -> ((PropertyCard) CardFactory.getCard(integer)).getHotelAmount())
                         .sum();
-
-                single.addAction(new Message(houses*25+hotels*100, TAKEMONEY));
-
+                takeMoneyAbstraction(current, houses*25+hotels*100, "Pague $25 para cada casa y $100 para cada hotel de su propiedad.");
             }
             case 60 -> {
                 int positionMinusThree = ((current.getId()-3) < 0 ? (40+(current.getId()-3)) : (current.getId()-3) ) % 40;
@@ -127,16 +136,17 @@ public class Bank {
                 //carcel
             }
             case 70 -> {
-                // se da 50 a el mismo ERROR
-                actionQueue.addAction(new Message(50, GIVEMONEY));
-                current.reduceMoney(50*(allPlayers.size()-1), "Le ha pagado 50 a cada jugador");
+                ArrayList<Player> playersWithoutCurrent = new ArrayList<>(allPlayers);
+                playersWithoutCurrent.remove(current);
+                server.quickActionQueue(playersWithoutCurrent, new Message(50, GIVEMONEY));
+                takeMoneyAbstraction(current, 50*(allPlayers.size()-1), "Pague $50 a cada uno de los jugadores.");
             }
             case 71 -> {
                 current.setPosition(0);
                 single.addAction(new Message(new int[]{current.getId(), 1, 0}, MOVE));
                 current.addCash(200, "Se le acredita $200 por pasar GO");
             }
-            case 72 -> current.reduceMoney(15, "Le paga a los pobres $15");
+            case 72 -> takeMoneyAbstraction(current, 15, "Páguese para los pobres un impuesto de $15.");
             case 73 -> {
                 if(current.getPosition() != 11) actionQueue.addAction(new Message(new int[]{current.getId(), 1, 11}, MOVE));
                 if(current.getPosition() > 11) current.addCash(200, "Se le da $200 por pasar GO");
@@ -153,7 +163,10 @@ public class Bank {
 
         if(throne.isEmpty()) return; // no hay mas cartas
 
-        Card card = CardFactory.getCard(throne.pop());
+        int pos = throne.pop();
+        System.out.println("Carta: " + pos);
+
+        Card card = CardFactory.getCard(pos);
 
         ActionQueue actionQueue = new ActionQueue(new ArrayList<>(allPlayers));
         ActionQueue single = new ActionQueue(current);
@@ -162,7 +175,7 @@ public class Bank {
             //Arca Comunal
             case 42 -> takeMoneyAbstraction(current, 150, "Hay que pagar su Contribución de $150 para las Escuelas.");
             case 43 -> single.addAction(new Message(20, GIVEMONEY));
-            case 44, 53, 54 -> single.addAction(new Message(100, GIVEMONEY));
+            case 44 -> current.addCash(100, "");
             case 45 -> takeMoneyAbstraction(current, 150, "Su hospital le exige un pago de $100.");
             case 46 -> single.addAction(new Message(200, GIVEMONEY));
             case 47 -> {
@@ -181,28 +194,33 @@ public class Bank {
                         .mapToInt(integer -> ((PropertyCard) CardFactory.getCard(integer)).getHotelAmount())
                         .sum();
 
+                System.out.println( current.getName()+"  Usted tiene: " + hotels + " hoteles y " + houses + " casas");
                 single.addAction(new Message(houses*40+hotels*150, TAKEMONEY));
             }
-            case 49 -> single.addAction(new Message(25, GIVEMONEY));
-            case 50 -> takeMoneyAbstraction(current, 150, "Usted ha ganado el segundo premio en un certamen de belleza. Puede cobrar $10.");
-            case 51 -> single.addAction(new Message(45, GIVEMONEY));
+            case 49 -> current.addCash( 25, "Le toca recibir $25 por servicios prestados.");
+            case 50 -> current.addCash( 10, "Usted ha ganado el segundo premio en un certamen de belleza. Puede cobrar $10.");
+            case 51 ->  current.addCash(45, "$45 de la venta de sus acciones.");
             case 52 -> takeMoneyAbstraction(current, 50, "Páguense al banco $50 para su médico.");
+            case 53 -> current.addCash(100, "Póliza del banco le pagara $100");
+            case 54 -> current.addCash(100, "ahorros del banco le pagara $100");
             case 55 -> single.addAction(new Message(OUTOFJAILCARD));
             case 56 -> {
                 // para la carcel
-                System.out.println("Para la carcel");
+                if(current.getPosition() != 10) actionQueue.addAction(new Message(new int[]{current.getId(), 1, 10}, MOVE));
+
+                current.toJail();
+                server.quickActionQueue(new ArrayList<>(allPlayers), new Message("El jugador " + current.getName() +" se va a la carcel", TOJAIL));
             }
             case 57 -> {
                 if(current.getPosition() != 0) actionQueue.addAction(new Message(new int[]{current.getId(), 1, 0}, MOVE));
-                single.addAction(new Message(200, GIVEMONEY));
+                current.addCash(200, "Se le da $200 por pasar GO");
                 current.setPosition(0);
             }
-            case 59 -> takeMoneyAbstraction(current, 25, "Pague $25 para cada casa y $100 para cada hotel de su propiedad.");
-            case 70 -> takeMoneyAbstraction(current, 50, "Pague $50 a cada uno de los jugadores.");
-            case 72 -> takeMoneyAbstraction(current, 15, "Páguese para los pobres un impuesto de $15.");
-        }
+         }
         actionQueue.executeQueue();
         single.executeQueue();
+
+        System.out.println("Fuera del metodo throne");
     }
 
     private void takeMoneyAbstraction(Player current, int amount, String message) {

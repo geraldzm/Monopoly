@@ -41,12 +41,21 @@ public class Player extends ChatConnection {
         sendMessage(new Message(sender.getName() + ": " +message.getString(), message.getIdMessage()));
     }
 
+    private boolean momento = false;
+
     public int[] rollDices() {
-        Random random = new Random();
-        dices = new int[3];
-        dices[0] = random.nextInt(6)+1;
-        dices[1] = random.nextInt(6)+1;
-        dices[2] = dices[1] + dices[0];
+        if(!momento) {
+            Random random = new Random();
+            dices = new int[3];
+            dices[0] = random.nextInt(6) + 1;
+            dices[1] = random.nextInt(6) + 1;
+            dices[2] = dices[1] + dices[0];
+            momento = true;
+        } else{
+            dices[0] = 6;
+            dices[1] = 5;
+            dices[2] = 11;
+        }
 
         return dices;
     }
