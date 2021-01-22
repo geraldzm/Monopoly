@@ -78,12 +78,7 @@ public class PropertyCardController implements IController, MouseListener {
 
         try {
             if (e.getSource().equals(property.sell)){
-                System.out.println("Vendiendo propiedad");
-
-                Player.getInstance().getCards().remove(property.getId());
-                getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.SELLPROPERTY));
-
-                close();
+                sellCard();
             } else if (e.getSource().equals(property.buy)){
                 System.out.println("Comprando propiedad");
                 getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.BUYPROPERTY));
@@ -111,6 +106,41 @@ public class PropertyCardController implements IController, MouseListener {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void sellCard() throws IOException {
+        Players admin = GameListener.getInstance().getPlayers().get(0);
+
+        if (!Player.getInstance().getCards().contains(property.getId())){
+            JOptionPane.showMessageDialog(property, "Esta propiedad no es tuya...");
+
+            return;
+        }
+
+        if (admin.getHouses().containsKey(property.getId()) && admin.getHouses().get(property.getId()).getAmountHouse() != 0){
+            JOptionPane.showMessageDialog(property, "Usted tiene una casa en esta propiedad...");
+
+            return;
+        }
+
+        if (admin.getHotel().containsKey(property.getId())  && admin.getHotel().get(property.getId()).getAmountHouse() != 0){
+            JOptionPane.showMessageDialog(property, "Usted tiene un hotel en esta propiedad...");
+
+            return;
+        }
+
+        if (Player.getInstance().hasBoughtSet(property.getColor()) && Players.hasColorInSet(property.getColor())){
+            JOptionPane.showMessageDialog(property, "Usted tiene casas en otras propiedades del mismo tipo de color...");
+
+            return;
+        }
+
+        System.out.println("Vendiendo propiedad");
+
+        Player.getInstance().getCards().remove(property.getId());
+        getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.SELLPROPERTY));
+
+        close();
     }
 
     // Metodo si tiene la carta para salir gratis de la carcel

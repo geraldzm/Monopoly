@@ -84,6 +84,8 @@ public class GameListener {
 
         server.setChatListener(chatListener);
 
+        System.out.println(isDebug);
+
         if (isDebug){
             FrameController controller = FrameController.getInstance();
 
@@ -162,8 +164,8 @@ public class GameListener {
 
                 case MOVE -> {
                     Players cPlayer = players.get(msg.getNumbers()[0]);
-                    int pos = msg.getNumbers()[2];
                     boolean dir = msg.getNumbers()[1] == 0; // 0 atras, 1 hacia adelante
+                    int pos = msg.getNumbers()[2];
 
                     gameController.setPlayerPosition(cPlayer, dir, pos);
 

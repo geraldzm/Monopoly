@@ -160,10 +160,10 @@ public class Bank {
 
         switch(card.getId()) {
             //Arca Comunal
-            case 42 -> single.addAction(new Message(150, TAKEMONEY));
+            case 42 -> takeMoneyAbstraction(current, 150, "Hay que pagar su Contribución de $150 para las Escuelas.");
             case 43 -> single.addAction(new Message(20, GIVEMONEY));
             case 44, 53, 54 -> single.addAction(new Message(100, GIVEMONEY));
-            case 45 -> single.addAction(new Message(100, TAKEMONEY));
+            case 45 -> takeMoneyAbstraction(current, 150, "Su hospital le exige un pago de $100.");
             case 46 -> single.addAction(new Message(200, GIVEMONEY));
             case 47 -> {
                 // 50 de cada jugador
@@ -184,7 +184,7 @@ public class Bank {
                 single.addAction(new Message(houses*40+hotels*150, TAKEMONEY));
             }
             case 49 -> single.addAction(new Message(25, GIVEMONEY));
-            case 50 -> single.addAction(new Message(10, TAKEMONEY));
+            case 50 -> takeMoneyAbstraction(current, 150, "Usted ha ganado el segundo premio en un certamen de belleza. Puede cobrar $10.");
             case 51 -> single.addAction(new Message(45, GIVEMONEY));
             case 52 -> takeMoneyAbstraction(current, 50, "Páguense al banco $50 para su médico.");
             case 55 -> single.addAction(new Message(OUTOFJAILCARD));
@@ -197,6 +197,9 @@ public class Bank {
                 single.addAction(new Message(200, GIVEMONEY));
                 current.setPosition(0);
             }
+            case 59 -> takeMoneyAbstraction(current, 25, "Pague $25 para cada casa y $100 para cada hotel de su propiedad.");
+            case 70 -> takeMoneyAbstraction(current, 50, "Pague $50 a cada uno de los jugadores.");
+            case 72 -> takeMoneyAbstraction(current, 15, "Páguese para los pobres un impuesto de $15.");
         }
         actionQueue.executeQueue();
         single.executeQueue();

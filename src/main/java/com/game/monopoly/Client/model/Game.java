@@ -9,6 +9,7 @@ import com.game.monopoly.Client.view.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import java.io.IOException;
 import java.util.*;
 import javax.swing.*;
 
@@ -242,8 +243,11 @@ public class Game extends Canvas implements Runnable, Clickable {
 
         int selectedCard = matrix.getCardClicked(e.getX(), e.getY());
 
-        if (selectedCard != -1 && selectedCard % 10 != 0) {
+        if (selectedCard == -1 || (selectedCard != 10 && selectedCard % 10 == 0)) {
+            return;
+        }
 
+        try{
             Player current = Player.getInstance();
 
             boolean contain = current.getCards().contains(selectedCard);
@@ -269,11 +273,13 @@ public class Game extends Canvas implements Runnable, Clickable {
 
             if (isClickTriggered)
                 new java.util.Timer().schedule(new java.util.TimerTask() {
-                @Override
-                public void run() {
-                    isClickTriggered = false;
-                }
-            },100);
+                    @Override
+                    public void run() {
+                        isClickTriggered = false;
+                    }
+                },100);
+        } catch (Exception ex){
+            ex.printStackTrace();
         }
     }
     

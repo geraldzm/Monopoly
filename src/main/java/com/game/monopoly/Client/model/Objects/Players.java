@@ -1,7 +1,10 @@
 package com.game.monopoly.Client.model.Objects;
 
+import com.game.monopoly.Client.controller.GameListener;
+import com.game.monopoly.Client.model.Utils;
 import com.game.monopoly.Client.view.PropertyCard;
 
+import java.awt.*;
 import java.util.*;
 
 import static com.game.monopoly.Client.model.Constant.*;
@@ -27,6 +30,61 @@ public class Players extends Token {
         houses = new HashMap<>();
         hotel = new HashMap<>();
         cards = new HashSet<>();
+    }
+
+    @Override
+    public void render(Graphics g) {
+        if (canStart()){
+            g.drawImage(getImg().getImage(), pos.x, pos.y, null);
+
+            Color color = g.getColor();
+
+            g.setColor(Color.white);
+            g.fillRect(pos.x - 4, pos.y - 25, 40, 20);
+
+            g.setColor(Color.BLACK);
+            g.drawString(getName(), pos.x, pos.y - 10);
+
+            g.setColor(color);
+        }
+    }
+
+    public int[] getCardsArray(){
+        ArrayList<Integer> arr = new ArrayList<>();
+
+        for (int i = 0; i < 39; i++) if (cards.contains(i)){
+            arr.add(i);
+        }
+        int [] intArr = new int[arr.size()];
+
+        for (int i = 0; i < arr.size(); i++){
+            intArr[i] = arr.get(i);
+        }
+
+        return intArr;
+    }
+
+    // Retorna true si un jugador ha comprado un set de cartas
+    public boolean hasBoughtSet(PropertyCard.Colors colors){
+        if (isDebug) return true;
+
+        return contains(getCardsArray(), Utils.getCardArrayByColor(colors));
+    }
+
+    public static boolean hasColorInSet(PropertyCard.Colors colors){
+        Players admin = GameListener.getInstance().getPlayers().get(0);
+
+        int[] colorArray = Utils.getCardArrayByColor(colors);
+
+        for (int value : colorArray){
+            boolean hasHouses = admin.getHouses().containsKey(value) && admin.getHouses().get(value).getAmountHouse() != 0;
+            boolean hasHotels = admin.getHotel().containsKey(value) && admin.getHotel().get(value).getAmountHouse() != 0;
+
+            if (hasHouses || hasHotels)
+                return true;
+        }
+
+        return false;
     }
 
     public String getName() {
@@ -59,55 +117,6 @@ public class Players extends Token {
 
     public void setCards(HashSet<Integer> cards) {
         this.cards = cards;
-    }
-    
-    public int[] getCardsArray(){
-        ArrayList<Integer> arr = new ArrayList<>();
-        
-        for (int i = 0; i < 39; i++) if (cards.contains(i)){
-            arr.add(i);
-        }
-        int [] intArr = new int[arr.size()];
-        
-        for (int i = 0; i < arr.size(); i++){
-            intArr[i] = arr.get(i);
-        }
-        
-        return intArr;
-    }
-
-    // Retorna true si un jugador ha comprado un set de cartas
-    public boolean hasBoughtSet(PropertyCard.Colors colors){
-        if (isDebug) return true;
-
-        switch (colors){
-            case BROWN -> {
-                return contains(getCardsArray(), cafe);
-            }
-            case LIGHTBLUE -> {
-                return contains(getCardsArray(), celeste);
-            }
-            case PINK -> {
-                return contains(getCardsArray(), rosa);
-            }
-            case ORANGE -> {
-                return contains(getCardsArray(), naranja);
-            }
-            case RED -> {
-                return contains(getCardsArray(), rojo);
-            }
-            case YELLOW -> {
-                return contains(getCardsArray(), amarillo);
-            }
-            case GREEN -> {
-                return contains(getCardsArray(), verde);
-            }
-            case BLUE -> {
-                return contains(getCardsArray(), azul);
-            }
-        }
-
-        return false;
     }
 
     public HashMap<Integer, Houses> getHouses() {

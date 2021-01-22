@@ -56,4 +56,35 @@ public class Utils {
 
         return false;
     }
+
+    public static int[] getCardArrayByColor(PropertyCard.Colors colors){
+        switch (colors){
+            case BROWN -> {
+                return cafe;
+            }
+            case LIGHTBLUE -> {
+                return celeste;
+            }
+            case PINK -> {
+                return rosa;
+            }
+            case ORANGE -> {
+                return naranja;
+            }
+            case RED -> {
+                return rojo;
+            }
+            case YELLOW -> {
+                return amarillo;
+            }
+            case GREEN -> {
+                return verde;
+            }
+            case BLUE -> {
+                return azul;
+            }
+        }
+
+        return new int[]{};
+    }
 }
