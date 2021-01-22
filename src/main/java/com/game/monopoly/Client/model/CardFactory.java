@@ -82,7 +82,7 @@ public class CardFactory {
                     case 66 -> text = "El banco le paga un dividendo de $50. ";
                     case 67 -> text = "Mueva su señal hasta la utilidad más cercana.\n - Si no tiene dueño, la puede cobrar al banco.\n - Si tiene propietario, lance los dados y pague\n al propietario diez veces la suma lanzada. ";
                     case 68 -> text = "Cóbrense $150 al banco. ";
-                    case 69 -> text = "¡Váyase directamente a la cárcel!\n No se pasa por GO ni se cobran los $200. ";
+                    case 69 -> text = "¡Váyase directamente a la cárcel!\n No se pasa por GO ni se cobran los\n $200. ";
                     case 70 -> text = "Pague $50 a cada uno de los jugadores. ";
                     case 71 -> text = "Adelante hasta ¨GO¨. Cóbrense $200. ";
                     case 72 -> text = "Páguese para los pobres un impuesto de $15. ";

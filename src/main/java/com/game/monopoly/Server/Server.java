@@ -129,7 +129,7 @@ public class Server extends RunnableThread implements Listener{
     }
 
     // casilla donde cae
-    private boolean validateLandLord() {
+    public boolean validateLandLord() {
 
         int position = currentPlayer.getPosition();
         Card card = CardFactory.getCard(position);
@@ -166,8 +166,7 @@ public class Server extends RunnableThread implements Listener{
 
         }else if(position == 7 || position == 22 || position == 36 ) {//Valar
             System.out.println("Valar");
-            //bank.actionValar(currentPlayer, playersByIds);
-
+            bank.actionValar(currentPlayer, playersByIds);
         }
 
         if(currentPlayer.getCash() <= 0) { // validate looser
@@ -517,6 +516,8 @@ public class Server extends RunnableThread implements Listener{
 
             case USEJAILCARD -> {
                 System.out.println("Carta para salir de la carcel de: " + currentPlayer.getName());
+                currentPlayer.outOfJail();
+                quickActionQueue(playersByIds, new Message("El jugador " + currentPlayer.getName()+ " ha salido de la carcel", OUTOFJAIL));
             }
 
             default -> System.out.println("Not supported: "+ message.getIdMessage());

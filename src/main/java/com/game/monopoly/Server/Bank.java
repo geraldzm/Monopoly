@@ -7,6 +7,7 @@ import com.game.monopoly.common.Comunication.Message;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Stack;
 
 import static com.game.monopoly.common.Comunication.IDMessage.*;
@@ -25,28 +26,46 @@ public class Bank {
         throne = new Stack<>();
         valar = new Stack<>();
 
+        ArrayList<Integer> intArray = new ArrayList<>();
+
         // insert random cards
-        for (int i = 42; i < 58; i++) {
-            throne.push(i);
+        for (int i = 42;  i < 58; i++) {
+            intArray.add(i);
         }
 
-        for (int i = 58; i < 73; i++) {
-            valar.push(i);
+        Collections.shuffle(intArray);
+        System.out.println("Desordenado : " + intArray.toString());
+
+        intArray.forEach(i -> throne.push(i));
+
+        //--------------------------
+        intArray.clear();
+
+        // insert random cards
+        for (int i = 58;  i < 74; i++) {
+            if(i == 64 || i == 63) continue;
+            intArray.add(i);
         }
+
+        Collections.shuffle(intArray);
+        System.out.println("Desordenado : " + intArray.toString());
+
+        intArray.forEach(i -> valar.push(i));
 
     }
 
     public void actionValar(Player current, ArrayList<Player> allPlayers){
         if(valar.isEmpty()) return; // no hay mas cartas
 
-        Card card = CardFactory.getCard(throne.pop());
+        Card card = CardFactory.getCard(valar.pop());
 
         ActionQueue actionQueue = new ActionQueue(new ArrayList<>(allPlayers));
         ActionQueue single = new ActionQueue(current);
 
+        System.out.println(card.getId());
         server.quickActionQueue(new ArrayList<>(Arrays.asList(current)), new Message(card.getId(), THRONE));
 
-        switch (card.getId()){
+        switch (card.getId()) {
             case 58 -> {
                 if(current.getPosition() != 23) actionQueue.addAction(new Message(new int[]{current.getId(), 1, 23}, MOVE));
                 if(current.getPosition() > 23) single.addAction(new Message(200, "Se le da $200 por pasar GO", GIVEMONEY));
@@ -65,13 +84,15 @@ public class Bank {
                 takeMoneyAbstraction(current, houses*25+hotels*100, "Pague $25 para cada casa y $100 para cada hotel de su propiedad.");
             }
             case 60 -> {
-                int positionMinusThree = ((current.getId()-3) < 0 ? (40+(current.getId()-3)) : (current.getId()-3) ) % 40;
-                actionQueue.addAction(new Message(new int[]{current.getId(), 0, positionMinusThree}, MOVE));
+                int positionMinusThree = ((current.getPosition()-3) < 0 ? (40+(current.getPosition()-3)) : (current.getPosition()-3) ) % 40;
+                current.setPosition(positionMinusThree);
+                server.quickActionQueue(allPlayers, new Message(new int[]{current.getId(), 0, positionMinusThree}, MOVE));
+                if(current.isGo()) server.validateLandLord();
             }
             case 61 -> single.addAction(new Message(OUTOFJAILCARD));
             case 62 ->{
                 if(current.getPosition() != 5) actionQueue.addAction(new Message(new int[]{current.getId(), 1, 5}, MOVE));
-                if(current.getPosition() > 5) single.addAction(new Message(200, "Se le da $200 por pasar GO", GIVEMONEY));
+                if(current.getPosition() > 5) current.addCash(200, "Se le da $200 por pasar GO");
                 current.setPosition(5);
             }
             case 63, 64 -> {
@@ -143,16 +164,11 @@ public class Bank {
             case 70 -> {
                 ArrayList<Player> playersWithoutCurrent = new ArrayList<>(allPlayers);
                 playersWithoutCurrent.remove(current);
-                server.quickActionQueue(playersWithoutCurrent, new Message(50, GIVEMONEY));
+                playersWithoutCurrent.forEach(p -> p.addCash(50, current.getName() + " le ha pagado $50"));
                 takeMoneyAbstraction(current, 50*(allPlayers.size()-1), "Pague $50 a cada uno de los jugadores.");
             }
-            case 71 -> {
-                current.setPosition(0);
-                single.addAction(new Message(new int[]{current.getId(), 1, 0}, MOVE));
-                current.addCash(200, "Se le acredita $200 por pasar GO");
-            }
             case 72 -> takeMoneyAbstraction(current, 15, "Páguese para los pobres un impuesto de $15.");
-            case 73 -> {
+            case 73, 71 -> {
                 if(current.getPosition() != 11) actionQueue.addAction(new Message(new int[]{current.getId(), 1, 11}, MOVE));
                 if(current.getPosition() > 11) current.addCash(200, "Se le da $200 por pasar GO");
                 current.setPosition(11);
