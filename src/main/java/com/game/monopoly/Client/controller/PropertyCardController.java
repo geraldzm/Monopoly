@@ -163,7 +163,10 @@ public class PropertyCardController implements IController, MouseListener {
 
         // Enviar al server salir gratis de la carcel
         Player.getInstance().removeJailFree();
+        Player.getInstance().setInJail(false);
         getServerCommunication().sendMessage(new Message(USEJAILCARD));
+
+        JOptionPane.showMessageDialog(property, "Has salido de la carcel...");
     }
 
     // Metodo para pagar y salir de la carcel
@@ -175,7 +178,9 @@ public class PropertyCardController implements IController, MouseListener {
         }
 
         // Enviar al server la consulta para pagar los $50
+        Player.getInstance().setInJail(false);
         getServerCommunication().sendMessage(new Message(PAYJAILTAXES));
+        JOptionPane.showMessageDialog(property, "Has salido de la carcel...");
     }
 
     // Metodo para vender hotel
