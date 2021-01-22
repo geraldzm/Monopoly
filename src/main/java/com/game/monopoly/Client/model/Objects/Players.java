@@ -87,6 +87,18 @@ public class Players extends Token {
         return false;
     }
 
+    public static boolean enemiHasCard(int cardID){
+        var players = GameListener.getInstance().getPlayers();
+
+        for (int i = 0; i < 6; i++){
+            if (!players.containsKey(i) || Player.getInstance().getID() == i) continue;
+
+            if (players.get(i).getCards().contains(i)) return true;
+        }
+
+        return false;
+    }
+
     public String getName() {
         return name;
     }

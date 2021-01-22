@@ -83,7 +83,7 @@ public class PropertyCardController implements IController, MouseListener {
                 System.out.println("Comprando propiedad");
                 getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.BUYPROPERTY));
 
-                close();
+                property.buy.setVisible(false);
             } else if (e.getSource().equals(property.mortgage)){
                 System.out.println("Comprando mortgage");
 
@@ -139,6 +139,8 @@ public class PropertyCardController implements IController, MouseListener {
 
         Player.getInstance().getCards().remove(property.getId());
         getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.SELLPROPERTY));
+
+        property.sell.setVisible(false);
 
         close();
     }

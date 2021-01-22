@@ -53,6 +53,9 @@ public class PropertyCard extends Card {
 
                 sellHouse = initJLabel("Vender casa", 10, 310, 120, 25, 2);
                 buyHouse = initJLabel("Comprar casa", 145, 310, 120, 25, 2);
+
+                sellHotel = initJLabel("Vender hotel", 10, 340, 120, 25, 2);
+                buyHotel = initJLabel("Comprar hotel", 145, 340, 120, 25, 2);
             }
 
             case JAIL -> {

@@ -37,7 +37,7 @@ public class Server extends RunnableThread implements Listener{
         diceLocker = new Object();
         turnLocker = new Object();
         gameRequests = new ActionQueue(players);
-        bank = new Bank();
+        bank = new Bank(this);
         loosers = new ArrayList<>();
     }
 
