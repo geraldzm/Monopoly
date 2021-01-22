@@ -111,8 +111,11 @@ public class PropertyCardController implements IController, MouseListener {
         }
     }
 
-    private void pagarHipoteca(){
+    private void pagarHipoteca() throws IOException {
+        System.out.println("Pagando hipoteca");
+        getServerCommunication().sendMessage(new Message(property.getId(), IDMessage.BUYPROPERTY));
 
+        property.buy.setVisible(false);
     }
 
     private void hipotecar() throws IOException {
